@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include('head'); -%>
+
+        <style>
+            .block_click {
+                cursor: wait;
+                pointer-events: none;
+            }
+            .display-none {
+                display: none;
+            }
+        </style>
+        <title>Promotion record</title>
+</head>
+
+<body>
+    <div data-v-58c67bb8="" class="layout-content">
+        <!---->
+        <div data-v-72e67f85="">
+            <div data-v-72e67f85="" class="van-nav-bar">
+                <a href="index">
+                    <div class="van-nav-bar__left"><i class="van-icon van-icon-arrow-left van-nav-bar__arrow"><!----></i></div>
+                </a>
+                <div class="van-nav-bar__title van-ellipsis">Lịch sử</div>
+                <div class="van-nav-bar__right"></div>
+            </div>
+            <div data-v-72e67f85="" class="detail-header">
+                <div data-v-72e67f85="" class="top-selete">
+                    <div data-v-72e67f85="" class="top-selete-sub active block_click">Cấp 1</div>
+                    <div data-v-72e67f85="" class="top-selete-sub">Cấp 2</div>
+                </div>
+            </div>
+            <div data-v-72e67f85="" class="container">
+                <div data-v-72e67f85="" role="feed" class="van-list">
+                    <% if (ref_f1.length > 0) { %>
+                        <% for (var i = 0; i < ref_f1.length; i++) { %>
+                            <div data-v-72e67f85="" class="container-title">
+                                <div data-v-72e67f85="" class="container-title-left">
+                                    <img data-v-72e67f85="" src="/images/myimg.png" class="container-title-left__head"> 
+                                    <span data-v-72e67f85=""><%=ref_f1[i].name_user%></span></div>
+                                <div data-v-72e67f85="" class="container-title-right">
+                                    <span data-v-72e67f85="" class="container-title-left__textspan"><%=ref_f1[i].time%></span>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% } %>
+                </div>
+                <div data-v-72e67f85="" role="feed" class="van-list display-none">
+                    <% if (ref_f2.length > 0) { %>
+                        <% for (var i = 0; i < ref_f2.length; i++) { %>
+                            <div data-v-72e67f85="" class="container-title">
+                                <div data-v-72e67f85="" class="container-title-left">
+                                    <img data-v-72e67f85="" src="/images/myimg.png" class="container-title-left__head"> 
+                                    <span data-v-72e67f85=""><%=ref_f2[i].name_user%></span></div>
+                                <div data-v-72e67f85="" class="container-title-right">
+                                    <span data-v-72e67f85="" class="container-title-left__textspan"><%=ref_f2[i].time%></span>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% } %>
+                </div>
+                <div class="van-list__finished-text">Không còn dữ liệu</div>
+                <div class="van-list__placeholder"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('.top-selete-sub').click(function() {
+                $('.top-selete-sub').removeClass("block_click");
+                $(this).addClass("block_click");
+            });
+            $('.top-selete-sub:eq(0)').click(function() {
+                $('.top-selete-sub:eq(0)').addClass('active');
+                $('.top-selete-sub:eq(1)').removeClass('active');
+                $('.van-list:eq(1)').addClass("display-none");
+                $('.van-list:eq(0)').removeClass("display-none");
+            });
+            $('.top-selete-sub:eq(1)').click(function() {
+                $('.top-selete-sub:eq(1)').addClass('active');
+                $('.top-selete-sub:eq(0)').removeClass('active');
+                $('.van-list:eq(1)').removeClass("display-none");
+                $('.van-list:eq(0)').addClass("display-none");
+            });
+        });
+    </script>
+</body>
+
+</html>

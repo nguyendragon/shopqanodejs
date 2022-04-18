@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include('head'); -%>
+        <style>
+            #snowflakeContainer {
+                position: absolute;
+                left: 0px;
+                top: 0px;
+            }
+            
+            .snowflake {
+                padding-left: 15px;
+                font-size: 14px;
+                line-height: 24px;
+                position: fixed;
+                color: #ebebeb;
+                user-select: none;
+                z-index: 1000;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                -khtml-user-select: none;
+                -webkit-user-select: none;
+                -webkit-touch-callout: none;
+            }
+            
+            .snowflake:hover {
+                cursor: default
+            }
+            
+            .box {
+                margin-bottom: 50px;
+            }
+        </style>
+        <title>Invite Friends</title>
+</head>
+
+<body>
+    <div id='snowflakeContainer'>
+        <!-- <p class='snowflake'>❄</p>
+        <p class='snowflake'>%</p> -->
+        <!-- <p class='snowflake'>$</p> -->
+    </div>
+    <div data-v-58c67bb8="" class="layout-content">
+        <!---->
+        <!-- background-image: none;min-height: 121vh;height: 0;background: linear-gradient(to right, rgb(17, 153, 142), rgb(56, 239, 125)) -->
+        <div data-v-e8cee894="" class="invite-context" style="">
+            <div data-v-e8cee894="" class="van-nav-bar van-nav-bar--fixed" style="background-color: rgb(245, 245, 245);">
+                <a href="index">
+                    <div class="van-nav-bar__left"><i class="van-icon van-icon-arrow-left van-nav-bar__arrow"><!----></i></div>
+                </a>
+                <div class="van-nav-bar__title van-ellipsis">Mời bạn bè</div>
+                <div class="van-nav-bar__right"></div>
+            </div>
+            <div data-v-e8cee894="" class="main">
+                <div data-v-e8cee894="" class="qrcode" style="margin-top: 91%; font-size: 18.6px;">
+                    <div data-v-e8cee894="" style="display: flex;justify-content: center;">
+                        <img src='/images/chart.png' alt='qr code' width="50%">
+                    </div>
+                    <div data-v-e8cee894="" class="bottom">
+                        <div data-v-e8cee894="" class="invite">
+                            <p style="display: none;">account/login?invite_key=</p>
+                            <%=ma_gt[0].ma_gt%>
+                        </div>
+                        <span data-v-e8cee894="">Mã giới thiệu của tôi</span>
+                    </div>
+                </div>
+                <div data-v-e8cee894="" class="box" style="margin-top: 165%;">
+                    <span data-v-e8cee894="">Mã giới thiệu</span>
+                    <button class="getInvite" data-v-e8cee894="">sao chép</button></div>
+            </div>
+        </div>
+    </div>
+    <div class="van-toast van-toast--middle van-toast--success" style="z-index: 2001; display: none;">
+        <i class="van-icon van-icon-success van-toast__icon"><!----></i>
+        <div class="van-toast__text">Sao chép thành công</div>
+    </div>
+    <script>
+        $('.getInvite').click(function(e) {
+            var copyText = $('.invite');
+            var copy1 = copyText.text().trim();
+            // copyText.setSelectionRange(0, 99999);
+            copy = location.hostname + "/" + copy1;
+            navigator.clipboard.writeText(copy);
+
+            $('.van-toast--success').fadeIn(0);
+            $('.van-toast--success').fadeOut(1200);
+        });
+        var heightMain = $('.main').height();
+        console.log(heightMain);
+    </script>
+</body>
+
+</html>

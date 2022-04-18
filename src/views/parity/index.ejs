@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="description" content="a shop from vietnam.">
+    <link rel="icon" href="" type="image/x-icon">
+    <link rel="shortcut icon" href="" type="image/x-icon">
+    <title>Parity</title>
+    <!--CSS-->
+    <link href="/css/vantjs.css" rel="stylesheet">
+    <link href="/css/vendor.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/app.css">
+    <link rel="stylesheet" type="text/css" href="/css/pages__parity.css">
+    <link rel="stylesheet" type="text/css" href="/css/pages__member.css">
+    <link rel="stylesheet" type="text/css" href="/css/pages__promotion.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/socket.io/socket.io.js"></script>
+</head>
+
+<body class="body">
+    <div id="preloader"></div>
+    <div class="layout-content">
+        <div data-v-65536d7a="">
+            <div data-v-04e3b381="" data-v-65536d7a="" class="transcation-content">
+                <div data-v-04e3b381="" class="my">
+                    <div data-v-04e3b381="" class="top top-header">
+                        <div data-v-04e3b381="" class="left">
+                            <div data-v-04e3b381="">Số dư khả dụng</div>₫
+                            <span data-v-04e3b381="" class="left_money"><%=String(user.money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%></span>
+                        </div>
+                        <button data-v-04e3b381="" class="rule van-button-rule van-button van-button--default van-button--mini">
+                        <div data-v-04e3b381="" class="van-button__content">
+                            <span data-v-04e3b381="" class="van-button__text">
+                                <img data-v-04e3b381="" src="/images/rule.png" alt="">
+                            </span>
+                        </div>
+                    </button>
+                    </div>
+                    <div data-v-04e3b381="" class="bottom top-header" style="align-items: center;">
+                        <span data-v-04e3b381="">No.<span data-v-04e3b381=""><%=user.id_user%></span></span>
+                        <button onclick="location.href='/financial/recharge'" data-v-7d40872f="" class="header-bottom__button" style="border: none;background: none;padding: 0;background: #f9f1ad;color: #000;padding: 4px 18px;border-radius: 20px;font-size: 14px;">Nạp  tiền</button>
+                    </div>
+                </div>
+                <div data-v-04e3b381="" class="kline">
+                    <div data-v-04e3b381="">
+                        <div data-v-04e3b381="" class="top-selete">
+                            <div data-v-04e3b381="" class="top-selete-sub active">Woipy</div>
+                            <div data-v-04e3b381="" class="top-selete-sub">Eido</div>
+                            <div data-v-04e3b381="" class="top-selete-sub">Dcna</div>
+                            <div data-v-04e3b381="" class="top-selete-sub">Caco</div>
+                            <!---->
+                        </div>
+                        <div data-v-04e3b381="" class="reservation-chunk">
+                            <div data-v-04e3b381="" class="reservation-chunk-sub">
+                                <div data-v-04e3b381="" class="reservation-chunk-sub-title">
+                                    <div data-v-04e3b381="">
+                                        Giai đoạn
+                                        <img src="/images/well.png" alt="" style="width: 18px;" class="img-stage display-none">
+                                    </div>
+                                </div>
+                                <div data-v-04e3b381="" tage="<%=(giai_doan.length > 0) ? giai_doan[0].giai_doan : 0 %>" class="reservation-chunk-sub-num">
+                                    <% if (giai_doan.length > 0) { %>
+                                        <%=giai_doan[0].giai_doan%>
+                                            <% } %>
+                                </div>
+                            </div>
+                            <div data-v-04e3b381="" class="reservation-chunk-sub" style="text-align: right;">
+                                <div data-v-04e3b381="" class="reservation-chunk-sub-title">Đếm ngược</div>
+                                <div data-v-7d40872f="" class="reservation-chunk-sub-num connectedsss display-none">
+                                    <button data-v-7d40872f="" style="color: #fff;border: none;background-color: #f0c336;padding: 4px 18px;font-size: 20px;">Tiếp tục</button>
+                                </div>
+                                <div data-v-04e3b381="" class="reservation-chunk-sub-num count-down-timer">
+                                    <div data-v-04e3b381="" class="van-count-down">
+                                        <div data-v-7d40872f="" class="time">
+                                            <span data-v-7d40872f="" class="time-sub"></span>
+                                            <span data-v-7d40872f="" class="time-sub"></span>
+                                            <span data-v-7d40872f="" class="time-sub-dot">:</span>
+                                            <span data-v-7d40872f="" class="time-sub"></span>
+                                            <span data-v-7d40872f="" class="time-sub"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div data-v-04e3b381="">
+                    <div data-v-04e3b381="" class="kline">
+                        <div data-v-04e3b381="" class="buttonBox">
+                            <div data-v-04e3b381="" class="order">
+                                <button data-v-04e3b381="">Tham gia Xanh lục</button>
+                            </div>
+                            <div data-v-04e3b381="" class="violet">
+                                <button data-v-04e3b381="">Tham gia Tím</button>
+                            </div>
+                            <div data-v-04e3b381="" class="sell">
+                                <button data-v-04e3b381="">Tham gia Đỏ</button>
+                            </div>
+                        </div>
+                        <div data-v-04e3b381="" class="buttonBox">
+                            <div data-v-04e3b381="" class="number"><button data-v-04e3b381="">0</button></div>
+                            <div data-v-04e3b381="" class="number"><button data-v-04e3b381="">1</button></div>
+                            <div data-v-04e3b381="" class="number"><button data-v-04e3b381="">2</button></div>
+                            <div data-v-04e3b381="" class="number"><button data-v-04e3b381="">3</button></div>
+                            <div data-v-04e3b381="" class="number"><button data-v-04e3b381="">4</button></div>
+                        </div>
+                        <div data-v-04e3b381="" class="buttonBox">
+                            <div data-v-04e3b381="" class="number"><button data-v-04e3b381="">5</button></div>
+                            <div data-v-04e3b381="" class="number"><button data-v-04e3b381="">6</button></div>
+                            <div data-v-04e3b381="" class="number"><button data-v-04e3b381="">7</button></div>
+                            <div data-v-04e3b381="" class="number"><button data-v-04e3b381="">8</button></div>
+                            <div data-v-04e3b381="" class="number"><button data-v-04e3b381="">9</button></div>
+                        </div>
+                    </div>
+                    <!---->
+                    <div class="van-list_oders">
+                        <%- include('temp/orders'); -%>
+                    </div>
+                    <!---->
+                    <div class="show_box">
+                        <!-- Join Đỏ -->
+                        <div data-v-04e3b381="" class="van-popup van-popups sellz van-popup--bottoms" style="z-index: 2009;">
+                            <div data-v-04e3b381="" class="tranBox">
+                                <div data-v-04e3b381="" class="top">
+                                    <div data-v-04e3b381="" class="show-order1">Tham gia Đỏ Woipy</div>
+                                    <span data-v-04e3b381="" class="topGold"></span></div>
+                                <div data-v-04e3b381="" class="tran">
+                                    <div data-v-04e3b381="" class="item itemSell" price="2000">
+                                        <div data-v-04e3b381="">
+                                            <span data-v-04e3b381="">Hợp đồng</span>
+                                            <span data-v-04e3b381="">Tiền</span>
+                                        </div>
+                                        <div data-v-04e3b381=""><button data-v-04e3b381="" class="active">2.000</button></div>
+                                        <div data-v-04e3b381=""><button data-v-04e3b381="" class="">20.000</button></div>
+                                        <div data-v-04e3b381=""><button data-v-04e3b381="" class="">100.000 </button></div>
+                                        <div data-v-04e3b381=""><button data-v-04e3b381="" class="">500.000 </button></div>
+                                    </div>
+                                    <div data-v-04e3b381="" class="item itemNumber">
+                                        <div data-v-04e3b381=""><span data-v-04e3b381="">Số</span></div>
+                                        <div data-v-04e3b381="">
+                                            <button data-v-04e3b381="" class="">3</button>
+                                        </div>
+                                        <div data-v-04e3b381="">
+                                            <button data-v-04e3b381="" class="">5</button>
+                                        </div>
+                                        <div data-v-04e3b381="">
+                                            <button data-v-04e3b381="" class="">10</button>
+                                        </div>
+                                        <div data-v-04e3b381="">
+                                            <button data-v-04e3b381="" class="">20</button>
+                                        </div>
+                                    </div>
+                                    <div data-v-04e3b381="" class="Spiitem">
+                                        <div data-v-04e3b381=""></div>
+                                        <div data-v-04e3b381="" class="spinner">
+                                            <div data-v-04e3b381="" class="van-stepper van-stepperD">
+                                                <button type="button" class="van-stepper__minus van-stepper__minus--disabled"></button>
+                                                <input type="number" value="1" class="van-stepper__input van-stepper__inputD" style="width: 4rem;">
+                                                <button type="button" class="van-stepper__plus"></button>
+                                            </div>
+                                            <div data-v-04e3b381="" style="margin-top: 10px;"> Maxinumlowersingular1000 Tay</div>
+                                            <!---->
+                                        </div>
+                                    </div>
+                                    <div data-v-04e3b381="" style="margin-left: 12px;">
+                                        <p data-v-04e3b381="" class="markedWords" style="text-align: center;">
+                                            <label data-v-04e3b381="">
+                                                <input data-v-04e3b381="" type="checkbox" class="checkedd">Tôi đồng ý với<a data-v-04e3b381="" href="/about/index" style="text-decoration: none; color: rgb(22, 116, 60);">Quy định quản lý trước khi bán hàng</a>
+                                            </label>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div data-v-04e3b381="" class="bottom">
+                                    <button data-v-04e3b381="" class="cancel">Hủy</button>
+                                    <button data-v-04e3b381="" join="" class="show-order2">Xác nhận</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-v-04e3b381="" class="thick-box"></div>
+                    <!---->
+                    <div data-v-04e3b381="" class="orders orders_bottomz">
+                        <div data-v-04e3b381="" class="title">
+                            <span data-v-04e3b381="">Của tôi Woipy Đơn hàng</span>
+                            <a data-v-04e3b381="" href="/parity/parityindex">Thêm &gt;</a>
+                        </div>
+                        <div data-v-7d40872f="" class="order-content">
+                            
+                            <div role="feed" class="van-list">
+
+                            </div>
+                                <!---->
+                            <div class="van-list__finished-text">Không còn dữ liệu</div>
+                            <div class="van-list__placeholder"></div>
+                        </div>
+                    </div>
+                    <!---->
+                </div>
+                <!---->
+                <!---->
+            </div>
+        </div>
+        <!--Footer-->
+        <%- include('temp/footer'); -%>
+            <!--Footer-->
+            <%- include('temp/quytac'); -%>
+                <div class="van-toast van-toast--middle van-toast--text" style="z-index: 2100; display: none;">
+                    <div class="van-toast__text">Vui lòng đồng ý với chính sách bảo mật trước tiên.</div>
+                </div>
+                <div class="van-toast van-toast--middle van-toast--fail" style="z-index: 2010; display: none;"><i class="van-icon van-icon-fail van-toast__icon"><!----></i>
+                    <div class="van-toast__text">Xin lỗi, số dư của bạn sắp hết</div>
+                </div>
+                <div class="van-toast van-toast--middle van-toast--success" style="z-index: 2010; display: none;"><i class="van-icon van-icon-success van-toast__icon"><!----></i>
+                    <div class="van-toast__text">Thành công</div>
+                </div>
+                <div class="van-toast van-toast--middle van-toast--loading" style="z-index: 2003;display: none;">
+                    <div class="van-loading van-loading--circular van-toast__loading"><span class="van-loading__spinner van-loading__spinner--circular"><svg viewBox="25 25 50 50" class="van-loading__circular"><circle cx="50" cy="50" r="20" fill="none"></circle></svg></span></div>
+                    <div class="van-toast__text">Đang tải...</div>
+                </div>
+    </div>
+    <!---->
+    <div class="van-overlay" style="z-index: 2001;display: none;"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/js/chuck.core.js"></script>
+    <script src="/js/chuck.parity.js"></script> 
+</body>
+
+</html>

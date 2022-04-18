@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="description" content="a shop from vietnam.">
+    <link rel="icon" href="" type="image/x-icon">
+    <link rel="shortcut icon" href="" type="image/x-icon">
+    <title>My address</title>
+    <!--CSS-->
+    <link href="/css/vantjs.css" rel="stylesheet">
+    <link href="/css/vendor.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/pages__myTask.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/app.css">
+    <link rel="stylesheet" type="text/css" href="/css/pages__parity.css">
+    <link rel="stylesheet" type="text/css" href="/css/pages__member.css">
+    <style>
+        .display-none {
+            display: none;
+        }
+        
+        body {
+            overflow: unset;
+        }
+    </style>
+</head>
+
+<body class="">
+    <div data-v-58c67bb8="" class="layout-content">
+        <!---->
+        <div data-v-2a79102b="" class="my-address-content">
+            <div data-v-2a79102b="" class="van-nav-bar">
+                <a href="index">
+                    <div class="van-nav-bar__left"><i class="van-icon van-icon-arrow-left van-nav-bar__arrow"><!----></i></div>
+                </a>
+                <div class="van-nav-bar__title van-ellipsis">Địa chỉ của tôi</div>
+                <div class="van-nav-bar__right"></div>
+            </div>
+            <% if(results.length == 0) { %>
+                <div data-v-2a79102b="" class="my-address-main">
+                    <div data-v-911e6e3a="" data-v-2a79102b="">
+                        <div data-v-911e6e3a="" class="van-cell-group van-hairline--top-bottom">
+                            <!---->
+                            <!---->
+                        </div>
+                        <div data-v-911e6e3a="" class="address-button">
+                            <button data-v-911e6e3a="" class="address-btn van-button van-button--danger van-button--large">
+                            <div data-v-911e6e3a="" class="van-button__content">
+                                <span data-v-911e6e3a="" class="van-button__text">+Thêm địa chỉ</span>
+                            </div>
+                        </button>
+                            <!---->
+                        </div>
+                        <!---->
+                    </div>
+                </div>
+                <% } %>
+                    <div data-v-2a79102b="" class="my-address-main">
+                        <!---->
+                        <div data-v-911e6e3a="" class="fillout-form van-cell-group van-hairline--top-bottom">
+                            <% if(results.length != 0) { %>
+                                <div data-v-911e6e3a="" class="van-cell">
+                                    <div data-v-911e6e3a="" class="van-cell__title">
+                                        <div data-v-911e6e3a="">
+                                            <div data-v-911e6e3a="">
+                                                <%=results[0]['hovaten']%>
+                                                    <%=results[0]['sdt']%>
+                                            </div>
+                                            <div data-v-911e6e3a="">
+                                                <%=results[0]['address_require']%>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div data-v-911e6e3a="" class="van-cell__value">
+                                        <span data-v-911e6e3a="" style="color: rgb(0, 184, 169); font-weight: bold;">Mặc định</span>
+                                    </div>
+                                </div>
+                                <% } %>
+                                    <div class="jqk display-none">
+                                        <div data-v-911e6e3a="" class="formTitle">Vui lòng cập nhật địa chỉ nhận hàng</div>
+                                        <div data-v-911e6e3a="">
+                                            <div data-v-911e6e3a="" class="formMain">
+                                                <div data-v-911e6e3a="" class="formMainBox">
+                                                    <div data-v-911e6e3a="" class="formMainBoxTitle">Tên đầy đủ</div>
+                                                    <div data-v-911e6e3a="" class="formMainIndex van-cell van-field">
+                                                        <div class="van-cell__value van-cell__value--alone van-field__value">
+                                                            <div class="van-field__body"><input type="text" placeholder="Tên đầy đủ" class="van-field__control"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div data-v-911e6e3a="" class="formMain">
+                                                <div data-v-911e6e3a="" class="formMainBox">
+                                                    <div data-v-911e6e3a="" class="formMainBoxTitle">Số điện thoại</div>
+                                                    <div data-v-911e6e3a="" class="formMainIndex van-cell van-field">
+                                                        <div class="van-cell__value van-cell__value--alone van-field__value">
+                                                            <div class="van-field__body"><input type="text" placeholder="Số điện thoại" class="van-field__control"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div data-v-911e6e3a="" class="formMain">
+                                                <div data-v-911e6e3a="" class="formMainBox">
+                                                    <div data-v-911e6e3a="" class="formMainBoxTitle">Mã PIN</div>
+                                                    <div data-v-911e6e3a="" class="formMainIndex van-cell van-field">
+                                                        <div class="van-cell__value van-cell__value--alone van-field__value">
+                                                            <div class="van-field__body"><input type="text" placeholder="Mã pin" class="van-field__control"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div data-v-911e6e3a="" class="formMain ">
+                                                <div data-v-911e6e3a="" class="formMainBox formMainIndexWhatsapp">
+                                                    <div data-v-911e6e3a="" class="formMainBoxTitle">Whatsapp</div>
+                                                    <div data-v-911e6e3a="" class="formMainIndex van-cell van-field">
+                                                        <div class="van-cell__value van-cell__value--alone van-field__value">
+                                                            <div class="van-field__body"><input type="text" placeholder="Whatsapp" class="van-field__control"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div data-v-911e6e3a="" class="contentBox">
+                                            <div data-v-911e6e3a="" class="contentBoxOny">
+                                                <div data-v-911e6e3a="" class="contentBoxflat">
+                                                    <div data-v-911e6e3a="" class="contentBoxflatTitle">Địa chỉ chi tiết </div>
+                                                    <div data-v-911e6e3a="" class="formMainIndex van-cell van-field van-field--min-height">
+                                                        <div class="van-cell__value van-cell__value--alone van-field__value">
+                                                            <div class="van-field__body"><textarea row="3" placeholder="Địa chỉ chi tiết" class="van-field__control"></textarea></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div data-v-911e6e3a="" class="contentBoxflat">
+                                                    <div data-v-911e6e3a="" class="contentBoxflatTitle">Thị trấn/thành phố:</div>
+                                                    <div data-v-911e6e3a="" class="formMainIndex van-cell van-field">
+                                                        <div class="van-cell__value van-cell__value--alone van-field__value">
+                                                            <div class="van-field__body"><input type="text" placeholder="Thị trấn / thành phố" class="van-field__control"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div data-v-911e6e3a="" class="contentBoxflat">
+                                                    <div data-v-911e6e3a="" class="contentBoxflatTitle">tỉnh</div>
+                                                    <div data-v-911e6e3a="" class="formMainIndex van-cell van-field">
+                                                        <div class="van-cell__value van-cell__value--alone van-field__value">
+                                                            <div class="van-field__body"><input type="text" placeholder="tỉnh" class="van-field__control"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div data-v-911e6e3a="" class="van-cell">
+                                            <div data-v-911e6e3a="" class="van-cell__value van-cell__value--alone"><span data-v-911e6e3a="">Địa chỉ mặc định</span>
+                                                <div data-v-911e6e3a="" role="switch" aria-checked="false" class="van-switch">
+                                                    <div class="van-switch__node"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div data-v-911e6e3a="" class="fillout-address-button">
+                                            <button data-v-911e6e3a="" class="fillout-address-button__Can van-button van-button--hollow van-button--large">
+                                <div data-v-911e6e3a="" class="van-button__content">
+                                    <span data-v-911e6e3a="" class="van-button__text">Hủy</span>
+                                </div>
+                            </button>
+                                            <button data-v-911e6e3a="" class="fillout-address-button__sumbit van-button van-button--danger van-button--large">
+                                <div data-v-911e6e3a="" class="van-button__content">
+                                    <span data-v-911e6e3a="" class="van-button__text">Gửi</span>
+                                </div>
+                            </button>
+                                        </div>
+                                    </div>
+                        </div>
+                    </div>
+        </div>
+    </div>
+    <div class="van-toast van-toast--middle van-toast--text display-none" style="z-index: 2001;">
+        <div class="van-toast__text"></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.fillout-address-button__sumbit').click(function() {
+                var full_name = $('.van-field__control:eq(0)').val();
+                var phone_number = $('.van-field__control:eq(1)').val();
+                var pin = $('.van-field__control:eq(2)').val();
+                var Whatsapp = $('.van-field__control:eq(3)').val();
+                var address_detail = $('.van-field__control:eq(4)').val();
+                var city = $('.van-field__control:eq(5)').val();
+                var Conscious = $('.van-field__control:eq(6)').val();
+                var check = $('.van-switch').hasClass('van-switch--on');
+                if (full_name.length < 50 && phone_number.length < 15 && pin.length < 50 && Whatsapp.length < 50 && address_detail.length <= 100 && city.length < 50 && Conscious.length < 20 && full_name != "" && phone_number != "" && pin != "" && Whatsapp != "" && address_detail != "" && city != "" && Conscious != "" && check == true) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/member/myaddress",
+                        data: {
+                            full_name: full_name,
+                            phone_number: phone_number,
+                            pin: pin,
+                            Whatsapp: Whatsapp,
+                            address_detail: address_detail,
+                            city: city,
+                            Conscious: Conscious
+                        },
+                        dataType: "JSON",
+                        success: function(response) {
+                            if (response.message == 0) {
+                                $('.van-toast--text .van-toast__text').text('Bạn đã có địa chỉ rồi !');
+                                $('.van-toast--text').removeClass('display-none');
+                                setTimeout(() => {
+                                    $('.van-toast--text').addClass('display-none');
+                                }, 1000);
+                            } else if (response.message == 1) {
+                                $('.van-toast--text .van-toast__text').text('Thêm địa chỉ thành công');
+                                $('.van-toast--text').removeClass('display-none');
+                                setTimeout(() => {
+                                    $('.van-toast--text').addClass('display-none');
+                                    window.location.reload();
+                                }, 1000);
+                            } else if (response.message == "error") {
+                                $('.van-toast--text .van-toast__text').text('Vui lòng nhập đúng định dạng !');
+                                $('.van-toast--text').removeClass('display-none');
+                                setTimeout(() => {
+                                    $('.van-toast--text').addClass('display-none');
+                                }, 1000);
+                            }
+                        }
+                    });
+                } else if (full_name == "" || phone_number == "" || pin == "" || Whatsapp == "" || address_detail == "" || city == "" || Conscious == "") {
+                    $('.van-toast--text .van-toast__text').text('Vui lòng nhập đầy đủ thông tin');
+                    $('.van-toast--text').removeClass('display-none');
+                    setTimeout(() => {
+                        $('.van-toast--text').addClass('display-none');
+                    }, 1000);
+                } else if (check == false) {
+                    $('.van-toast--text .van-toast__text').text('Vui lòng xác nhận địa chỉ!');
+                    $('.van-toast--text').removeClass('display-none');
+                    setTimeout(() => {
+                        $('.van-toast--text').addClass('display-none');
+                    }, 1000);
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('.address-btn').click(function() {
+                $('.my-address-main:eq(0)').addClass('display-none');
+                $('.jqk').removeClass('display-none');
+            });
+            $('.fillout-address-button__Can').click(function() {
+                $('.my-address-main:eq(0)').removeClass('display-none');
+                $('.jqk').addClass('display-none');
+            });
+            $('.van-switch').click(function() {
+                $('.van-switch').toggleClass('van-switch--on');
+                var check = $('.van-switch').hasClass('van-switch--on');
+                if (check == true) {
+                    $(".van-switch").attr("aria-checked", true);
+                    document.querySelector('.van-switch').style.backgroundColor = "rgb(0, 184, 169)";
+                } else {
+                    $(".van-switch").attr("aria-checked", false);
+                    document.querySelector('.van-switch').style = "";
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="description" content="a shop from vietnam.">
+    <link rel="icon" href="" type="image/x-icon">
+    <link rel="shortcut icon" href="" type="image/x-icon">
+    <!--CSS-->
+    <link href="/css/vantjs.css" rel="stylesheet">
+    <link href="/css/vendor.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/app.css">
+    <link rel="stylesheet" type="text/css" href="/css/pages__member.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Modify nickname</title>
+</head>
+
+<body>
+    <div data-v-58c67bb8="" class="layout-content">
+        <!---->
+        <div data-v-41bf97c5="">
+            <div data-v-41bf97c5="" class="van-nav-bar van-nav-bar--fixed">
+                <a href="Security">
+                    <div class="van-nav-bar__left"><i class="van-icon van-icon-arrow-left van-nav-bar__arrow"><!----></i></div>
+                </a>
+                <div class="van-nav-bar__title van-ellipsis">Thay đổi tên</div>
+                <div class="van-nav-bar__right"></div>
+            </div>
+            <div data-v-41bf97c5="" class="bar-box"></div>
+            <div data-v-41bf97c5="">
+                <div data-v-41bf97c5="" class="top">
+                    <div data-v-41bf97c5="" class="top-title">
+                        Thay đổi tên
+                    </div>
+                </div>
+                <div data-v-41bf97c5="" class="group-box van-cell-group van-hairline--top-bottom">
+                    <div data-v-41bf97c5="" class="group-box-field van-cell van-field van-field--disabled">
+                        <div class="van-field__left-icon">
+                            <i data-v-41bf97c5="" class="van-icon van-icon-manager"><!----></i></div>
+                        <div class="van-cell__value van-cell__value--alone van-field__value">
+                            <div class="van-field__body">
+                                <input type="text" disabled="disabled" placeholder="<%=user.name_user%>" class="van-field__control">
+                            </div>
+                        </div>
+                    </div>
+                    <div data-v-41bf97c5="" class="group-box-field van-cell van-field">
+                        <div class="van-field__left-icon">
+                            <i data-v-41bf97c5="" class="van-icon van-icon-friends"><!----></i></div>
+                        <div class="van-cell__value van-cell__value--alone van-field__value">
+                            <div class="van-field__body">
+                                <input type="text" placeholder="Vui lòng nhập tên mới" class="van-field__control van-field__control_editname">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div data-v-41bf97c5="" class="button">
+                    <button data-v-41bf97c5="" class="button-submit van-button van-button--default van-button--large">
+                            <div data-v-41bf97c5="" class="van-button__content">
+                                <span data-v-41bf97c5="" class="van-button__text">Gửi</span>
+                            </div>
+                        </button>
+                </div>
+            </div>
+            <!---->
+        </div>
+    </div>
+    <style>
+        .display-none {
+            display: none;
+        }
+    </style>
+    <div class="van-toast van-toast--middle van-toast--text display-none" style="z-index: 2001;">
+        <div class="van-toast__text"></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.button-submit').click(function() {
+                var get_input = $('.van-field__control_editname').val();
+                var lengthInput = get_input.length;
+                if (get_input != "" && lengthInput < 25) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/member/nikname",
+                        data: {
+                            get_input: get_input,
+                        },
+                        dataType: "json",
+                        success: function(response) {
+                            if (response.message == 1) {
+                                $('.van-toast--text').removeClass('display-none');
+                                $('.van-toast--text .van-toast__text').html('Đổi tên thành công.');
+                                setTimeout(function() {
+                                    $('.van-toast--text').addClass('display-none');
+                                    window.location = "/member/index"
+                                }, 1000)
+                            }
+                        }
+                    })
+                } else if (get_input == "") {
+                    $('.van-toast--text').removeClass('display-none');
+                    $('.van-toast--text .van-toast__text').html('Tên không được để trống.');
+                    setTimeout(function() {
+                        $('.van-toast--text').addClass('display-none')
+                    }, 1000)
+                } else {
+                    $('.van-toast--text').removeClass('display-none');
+                    $('.van-toast--text .van-toast__text').html('Tên không dài quá 25 kí tự.');
+                    setTimeout(function() {
+                        $('.van-toast--text').addClass('display-none')
+                    }, 1000)
+                }
+            });
+        })
+    </script>
+</body>
+
+</html>

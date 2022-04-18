@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="description" content="a shop from vietnam.">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <title>Withdraw</title>
+    <link href="/css/vantjs.css" rel="stylesheet">
+    <link href="/css/vendor.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/pages__finance.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/app.css">
+    <link rel="stylesheet" type="text/css" href="/css/pages__parity.css">
+    <link rel="stylesheet" type="text/css" href="/css/pages__member.css">
+    <style>
+        .display-none {
+            display: none;
+        }
+        
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #fff;
+            z-index: 99;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div data-v-58c67bb8="" class="layout-content">
+        <!---->
+        <div data-v-7113d57d="">
+            <div data-v-7113d57d="" class="van-nav-bar van-nav-bar--fixed">
+                <a onclick="history.back()">
+                    <div class="van-nav-bar__left"><i class="van-icon van-icon-arrow-left van-nav-bar__arrow"><!----></i></div>
+                </a>
+                <div class="van-nav-bar__title van-ellipsis">Rút tiền</div>
+                <div class="van-nav-bar__right"></div>
+            </div>
+            <div data-v-7113d57d="" class="bar-box"></div>
+            <div data-v-7113d57d="" class="withdrawal-content">
+                <div data-v-7113d57d="" class="info">
+                    <div data-v-7113d57d="" class="info-balance">
+                        Số dư của tôi:<span data-v-7113d57d=""> ₫<%=String(user.money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%></span></div>
+                    <div data-v-7113d57d="" class="info-address">
+                        Thẻ ngân hàng của tôi<span data-v-7113d57d="">(<%=bankings[0].name_banking;%>:<%=bankings[0].stk;%>)</span>
+                        <div data-v-7113d57d="" class="info-address-icon">
+                            <i data-v-7113d57d="" class="van-icon van-icon-success"><!----></i></div>
+                    </div>
+                    <div data-v-7113d57d="" class="info-note"><span data-v-7113d57d=""><span data-v-7113d57d="">
+                        Số lượng &lt; 500000&nbsp;phí dịch vụ
+                        <a data-v-7113d57d="">₫15000</a></span></span>
+                        <span data-v-7113d57d="">
+                                <span data-v-7113d57d="">Số lượng &gt; 500000&nbsp;phí dịch vụ
+                            <a data-v-7113d57d="">3%</a>
+                        </span>
+                        </span>
+                    </div>
+                    <div data-v-7113d57d="" class="info-title">Số tiền rút ra</div>
+                    <div data-v-7113d57d="" class="info-price">
+                        <span data-v-7113d57d="">₫</span>
+                        <input data-v-7113d57d="" placeholder="Nhập số tiền rút ra" type="text" style="width: 100%;">
+                    </div>
+                    <div data-v-7113d57d="" class="info-note">
+                        <span data-v-7113d57d="">Số dư có thể rút：₫
+                            <% var ck = user.money - 100001; 
+                            if (ck > 100000) { %>
+                                <%=String(ck).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%>
+                            <% } else { %>
+                                <%="0"%>; 
+                            <% } %>
+                        </span>
+                        <span data-v-7113d57d="">Phí rút tiền (bao gồm thuế)₫(<i style="font-style: inherit">0</i>)</span>
+                    </div>
+                    <div data-v-7113d57d="" class="info-time">Hạn mức rút tiền một lần</div>
+                    <div data-v-7113d57d="" class="info-note">
+                        <span data-v-7113d57d="">Mức tối đa:₫50000000</span>
+                        <span data-v-7113d57d="">Mức tối thiếu:₫200000</span>
+                    </div>
+                    <div data-v-7113d57d="" class="info-time" style="transform: translateX(-2px);">Thời gian phục vụ</div>
+                    <div data-v-7113d57d="" class="info-note">
+                        <!---->
+                        <span data-v-7113d57d="">Các ngày trong tuần 10:00-17:00</span>
+                        <!---->
+                    </div>
+                </div>
+                <div data-v-7113d57d="" class="withdrawal-btn">
+                    <button data-v-7113d57d="" class="withdrawal-withdraw">Rút tiền</button>
+                    <button data-v-7113d57d="" href="WithdrawRecord" class="withdrawal-btn-records">Lịch sử đặt hàng</button>
+                </div>
+                <div data-v-7113d57d="" class="info"></div>
+            </div>
+        </div>
+    </div>
+    <div class="van-toast van-toast--middle van-toast--text" style="z-index: 2100;display: none;">
+        <div class="van-toast__text"></div>
+    </div>
+    <div class="van-toast van-toast--middle van-toast--success success1" style="z-index: 2001;display: none;">
+        <i class="van-icon van-icon-success van-toast__icon"><!----></i>
+        <div class="van-toast__text">Thành công</div>
+    </div>
+    <div class="van-toast van-toast--middle van-toast--success success2" style="z-index: 2001;display: none;">
+        <i class="van-icon van-icon-success van-toast__icon"><!----></i>
+        <div class="van-toast__text">Đã xác nhận</div>
+    </div>
+    <div class="van-toast van-toast--middle van-toast--fail" style="z-index: 2001;display: none;">
+        <i class="van-icon van-icon-fail van-toast__icon"><!----></i>
+        <div class="van-toast__text"></div>
+    </div>
+    <!----->
+
+    <div class="van-overlay" style="display: none;"></div>
+    <div data-v-04e3b381="" class="van-popup van-popup--center form_wth" style="display: none!important;border-radius: 5px;top: 46%;width: 90%; z-index: 2003; display: block;overflow-y: unset;">
+        <div data-v-04e3b381="" class="policy-layout">
+            <div data-v-04e3b381="" class="policy-scrollview">
+                <div data-v-26ecfe4b="" class="top" style="transform: translateY(63px);">
+                    <div data-v-26ecfe4b="" class="top-title">Nhập mật khẩu thanh toán</div>
+                </div>
+                <div data-v-04e3b381="" class="policy-scrollview__main">
+                    <div data-v-04e3b381="" style="transform: translateY(63px);text-align: center;">
+                        <div data-v-26ecfe4b="" class="van-cell van-field" style="font-size: 16px;">
+                            <div class="van-field__left-icon"><i class="van-icon van-icon-lock"><!----></i>
+                            </div>
+                            <div class="van-cell__value van-cell__value--alone van-field__value">
+                                <div class="van-field__body">
+                                    <input type="password" placeholder="Vui lòng nhập mật khẩu thanh toán." class="value_wht van-field__control van-field__controlPayment2">
+                                </div>
+                            </div>
+                        </div>
+                        <div data-v-26ecfe4b="" style="padding: 0px 24px;">
+                            <button data-v-26ecfe4b="" class="btn_wth van-button van-button--default van-button--large van-button--largePayment" style="background-color: rgb(0, 184, 169); border-radius: 5px; color: rgb(255, 255, 255); margin-top: 20px;">
+                            <div data-v-26ecfe4b="" class="van-button__content">
+                                <span data-v-26ecfe4b="" class="van-button__text">Xác Nhận</span>
+                            </div>
+                        </button>
+                            <div id="" class="check_stt"></div>
+                        </div>
+                        <p>Tip:mật khẩu không khớp, đề phòng bị trộm, trương hợp tổn thất tài sản do mất mật khẩu hê thống không chịu trách nhiệm</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <i role="button" tabindex="0" class="closer_wth van-icon van-icon-cross van-popup__close-icon van-popup__close-icon--top-right"><!----></i></div>
+    <!----->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(window).on('load', function() {
+            $('.closer_wth, .van-overlay').click(function(e) {
+                e.preventDefault();
+                $(".form_wth").fadeOut(100);
+                $(".van-overlay").fadeOut(200);
+            });
+            $('.btn_wth').click(function(e) {
+                e.preventDefault();
+                var value_wht = $(".value_wht").val().trim();
+                $.ajax({
+                    type: "POST",
+                    url: "../main.php",
+                    data: {
+                        value_wht: value_wht,
+                    },
+                    dataType: "JSON",
+                    success: function(response) {
+                        if (response == 1) {
+                            $(".form_wth").fadeOut(100);
+                            $(".van-overlay").fadeOut(200);
+                            $(".success2").fadeIn(200);
+                            setTimeout(() => {
+                                $(".success2").fadeOut();
+                                $(".withdrawal-withdraw").attr('disabled', false);
+                                setTimeout(() => {
+                                    $(".van-toast--text .van-toast__text").text('Bấm rút tiền để tiếp tục!');
+                                    $(".van-toast--text").fadeIn(200);
+                                    setTimeout(() => {
+                                        $(".van-toast--text").fadeOut();
+                                    }, 1200);
+                                }, 200);
+                            }, 700);
+                            $(".check_stt").attr('id', response);
+                        } else {
+                            $(".van-toast--text .van-toast__text").text('Mật khẩu thanh toán không chính xác!');
+                            $(".van-toast--text").fadeIn(200);
+                            setTimeout(() => {
+                                $(".van-toast--text").fadeOut();
+                                $(".withdrawal-withdraw").attr('disabled', false);
+                            }, 1000);
+                        }
+                    }
+                });
+            });
+            $(document).ready(function() {
+                $('.withdrawal-btn-records').click(function() {
+                    window.location = "WithdrawRecord";
+                });
+                const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+                const d = new Date();
+                let h = d.getHours();
+                let day = weekday[d.getDay()];
+                var total_fee = 0;
+                $("input").keyup(function() {
+                    var fee = $('input').val().trim();
+                    if (fee < 100000) {
+                        $('.info-note:eq(1) span i').text('0');
+                    } else if (fee <= 500000) {
+                        total_fee = 15000;
+                        $('.info-note:eq(1) span i').text('15000');
+                    } else if (fee > 500000) {
+                        total_fee = (fee / 100) * 3;
+                        $('.info-note:eq(1) span i').text(total_fee.toFixed(2));
+                    }
+                });
+                $('.withdrawal-withdraw').click(function() {
+                    // $(this).attr('disabled', true);
+                    var check_stt = $('.check_stt').attr('id');
+                    if (check_stt == "") {
+                        $(".form_wth").fadeIn(100);
+                        $(".van-overlay").fadeIn(200);
+                    }
+                    var withdraw = $('input').val().trim();
+                    if (withdraw != "" && withdraw != 0 && withdraw >= 100000 && h > 10 && h < 17) {
+                        if (check_stt == 1) {
+                            $.ajax({
+                                type: "POST",
+                                url: "../main.php",
+                                data: {
+                                    withdraw: withdraw,
+                                    total_fee: total_fee
+                                },
+                                dataType: "JSON",
+                                success: function(response) {
+                                    if (response == 1) {
+                                        var fee = $('input').val("");
+                                        $(".success1").fadeIn(200);
+                                        setTimeout(() => {
+                                            window.location = "WithdrawRecord";
+                                            $(".success1").fadeOut();
+                                            $(".withdrawal-withdraw").attr('disabled', false);
+                                        }, 1000);
+                                    } else if (response == 0) {
+                                        $(".van-toast--text .van-toast__text").text('Xin lỗi, hạn mức của bạn sắp hết');
+                                        $(".van-toast--text").fadeIn(200);
+                                        setTimeout(() => {
+                                            $(".van-toast--text").fadeOut();
+                                            $(".withdrawal-withdraw").attr('disabled', false);
+                                        }, 1000);
+                                    } else if (response == 2) {
+                                        $(".van-toast--text .van-toast__text").text('Số dư tối thiểu lớn hơn 100000 sau khi rút tiền');
+                                        $(".van-toast--text").fadeIn(200);
+                                        setTimeout(() => {
+                                            $(".van-toast--text").fadeOut();
+                                            $(".withdrawal-withdraw").attr('disabled', false);
+                                        }, 1000);
+                                    } else if (response == 3) {
+                                        $(".van-toast--text .van-toast__text").text('Có đơn hàng chưa hoàn thiện!');
+                                        $(".van-toast--text").fadeIn(200);
+                                        setTimeout(() => {
+                                            $(".van-toast--text").fadeOut();
+                                            $(".withdrawal-withdraw").attr('disabled', false);
+                                        }, 1000);
+                                    } else if (response == 4) {
+                                        $(".van-toast--text .van-toast__text").text('Số dư hiện tại phải lớn hơn 300000Rs!');
+                                        $(".van-toast--text").fadeIn(200);
+                                        setTimeout(() => {
+                                            $(".van-toast--text").fadeOut();
+                                            $(".withdrawal-withdraw").attr('disabled', false);
+                                        }, 1000);
+                                    }
+                                }
+                            });
+                        }
+                    } else if (withdraw == 0 || withdraw == "") {
+                        $(".van-toast--text .van-toast__text").text('Vui lòng nhập số tiền rút ra');
+                        $(".van-toast--text").fadeIn(200);
+                        setTimeout(() => {
+                            $(".van-toast--text").fadeOut();
+                            $(this).attr('disabled', false);
+                        }, 1000);
+                    } else if (withdraw < 100000) {
+                        $(".van-toast--text .van-toast__text").text('Dưới giới hạn số dư tối thiểu là 100000 sau khi rút tiền');
+                        $(".van-toast--text").fadeIn(200);
+                        setTimeout(() => {
+                            $(".van-toast--text").fadeOut();
+                            $(this).attr('disabled', false);
+                        }, 1000);
+                    } else if (h < 10 || h >= 17) {
+                        $('.van-toast--fail .van-toast__text').text('Đơn đăng ký hiện không được mở');
+                        $('.van-toast--fail').fadeIn(200);
+                        $(this).attr('disabled', true);
+                        setTimeout(() => {
+                            $(this).attr('disabled', false);
+                            $('.van-toast--fail').fadeOut();
+                        }, 1000);
+                    }
+                });
+            });
+        })
+    </script>
+</body>
+
+</html>

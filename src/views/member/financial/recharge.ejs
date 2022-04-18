@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="description" content="a shop from vietnam.">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <title>Recharge</title>
+    <link href="/css/vantjs.css" rel="stylesheet">
+    <link href="/css/vendor.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/pages__finance.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/app.css">
+    <link rel="stylesheet" type="text/css" href="/css/pages__parity.css">
+    <link rel="stylesheet" type="text/css" href="/css/pages__member.css">
+    <style>
+        .display-none {
+            display: none;
+        }
+        
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #fff;
+            z-index: 99;
+        }
+    </style>
+
+</head>
+
+<body class="">
+    <div data-v-58c67bb8="" class="layout-content">
+        <!---->
+        <div data-v-0ae5fef1="">
+            <div data-v-0ae5fef1="" class="van-nav-bar van-nav-bar--fixed" style="border-bottom: 1px solid rgb(229, 229, 229);">
+                <a href="/member/MyWallet">
+                    <div class="van-nav-bar__left"><i class="van-icon van-icon-arrow-left van-nav-bar__arrow"><!----></i></div>
+                </a>
+                <div class="van-nav-bar__title van-ellipsis">Nạp tiền</div>
+                <div class="van-nav-bar__right"></div>
+            </div>
+            <div data-v-0ae5fef1="" class="bar-box"></div>
+            <div data-v-0ae5fef1="" class="recharge-content">
+                <div data-v-0ae5fef1="" class="rechargeBox">
+                    <div data-v-0ae5fef1="" class="top-title">
+                        Số dư của tôi ₫<span data-v-0ae5fef1="" style="margin-left: 10px; font-size: 28px; font-weight: 600;"><%=String(user.money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%></span></div>
+                    <div data-v-0ae5fef1="" class="top-subtitle">
+                        <div data-v-0ae5fef1="" class="top-subtitle-amount">₫</div>
+                        <div data-v-0ae5fef1="" style="width: 80%;">
+                            <div data-v-0ae5fef1="" class="amount-enter van-cell van-field">
+                                <div class="van-cell__value van-cell__value--alone van-field__value">
+                                    <div class="van-field__body">
+                                        <input type="text" inputmode="decimal" slot="right" autocomplete="off" placeholder="Chọn hoặc nhập số tiền" class="van-field__control input_value"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-v-0ae5fef1="" class="top-chunk">
+                        <div data-v-0ae5fef1="" class="top-chunk-sub unselected">₫100000</div>
+                        <div data-v-0ae5fef1="" class="top-chunk-sub unselected">₫300000</div>
+                        <div data-v-0ae5fef1="" class="top-chunk-sub unselected">₫500000</div>
+                        <div data-v-0ae5fef1="" class="top-chunk-sub unselected">₫1000000</div>
+                        <div data-v-0ae5fef1="" class="top-chunk-sub unselected">₫3000000</div>
+                        <div data-v-0ae5fef1="" class="top-chunk-sub unselected">₫5000000</div>
+                        <div data-v-0ae5fef1="" class="top-chunk-sub unselected">₫10000000</div>
+                        <div data-v-0ae5fef1="" class="top-chunk-sub unselected">₫50000000</div>
+                        <div data-v-0ae5fef1="" class="top-chunk-sub unselected">₫80000000</div>
+                    </div>
+                </div>
+                <div data-v-0ae5fef1="" class="cashfree">
+                    <div data-v-0ae5fef1="">
+                        <div data-v-0ae5fef1="" class="cashfree-item">
+                            <div data-v-0ae5fef1="">OnePay</div>
+                            <div data-v-0ae5fef1="" class="optionBox optionBoxImg"></div>
+                        </div>
+                    </div>
+                    <div data-v-0ae5fef1="" class="recharge-btn">
+                        <button data-v-0ae5fef1="">Nạp tiền</button>
+                        <!---->
+                        <button data-v-0ae5fef1="" href="rechargeRecord" style="background: rgb(204, 204, 204); margin-top: 10px;">Lịch sử đặt hàng</button></div>
+                    <!---->
+                </div>
+            </div>
+            <div class="van-overlay display-none" style="z-index: 2002;"></div>
+            <div data-v-0ae5fef1="" class="popRegul van-popup van-popup--center display-none" style="width: 70%; height: 50%; padding: 16px; z-index: 2005;">
+                <div data-v-0ae5fef1="" class="popRegulTelie">
+                    <div data-v-0ae5fef1="">
+                        <p>Lưu ý: Nếu số tiền nạp 3 triệu đồng hoặc lớn hơn 3 triệu đồng&nbsp; , bạn có thể nhận thưởng 2% số tiền nạp , tiền thưởng sẽ tự động được cộng vào tài khoản của bạn</p>
+                    </div>
+                </div>
+                <div data-v-0ae5fef1="" class="popRegulBtn">Tôi hiểu</div>
+            </div>
+        </div>
+    </div>
+    <div role="dialog" class="van-dialog display-none" aria-labelledby="Xin vui lòng hủy các đơn hàng chưa thanh toán trước ! " style="z-index: 2006;">
+        <div class="van-dialog__content van-dialog__content--isolated">
+            <div class="van-dialog__message">Xin vui lòng hủy các đơn hàng chưa thanh toán trước ! </div>
+        </div>
+        <div class="van-hairline--top van-dialog__footer"><button class="van-button van-button--default van-button--large van-dialog__cancel"><div class="van-button__content"><span class="van-button__text">Hủy</span></div></button><button class="van-button van-button--default van-button--large van-dialog__confirm van-hairline--left"><div class="van-button__content"><span class="van-button__text">Xác nhận</span></div></button></div>
+    </div>
+
+    <div class="van-toast van-toast--middle van-toast--text display-none" style="z-index: 2003;">
+        <div class="van-toast__text"></div>
+    </div>
+    <div class="van-toast van-toast--middle van-toast--text edwefwe" style="z-index: 2004; display: none;">
+        <div class="van-toast__text">Số tiền nạp vào không được vượt quá 80000000Rs</div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $('.van-overlay, .popRegul').fadeIn(200);
+        $(document).ready(function() {
+            $(".input_value").keyup(function() {
+                var get_value = $('.input_value').val().trim();
+                if (get_value == 100000) {
+                    $('.top-chunk-sub:eq(0)').removeClass('unselected');
+                    $('.top-chunk-sub').removeClass('selected');
+                    $('.top-chunk-sub:eq(0)').addClass('selected');
+                    $('.top-chunk-sub').addClass('unselected');
+                } else if (get_value == 300000) {
+                    $('.top-chunk-sub:eq(1)').removeClass('unselected');
+                    $('.top-chunk-sub').removeClass('selected');
+                    $('.top-chunk-sub').addClass('unselected');
+                    $('.top-chunk-sub:eq(1)').addClass('selected');
+                } else if (get_value == 500000) {
+                    $('.top-chunk-sub:eq(2)').removeClass('unselected');
+                    $('.top-chunk-sub').removeClass('selected');
+                    $('.top-chunk-sub').addClass('unselected');
+                    $('.top-chunk-sub:eq(2)').addClass('selected');
+                } else if (get_value == 1000000) {
+                    $('.top-chunk-sub:eq(3)').removeClass('unselected');
+                    $('.top-chunk-sub').removeClass('selected');
+                    $('.top-chunk-sub').addClass('unselected');
+                    $('.top-chunk-sub:eq(3)').addClass('selected');
+                } else if (get_value == 3000000) {
+                    $('.top-chunk-sub:eq(4)').removeClass('unselected');
+                    $('.top-chunk-sub').removeClass('selected');
+                    $('.top-chunk-sub').addClass('unselected');
+                    $('.top-chunk-sub:eq(4)').addClass('selected');
+                } else if (get_value == 5000000) {
+                    $('.top-chunk-sub:eq(5)').removeClass('unselected');
+                    $('.top-chunk-sub').removeClass('selected');
+                    $('.top-chunk-sub').addClass('unselected');
+                    $('.top-chunk-sub:eq(5)').addClass('selected');
+                } else if (get_value == 10000000) {
+                    $('.top-chunk-sub:eq(6)').removeClass('unselected');
+                    $('.top-chunk-sub').removeClass('selected');
+                    $('.top-chunk-sub').addClass('unselected');
+                    $('.top-chunk-sub:eq(6)').addClass('selected');
+                } else if (get_value == 50000000) {
+                    $('.top-chunk-sub:eq(7)').removeClass('unselected');
+                    $('.top-chunk-sub').removeClass('selected');
+                    $('.top-chunk-sub').addClass('unselected');
+                    $('.top-chunk-sub:eq(7)').addClass('selected');
+                } else if (get_value == 80000000) {
+                    $('.top-chunk-sub:eq(8)').removeClass('unselected');
+                    $('.top-chunk-sub').removeClass('selected');
+                    $('.top-chunk-sub').addClass('unselected');
+                    $('.top-chunk-sub:eq(8)').addClass('selected');
+                } else {
+                    $('.top-chunk-sub').removeClass('selected');
+                    $('.top-chunk-sub').addClass('unselected');
+                }
+            });
+            $('.popRegulBtn, .van-overlay, .van-dialog__cancel').click(function(e) {
+                e.preventDefault();
+                $('.van-overlay, .popRegul').fadeOut(100);
+                $('.van-dialog').addClass('display-none');
+            });
+            $('.van-dialog__confirm').click(function(e) {
+                $('.van-overlay, .popRegul').fadeOut(100);
+                $('.van-dialog').addClass('display-none');
+                window.location = "/financial/rechargeRecord";
+            });
+            $('.top-chunk-sub').on('click', function() {
+                $(this).addClass('selected').removeClass('unselected').siblings().addClass('unselected').removeClass('selected');
+            });
+            $('.top-chunk-sub:eq(0)').click(function(e) {
+                e.preventDefault();
+                $('.van-field__control').val(100000)
+            });
+            $('.top-chunk-sub:eq(1)').click(function(e) {
+                e.preventDefault();
+                $('.van-field__control').val(300000)
+            });
+            $('.top-chunk-sub:eq(2)').click(function(e) {
+                e.preventDefault();
+                $('.van-field__control').val(500000)
+            });
+            $('.top-chunk-sub:eq(3)').click(function(e) {
+                e.preventDefault();
+                $('.van-field__control').val(1000000)
+            });
+            $('.top-chunk-sub:eq(4)').click(function(e) {
+                e.preventDefault();
+                $('.van-field__control').val(3000000)
+            });
+            $('.top-chunk-sub:eq(5)').click(function(e) {
+                e.preventDefault();
+                $('.van-field__control').val(5000000)
+            });
+            $('.top-chunk-sub:eq(6)').click(function(e) {
+                e.preventDefault();
+                $('.van-field__control').val(10000000)
+            });
+            $('.top-chunk-sub:eq(7)').click(function(e) {
+                e.preventDefault();
+                $('.van-field__control').val(50000000)
+            });
+            $('.top-chunk-sub:eq(8)').click(function(e) {
+                e.preventDefault();
+                $('.van-field__control').val(80000000)
+            });
+            $('button:eq(0)').click(function(e) {
+                var valueMoney = $('.van-field__control').val().trim();
+                if (valueMoney != "" && valueMoney > 99999 && valueMoney <= 80000000) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/couleepay/recharge",
+                        data: {
+                            valueMoney: valueMoney,
+                        },
+                        dataType: "json",
+                        success: function(response) {
+                            if (response.message == 1) {
+                                setTimeout(() => {
+                                    location.href = `/couleepay/${response.id_txn}/desk`;
+                                }, 100);
+                            } else {
+                                $('.van-dialog').removeClass('display-none');
+                                $('.van-overlay').removeClass('display-none');
+                                $('.van-overlay').show();
+                            }
+                        }
+                    });
+                } else if (valueMoney == "") {
+                    $('.van-toast--text').removeClass('display-none');
+                    $('.van-toast--text .van-toast__text').text('Có thể nhập vào 1 số nguyen hoặc 1 hoặc 2 số thập phân');
+                    $("button:eq(0)").attr("disabled", "");
+                    setTimeout(() => {
+                        $('.van-toast--text').addClass('display-none');
+                        $("button:eq(0)").removeAttr("disabled");
+                    }, 1500);
+                } else if (valueMoney < 100000) {
+                    $('.van-toast--text').removeClass('display-none');
+                    $('.van-toast--text .van-toast__text').text('Số tiền nạp vào không được nhỏ hơn100000Rs');
+                    $("button:eq(0)").attr("disabled", "");
+                    setTimeout(() => {
+                        $('.van-toast--text').addClass('display-none');
+                        $("button:eq(0)").removeAttr("disabled");
+                    }, 1500);
+                } else if (valueMoney > 80000000) {
+                    $('.edwefwe').fadeIn();
+                    setTimeout(() => {
+                        $('.edwefwe').fadeOut();
+                    }, 1000);
+                }
+            });
+            $('button:eq(1)').click(function(e) {
+                e.preventDefault();
+                window.location = "rechargeRecord";
+            });
+        });
+    </script>
+</body>
+
+</html>

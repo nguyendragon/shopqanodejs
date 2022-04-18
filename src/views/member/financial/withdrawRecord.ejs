@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="description" content="a shop from vietnam.">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <title>Withdraw Record</title>
+    <link href="/css/vantjs.css" rel="stylesheet">
+    <link href="/css/vendor.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/pages__finance.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/app.css">
+    <link rel="stylesheet" type="text/css" href="/css/pages__parity.css">
+    <link rel="stylesheet" type="text/css" href="/css/pages__member.css">
+    <style>
+        .display-none {
+            display: none;
+        }
+        
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #fff;
+            z-index: 99;
+        }
+        
+        .block_click {
+            cursor: wait;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body class="">
+    <div data-v-58c67bb8="" class="layout-content">
+        <!---->
+        <div data-v-02200385="" class="order-outer-content">
+            <div data-v-02200385="" class="van-nav-bar">
+                <a onclick="history.back()">
+                    <div class="van-nav-bar__left"><i class="van-icon van-icon-arrow-left van-nav-bar__arrow"><!----></i></div>
+                </a>
+                <div class="van-nav-bar__title van-ellipsis">Lịch sử rút tiền</div>
+                <div class="van-nav-bar__right"></div>
+            </div>
+            <div data-v-02200385="">
+                <div data-v-02200385="" class="top-selete">
+                    <div data-v-02200385="" class="top-selete-sub active block_click">Áp dụng</div>
+                    <div data-v-02200385="" class="top-selete-sub">Chờ</div>
+                    <div data-v-02200385="" class="top-selete-sub">Thành công</div>
+                    <div data-v-02200385="" class="top-selete-sub">Thất bại</div>
+                </div>
+            </div>
+            <div data-v-02200385="" role="feed" class="van-list">
+                <!----->
+                <div data-v-02200385="" class="main-products">
+                    <% if (withdrawWaiting.length > 0) { %>
+                    <% for (var i = 0; i < withdrawWaiting.length; i++) { %>
+                    <div data-v-02200385="" class="reservation-booking">
+                        <div data-v-02200385="" style="margin-top: 10px;">
+                            <div data-v-02200385="" class="booking-title">
+                                <div data-v-02200385=""> No.<span data-v-02200385=""><%=withdrawWaiting[i].id_don%></span></div>
+                                <div data-v-02200385="" class="booking-title-no">
+                                <%=withdrawWaiting[i].time%>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-v-02200385="" class="van-cell-group van-hairline--top-bottom">
+                            <div data-v-02200385="" class="van-cell">
+                                <div data-v-02200385="" class="van-cell__title bold"><span data-v-02200385="">Mã IFSC：</span></div>
+                                <div data-v-02200385="" class="van-cell__value"><span data-v-02200385=""><%=withdrawWaiting[i].name_banking%></span></div>
+                            </div>
+                            <div data-v-02200385="" class="van-cell">
+                                <div data-v-02200385="" class="van-cell__title bold"><span data-v-02200385="">Số tài khoản：</span></div>
+                                <div data-v-02200385="" class="van-cell__value"><span data-v-02200385=""><%=withdrawWaiting[i].stk%></span></div>
+                            </div>
+                            <div data-v-02200385="" class="van-cell">
+                                <div data-v-02200385="" class="van-cell__title bold"><span data-v-02200385="">Số lượng：</span></div>
+                                <div data-v-02200385="" class="van-cell__value"><span data-v-02200385="">₫<%=String(withdrawWaiting[i].money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%>(fee₫<%=String(withdrawWaiting[i].fee).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%>)</span></div>
+                            </div>
+                            <div data-v-02200385="" class="van-cell">
+                                <div data-v-02200385="" class="van-cell__title bold"><span data-v-02200385="">tài khoản thực tế：</span></div>
+                                <div data-v-02200385="" class="van-cell__value"><span data-v-02200385="">₫<%=String(withdrawWaiting[i].realmoney).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%></span></div>
+                            </div>
+                            <!---->
+                            <div data-v-02200385="" class="van-cell">
+                                <div data-v-02200385="" class="van-cell__title bold"><span data-v-02200385="">Option</span></div>
+                                <div data-v-02200385="" class="van-cell__value"><button data-v-02200385="" class="van-button van-button--default van-button--small"><div data-v-02200385="" class="van-button__content"><span data-v-02200385="" class="van-button__text">Khiếu nại&nbsp;&nbsp;&gt;</span></div></button></div>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+                    <% } %>
+                </div>
+                <!----->
+                <!----->
+                <div data-v-02200385="" class="main-products display-none">
+                    <% if (withdrawSuccess.length > 0) { %>
+                    <% for (var i = 0; i < withdrawSuccess.length; i++) { %>
+                    <div data-v-02200385="" class="reservation-booking">
+                        <div data-v-02200385="" style="margin-top: 10px;">
+                            <div data-v-02200385="" class="booking-title">
+                                <div data-v-02200385=""> No.<span data-v-02200385=""><%=withdrawSuccess[i].id_don%></span></div>
+                                <div data-v-02200385="" class="booking-title-no">
+                                <%=withdrawSuccess[i].time%>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-v-02200385="" class="van-cell-group van-hairline--top-bottom">
+                            <div data-v-02200385="" class="van-cell">
+                                <div data-v-02200385="" class="van-cell__title bold"><span data-v-02200385="">Mã IFSC：</span></div>
+                                <div data-v-02200385="" class="van-cell__value"><span data-v-02200385=""><%=withdrawSuccess[i].name_banking%></span></div>
+                            </div>
+                            <div data-v-02200385="" class="van-cell">
+                                <div data-v-02200385="" class="van-cell__title bold"><span data-v-02200385="">Số tài khoản：</span></div>
+                                <div data-v-02200385="" class="van-cell__value"><span data-v-02200385=""><%=withdrawSuccess[i].stk%></span></div>
+                            </div>
+                            <div data-v-02200385="" class="van-cell">
+                                <div data-v-02200385="" class="van-cell__title bold"><span data-v-02200385="">Số lượng：</span></div>
+                                <div data-v-02200385="" class="van-cell__value"><span data-v-02200385="">₫<%=String(withdrawSuccess[i].money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%>(fee₫<%=String(withdrawSuccess[i].fee).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%>)</span></div>
+                            </div>
+                            <div data-v-02200385="" class="van-cell">
+                                <div data-v-02200385="" class="van-cell__title bold"><span data-v-02200385="">tài khoản thực tế：</span></div>
+                                <div data-v-02200385="" class="van-cell__value"><span data-v-02200385="">₫<%=String(withdrawSuccess[i].realmoney).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%></span></div>
+                            </div>
+                            <!---->
+                            <div data-v-02200385="" class="van-cell">
+                                <div data-v-02200385="" class="van-cell__title bold"><span data-v-02200385="">Option</span></div>
+                                <div data-v-02200385="" class="van-cell__value"><button data-v-02200385="" class="van-button van-button--default van-button--small"><div data-v-02200385="" class="van-button__content"><span data-v-02200385="" class="van-button__text">Khiếu nại&nbsp;&nbsp;&gt;</span></div></button></div>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+                    <% } %>
+                </div>
+                <!----->
+                <!----->
+                <div data-v-02200385="" class="main-products display-none">
+                    <% if (withdrawFail.length > 0) { %>
+                    <% for (var i = 0; i < withdrawFail.length; i++) { %>
+                    <div data-v-02200385="" class="reservation-booking">
+                        <div data-v-02200385="" style="margin-top: 10px;">
+                            <div data-v-02200385="" class="booking-title">
+                                <div data-v-02200385=""> No.<span data-v-02200385=""><%=withdrawFail[i].id_don%></span></div>
+                                <div data-v-02200385="" class="booking-title-no">
+                                <%=withdrawFail[i].time%>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-v-02200385="" class="van-cell-group van-hairline--top-bottom">
+                            <div data-v-02200385="" class="van-cell">
+                                <div data-v-02200385="" class="van-cell__title bold"><span data-v-02200385="">Mã IFSC：</span></div>
+                                <div data-v-02200385="" class="van-cell__value"><span data-v-02200385=""><%=withdrawFail[i].name_banking%></span></div>
+                            </div>
+                            <div data-v-02200385="" class="van-cell">
+                                <div data-v-02200385="" class="van-cell__title bold"><span data-v-02200385="">Số tài khoản：</span></div>
+                                <div data-v-02200385="" class="van-cell__value"><span data-v-02200385=""><%=withdrawFail[i].stk%></span></div>
+                            </div>
+                            <div data-v-02200385="" class="van-cell">
+                                <div data-v-02200385="" class="van-cell__title bold"><span data-v-02200385="">Số lượng：</span></div>
+                                <div data-v-02200385="" class="van-cell__value"><span data-v-02200385="">₫<%=String(withdrawFail[i].money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%>(fee₫<%=String(withdrawFail[i].fee).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%>)</span></div>
+                            </div>
+                            <div data-v-02200385="" class="van-cell">
+                                <div data-v-02200385="" class="van-cell__title bold"><span data-v-02200385="">tài khoản thực tế：</span></div>
+                                <div data-v-02200385="" class="van-cell__value"><span data-v-02200385="">₫<%=String(withdrawFail[i].realmoney).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%></span></div>
+                            </div>
+                            <!---->
+                            <div data-v-02200385="" class="van-cell">
+                                <div data-v-02200385="" class="van-cell__title bold"><span data-v-02200385="">Option</span></div>
+                                <div data-v-02200385="" class="van-cell__value"><button data-v-02200385="" class="van-button van-button--default van-button--small"><div data-v-02200385="" class="van-button__content"><span data-v-02200385="" class="van-button__text">Khiếu nại&nbsp;&nbsp;&gt;</span></div></button></div>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+                    <% } %>
+                </div>
+                <!----->
+                <!----->
+                <div data-v-02200385="" class="main-products display-none">
+                    <% if (withdrawClose.length > 0) { %>
+                    <% for (var i = 0; i < withdrawClose.length; i++) { %>
+                    <div data-v-02200385="" class="reservation-booking">
+                        <div data-v-02200385="" style="margin-top: 10px;">
+                            <div data-v-02200385="" class="booking-title">
+                                <div data-v-02200385=""> No.<span data-v-02200385=""><%=withdrawClose[i].id_don%></span></div>
+                                <div data-v-02200385="" class="booking-title-no">
+                                <%=withdrawClose[i].time%>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-v-02200385="" class="van-cell-group van-hairline--top-bottom">
+                            <div data-v-02200385="" class="van-cell">
+                                <div data-v-02200385="" class="van-cell__title bold"><span data-v-02200385="">Mã IFSC：</span></div>
+                                <div data-v-02200385="" class="van-cell__value"><span data-v-02200385=""><%=withdrawClose[i].name_banking%></span></div>
+                            </div>
+                            <div data-v-02200385="" class="van-cell">
+                                <div data-v-02200385="" class="van-cell__title bold"><span data-v-02200385="">Số tài khoản：</span></div>
+                                <div data-v-02200385="" class="van-cell__value"><span data-v-02200385=""><%=withdrawClose[i].stk%></span></div>
+                            </div>
+                            <div data-v-02200385="" class="van-cell">
+                                <div data-v-02200385="" class="van-cell__title bold"><span data-v-02200385="">Số lượng：</span></div>
+                                <div data-v-02200385="" class="van-cell__value"><span data-v-02200385="">₫<%=String(withdrawClose[i].money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%>(fee₫<%=String(withdrawClose[i].fee).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%>)</span></div>
+                            </div>
+                            <div data-v-02200385="" class="van-cell">
+                                <div data-v-02200385="" class="van-cell__title bold"><span data-v-02200385="">tài khoản thực tế：</span></div>
+                                <div data-v-02200385="" class="van-cell__value"><span data-v-02200385="">₫<%=String(withdrawClose[i].realmoney).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%></span></div>
+                            </div>
+                            <!---->
+                            <div data-v-02200385="" class="van-cell">
+                                <div data-v-02200385="" class="van-cell__title bold"><span data-v-02200385="">Option</span></div>
+                                <div data-v-02200385="" class="van-cell__value"><button data-v-02200385="" class="van-button van-button--default van-button--small"><div data-v-02200385="" class="van-button__content"><span data-v-02200385="" class="van-button__text">Khiếu nại&nbsp;&nbsp;&gt;</span></div></button></div>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+                    <% } %>
+                </div>
+                <!----->
+            </div>
+            <div class="van-list__finished-text">Không còn dữ liệu</div>
+            <div class="van-list__placeholder"></div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.top-selete-sub').click(function() {
+                $('.top-selete-sub').removeClass("block_click");
+                $(this).addClass("block_click");
+            });
+            $('.top-selete-sub:eq(0)').click(function() {
+                $('.top-selete-sub').removeClass('active');
+                $('.top-selete-sub:eq(0)').addClass('active');
+                $('.main-products').addClass('display-none');
+                $('.main-products:eq(0)').removeClass('display-none');
+            });
+            $('.top-selete-sub:eq(1)').click(function() {
+                $('.top-selete-sub').removeClass('active');
+                $('.top-selete-sub:eq(1)').addClass('active');
+                $('.main-products').addClass('display-none');
+                $('.main-products:eq(1)').removeClass('display-none');
+            });
+            $('.top-selete-sub:eq(2)').click(function() {
+                $('.top-selete-sub').removeClass('active');
+                $('.top-selete-sub:eq(2)').addClass('active');
+                $('.main-products').addClass('display-none');
+                $('.main-products:eq(2)').removeClass('display-none');
+            });
+            $('.top-selete-sub:eq(3)').click(function() {
+                $('.top-selete-sub').removeClass('active');
+                $('.top-selete-sub:eq(3)').addClass('active');
+                $('.main-products').addClass('display-none');
+                $('.main-products:eq(3)').removeClass('display-none');
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include('head'); -%>
+
+        <style>
+            /* Chrome, Safari, Edge, Opera */
+            
+            input::-webkit-outer-spin-button,
+            input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+            /* Firefox */
+            
+            input[type=number] {
+                -moz-appearance: textfield;
+            }
+            
+            .info-price input {
+                width: 100%;
+            }
+        </style>
+        <title>Apply ToBalance</title>
+
+</head>
+
+<body>
+    <div data-v-58c67bb8="" class="layout-content">
+        <!---->
+        <div data-v-44e02e65="">
+            <div data-v-44e02e65="" class="van-nav-bar van-nav-bar--fixed">
+                <a href="/promotion/index">
+                    <div class="van-nav-bar__left"><i class="van-icon van-icon-arrow-left van-nav-bar__arrow"><!----></i></div>
+                </a>
+                <div class="van-nav-bar__title van-ellipsis"> đề xuất rút tiền hoa hồng</div>
+                <div class="van-nav-bar__right"></div>
+            </div>
+            <div data-v-44e02e65="" class="bar-box"></div>
+            <div data-v-44e02e65="" class="ApplyBonus-content">
+                <div data-v-44e02e65="" class="info">
+                    <div data-v-44e02e65="" class="info-balance">
+                        Tiền thưởng của tôi<br data-v-44e02e65="">
+                        <span data-v-44e02e65=""> ₫ <%=String(apply[0].money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')%></span>
+                    </div>
+                    <div data-v-44e02e65="" class="info-note">
+                        <span data-v-44e02e65="">
+                            <span data-v-44e02e65="">số tiền hoa hồng tối đa mỗi lần rút:
+                            <a data-v-44e02e65="">₫2.000.000</a>
+                        </span>
+                        <span data-v-44e02e65="">số tiền hoa hồng tối thiểu mỗi lần rút:
+                            <a data-v-44e02e65="">₫5.000</a>
+                            </span>
+                        </span>
+                    </div>
+                    <div data-v-44e02e65="" class="info-title">Hoa Hồng</div>
+                    <div data-v-44e02e65="" class="info-price">
+                        <span data-v-44e02e65="">₫</span>
+                        <input data-v-44e02e65="" type="number" placeholder="Nhập số lượng hoa hồng">
+                    </div>
+                    <div data-v-44e02e65="" class="info-note">
+                        <span data-v-44e02e65="">Hoa hồng tối đa mỗi ngày 1 số lần rút tiền trong ngày !</span>
+                    </div>
+                    <div data-v-44e02e65="" class="info-time">Thời gian phục vụ</div>
+                    <div data-v-44e02e65="" class="info-note">
+                        <!---->
+                        <span data-v-44e02e65="">thứ hai: 00:00-23:00</span>
+                        <span data-v-44e02e65="">thứ ba: 00:00-23:00</span>
+                        <span data-v-44e02e65="">thứ tư: 00:00-23:00</span>
+                        <span data-v-44e02e65="">thứ năm: 00:00-23:00</span>
+                        <span data-v-44e02e65="">thứ sáu: 00:00-23:00</span>
+                        <!---->
+                    </div>
+                </div>
+                <div data-v-44e02e65="" class="ApplyBonus-btn">
+                    <button data-v-44e02e65="" class="ApplyBonus-withdraw">Gửi</button>
+                    <button data-v-44e02e65="" href="ApplyRecord" class="ApplyBonus-btn-records applyRecord">Lịch sử</button>
+                </div>
+            </div>
+            <!---->
+        </div>
+    </div>
+    <style>
+        .display-none {
+            display: none!important;
+        }
+    </style>
+    <div data-v-a922001c="" class="mark display-none">
+        <div data-v-a922001c="" class="van-loading van-loading--circular">
+            <span data-v-a922001c="" class="van-loading__spinner van-loading__spinner--circular" style="color: rgb(0, 0, 0);">
+                <svg data-v-a922001c="" viewBox="25 25 50 50" class="van-loading__circular">
+                    <circle data-v-a922001c="" cx="50" cy="50" r="20" fill="none"></circle>
+                </svg>
+            </span>
+        </div>
+    </div>
+    <div class="van-toast van-toast--middle van-toast--fail display-none" style="z-index: 2001;">
+        <i class="van-icon van-icon-fail van-toast__icon"><!----></i>
+        <div class="van-toast__text"></div>
+    </div>
+    <div class="van-toast van-toast--middle van-toast--success display-none" style="z-index: 2001;">
+        <i class="van-icon van-icon-success van-toast__icon"><!----></i>
+        <div class="van-toast__text">Thành công</div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            const weekday = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const d = new Date();
+            let h = d.getHours();
+            let day = weekday[d.getDay()];
+            $('.ApplyBonus-withdraw').click(function() {
+                var bonus = $('input').val().trim();
+                if (d.getDay() == 0 || d.getDay() == 6 || h >= 23) {
+                    $('.van-toast--fail .van-toast__text').text('Đơn đăng ký hiện không được mở');
+                    $('.van-toast--fail').removeClass('display-none');
+                    $(this).attr('disabled', true);
+                    setTimeout(() => {
+                        $(this).attr('disabled', false);
+                        $('.van-toast--fail').addClass('display-none');
+                    }, 1000);
+                } else if (bonus < 5000) {
+                    $('.van-toast--fail .van-toast__text').text('Số tiền hoa hồng cho một phiên rút nhỏ hơn giới hạn tối thiểu (₫5000)');
+                    $('.van-toast--fail').removeClass('display-none');
+                    $(this).attr('disabled', true);
+                    setTimeout(() => {
+                        $(this).attr('disabled', false);
+                        $('.van-toast--fail').addClass('display-none');
+                    }, 1000);
+                } else if (bonus > 2000000) {
+                    $('.van-toast--fail .van-toast__text').text('Số tiền hoa hồng cho một phiên rút lớn hơn giới hạn tối đa (₫2000000)');
+                    $('.van-toast--fail').removeClass('display-none');
+                    $(this).attr('disabled', true);
+                    setTimeout(() => {
+                        $(this).attr('disabled', false);
+                        $('.van-toast--fail').addClass('display-none');
+                    }, 1000);
+                } else {
+                    $.ajax({
+                        type: "POST",
+                        url: "main.php",
+                        data: {
+                            bonus: bonus,
+                        },
+                        dataType: "JSON",
+                        success: function(response) {
+                            if (response == 1) {
+                                $('.van-toast--success').removeClass('display-none');
+                                setTimeout(() => {
+                                    $('.van-toast--success').addClass('display-none');
+                                    window.location = "applyRecord";
+                                }, 1000);
+                            } else if (response == 0) {
+                                $('.van-toast--fail .van-toast__text').text('Số hoa hồng không đủ');
+                                $('.van-toast--fail').removeClass('display-none');
+                                setTimeout(() => {
+                                    $('.van-toast--fail').addClass('display-none');
+                                }, 1000);
+                            } else if (response == 2) {
+                                $('.van-toast--fail .van-toast__text').text('Mỗi ngày chỉ được thực hiện tạo đơn rút 1 lần');
+                                $('.van-toast--fail').removeClass('display-none');
+                                setTimeout(() => {
+                                    $('.van-toast--fail').addClass('display-none');
+                                }, 1000);
+                            }
+                        }
+                    });
+                }
+            });
+        });
+        $(window).on('load', function() {
+            $('.mark').addClass('display-none');
+        })
+        $('.applyRecord').click(function() {
+            window.location = "applyRecord";
+        });
+    </script>
+</body>
+
+</html>

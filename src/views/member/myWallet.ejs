@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="description" content="a shop from vietnam.">
+    <link rel="icon" href="" type="image/x-icon">
+    <link rel="shortcut icon" href="" type="image/x-icon">
+    <title>My Wallet</title>
+    <!--CSS-->
+    <link href="../css/vantjs.css" rel="stylesheet">
+    <link href="../css/vendor.css" rel="stylesheet">
+    <link href="../css/main.css" rel="stylesheet">
+    <link href="../css/pages__redenvelope.css" rel="stylesheet">
+    <link href="../css/pages__promotion.css" rel="stylesheet">
+    <!-- <script src="../js/block.js"></script> -->
+    <link rel="stylesheet" type="text/css" href="../css/app.css">
+    <link rel="stylesheet" type="text/css" href="../css/pages__parity.css">
+    <link rel="stylesheet" type="text/css" href="../css/pages__member.css">
+    <style>
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #fff;
+            z-index: 99;
+        }
+    </style>
+</head>
+
+<body class="">
+    <div class="preloader"></div>
+    <div data-v-58c67bb8="" class="layout-content">
+        <!---->
+        <div data-v-2f078118="" class="wallet-content">
+            <div data-v-2f078118="" class="nav-bar__transparent van-nav-bar van-nav-bar--fixed">
+                <a href="index">
+                    <div class="van-nav-bar__left"><i class="van-icon van-icon-arrow-left van-nav-bar__arrow"><!----></i></div>
+                </a>
+                <div class="van-nav-bar__title van-ellipsis">Ví của tôi</div>
+                <div class="van-nav-bar__right"></div>
+            </div>
+            <div data-v-2f078118="" class="bar-box"></div>
+            <div data-v-2f078118="">
+                <div data-v-2f078118="" class="top-info">
+                    <div data-v-2f078118="" class="top-info-name">
+                        <%=user.name_user%>
+                    </div>
+                    <div data-v-2f078118="" style="flex: 1 1 0%;"></div>
+                    <div data-v-2f078118="" class="top-info-avatar" style="padding: 0;">
+                        <img data-v-2f078118="" style="margin-left: -20px" src="/images/ucenter2.png">
+                    </div>
+                </div>
+                <div data-v-2f078118="" class="content">
+                    <div data-v-2f078118="" class="card">
+                        <div data-v-2f078118="" class="card-num">
+                            <span data-v-2f078118="">₫</span>
+                            <b data-v-2f078118=""><%=String(user.money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%></b>
+                        </div>
+                        <div data-v-2f078118="" class="card-title">Tổng tài sản</div>
+                        <div data-v-2f078118="" class="card-text"><span data-v-2f078118="">Tiền mặt: <%=String(user.money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%></span></div>
+                    </div>
+                    <div data-v-2f078118="" class="card-btn">
+                        <a data-v-2f078118="" url="/finance/recharge" class="card-btn-sub card-btn-subN">Nạp tiền</a>
+                        <a data-v-2f078118="" class="card-btn-sub card-btn-subR">Rút tiền</a></div>
+                </div>
+            </div>
+            <!---->
+            <!---->
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.card-btn-subR').click(function(e) {
+                window.location = "/financial/withdraw";
+            });
+        });
+        $(document).ready(function() {
+            $('.card-btn-subN').click(function(e) {
+                window.location = "/financial/recharge";
+            });
+        });
+        $(window).on('load', function() {
+            $('.preloader').delay(100).fadeOut('fast');
+        })
+    </script>
+</body>
+
+</html>

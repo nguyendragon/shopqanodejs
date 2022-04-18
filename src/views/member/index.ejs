@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="description" content="a shop from vietnam.">
+    <link rel="icon" href="" type="image/x-icon">
+    <link rel="shortcut icon" href="" type="image/x-icon">
+    <!--CSS-->
+    <link href="/css/vantjs.css" rel="stylesheet">
+    <link href="/css/vendor.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/app.css">
+    <link rel="stylesheet" type="text/css" href="/css/pages__member.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Member</title>
+</head>
+
+<body class="body">
+    <div id="preloader"></div>
+    <div class="layout-content">
+        <div class="box">
+            <div class="my-content">
+                <div data-v-5cd7994f="" class="top">
+                    <div data-v-5cd7994f="" class="top-header">
+                        <div data-v-5cd7994f="" class="top-info">
+                            <div data-v-5cd7994f="" class="top-info-avatar" style="box-sizing: content-box;">
+                                <img data-v-5cd7994f="" src="/images/ucenter2.png"></div>
+                            <div data-v-5cd7994f="" class="top-info-name" style="">
+                                <%=user.name_user%>
+                            </div>
+                            <div data-v-5cd7994f="" class="van-goods-icon">
+                                <i data-v-5cd7994f="" class="van-icon van-icon-setting-o" style="font-size: 30px;">
+                                    <!---->
+                                </i>
+                            </div>
+                        </div>
+                        <div data-v-5cd7994f="" class="top-chunk">
+                            <div data-v-5cd7994f="" class="top-chunk-sub mySent">
+                                <div data-v-5cd7994f="" class="top-chunk-sub-title">
+                                    <%=String(user.money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%>
+                                </div>
+                                <div data-v-5cd7994f="" class="top-chunk-sub-text">Số dư khả dụng</div>
+                            </div>
+                            <div data-v-5cd7994f="" class="top-chunk-sub">
+                                <div data-v-5cd7994f="" class="top-chunk-sub-title">0</div>
+                                <div data-v-5cd7994f="" class="top-chunk-sub-text">tích điểm</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Đơn hàng-->
+                    <div data-v-5cd7994f="">
+                        <div data-v-5cd7994f="" class="van-cell">
+                            <div data-v-5cd7994f="" class="van-cell__title">
+                                <span data-v-5cd7994f="">đơn hàng</span>
+                            </div>
+                            <div data-v-5cd7994f="" class="van-cell__value van-grid-item__content--center">
+                                <span data-v-5cd7994f="">Thêm&gt;</span>
+                            </div>
+                        </div>
+                        <div data-v-5cd7994f="" class="van-grid">
+                            <div data-v-5cd7994f="" class="van-grid-item" style="flex-basis: 25%;">
+                                <div class="van-grid-item__content van-grid-item__content--center">
+                                    <i class="van-icon van-icon-pending-payment van-grid-item__icon">
+                                    <!---->
+                                </i>
+                                    <span class="van-grid-item__text">Không giao hàng</span>
+                                </div>
+                            </div>
+                            <div data-v-5cd7994f="" class="van-grid-item" style="flex-basis: 25%;">
+                                <div class="van-grid-item__content van-grid-item__content--center">
+                                    <i class="van-icon van-icon-logistics van-grid-item__icon"><!----></i>
+                                    <span class="van-grid-item__text">Không nhận</span>
+                                </div>
+                            </div>
+                            <div data-v-5cd7994f="" class="grid-item-refund van-grid-item" style="flex-basis: 25%;">
+                                <div class="van-grid-item__content van-grid-item__content--center">
+                                    <i class="van-icon van-grid-item__icon"><img src="/images/refund.png" class="van-icon__image"><!----></i><span class="van-grid-item__text">Hoàn tiền</span></div>
+                            </div>
+                            <div data-v-5cd7994f="" class="van-grid-item" style="flex-basis: 25%;">
+                                <div class="van-grid-item__content van-grid-item__content--center">
+                                    <i class="van-icon van-icon-orders-o van-grid-item__icon"><!----></i>
+                                    <span class="van-grid-item__text">Tất cả đơn hàng</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-v-5cd7994f="" style="padding: 15px 0px;">
+                    <%if(user.lever == "admin" || user.lever == "boss") { %>
+                        <div data-v-5cd7994f="" role="button" tabindex="0" class="van-cell van-cell--clickable ql">
+                            <div data-v-5cd7994f="" class="van-cell__title">
+                                <span data-v-5cd7994f="">Quản lý trang web </span>
+                            </div>
+                            <i data-v-5cd7994f="" class="van-icon van-icon-arrow van-cell__right-icon"></i>
+                        </div>
+                        <% } %>
+                            <div data-v-5cd7994f="" role="button" tabindex="0" class="van-cell van-cell--clickable nv">
+                                <div data-v-5cd7994f="" class="van-cell__title">
+                                    <span data-v-5cd7994f="">Nhiệm vụ của tôi </span>
+                                </div>
+                                <i data-v-5cd7994f="" class="van-icon van-icon-arrow van-cell__right-icon">
+                        <!---->
+                    </i>
+                            </div>
+                            <div data-v-5cd7994f="" role="button" tabindex="0" class="van-cell van-cell--clickable lx">
+                                <div data-v-5cd7994f="" class="van-cell__title">
+                                    <span data-v-5cd7994f="">Bao lì xì</span>
+                                </div>
+                                <i data-v-5cd7994f="" class="van-icon van-icon-arrow van-cell__right-icon">
+                        <!---->
+                    </i>
+                            </div>
+                            <div data-v-5cd7994f="" role="button" tabindex="0" class="van-cell van-cell--clickable invite">
+                                <div data-v-5cd7994f="" class="van-cell__title">
+                                    <span data-v-5cd7994f="">Quảng cáo của tôi</span>
+                                </div>
+                                <i data-v-5cd7994f="" class="van-icon van-icon-arrow van-cell__right-icon">
+                        <!---->
+                    </i>
+                            </div>
+                            <div data-v-5cd7994f="" role="button" tabindex="0" class="van-cell van-cell--clickable my">
+                                <div data-v-5cd7994f="" class="van-cell__title">
+                                    <span data-v-5cd7994f="">Ví của tôi</span>
+                                </div>
+                                <i data-v-5cd7994f="" class="van-icon van-icon-arrow van-cell__right-icon">
+                        <!---->
+                    </i>
+                            </div>
+                            <div data-v-5cd7994f="" role="button" tabindex="0" class="van-cell van-cell--clickable banking">
+                                <div data-v-5cd7994f="" class="van-cell__title">
+                                    <span data-v-5cd7994f="">Ngân hàng của tôi</span>
+                                </div>
+                                <i data-v-5cd7994f="" class="van-icon van-icon-arrow van-cell__right-icon">
+                        <!---->
+                    </i>
+                            </div>
+                            <div data-v-5cd7994f="" role="button" tabindex="0" class="van-cell van-cell--clickable address">
+                                <div data-v-5cd7994f="" class="van-cell__title">
+                                    <span data-v-5cd7994f="">Địa chỉ của tôi</span>
+                                </div>
+                                <i data-v-5cd7994f="" class="van-icon van-icon-arrow van-cell__right-icon">
+                        <!---->
+                    </i>
+                            </div>
+                            <div data-v-5cd7994f="" role="button" tabindex="0" class="van-cell van-cell--clickable settings">
+                                <div data-v-5cd7994f="" class="van-cell__title">
+                                    <span data-v-5cd7994f="">Bảo mật tài khoản</span>
+                                </div>
+                                <i data-v-5cd7994f="" class="van-icon van-icon-arrow van-cell__right-icon">
+                        <!---->
+                    </i>
+                            </div>
+                            <div data-v-5cd7994f="" role="button" tabindex="0" class="van-cell van-cell--clickable detailBank">
+                                <div data-v-5cd7994f="" class="van-cell__title">
+                                    <span data-v-5cd7994f="">Chi tiết tài chính</span>
+                                </div>
+                                <i data-v-5cd7994f="" class="van-icon van-icon-arrow van-cell__right-icon">
+                        <!---->
+                    </i>
+                            </div>
+                            <div data-v-5cd7994f="" role="button" tabindex="0" class="van-cell van-cell--clickable about">
+                                <div data-v-5cd7994f="" class="van-cell__title">
+                                    <span data-v-5cd7994f="">Về chúng tôi</span>
+                                </div>
+                                <i data-v-5cd7994f="" class="van-icon van-icon-arrow van-cell__right-icon">
+                        <!---->
+                    </i>
+                            </div>
+                            <div data-v-5cd7994f="" role="button" tabindex="0" class="van-cell van-cell--clickable ContactUs">
+                                <div data-v-5cd7994f="" class="van-cell__title">
+                                    <span data-v-5cd7994f="">Liên hệ chúng tôi</span>
+                                </div>
+                                <i data-v-5cd7994f="" class="van-icon van-icon-arrow van-cell__right-icon">
+                        <!---->
+                    </i>
+                            </div>
+                            <div data-v-5cd7994f="" role="button" tabindex="0" class="van-cell van-cell--clickable complaint">
+                                <div data-v-5cd7994f="" class="van-cell__title">
+                                    <span data-v-5cd7994f="">Khiếu nại &amp; Gợi ý</span>
+                                </div>
+                                <i data-v-5cd7994f="" class="van-icon van-icon-arrow van-cell__right-icon">
+                        <!---->
+                    </i>
+                            </div>
+                            <div data-v-5cd7994f="" role="button" tabindex="0" class="van-cell van-cell--clickable cache">
+                                <div data-v-5cd7994f="" class="van-cell__title">
+                                    <span data-v-5cd7994f="">Buộc xóa bộ nhớ cache</span>
+                                </div>
+                                <i data-v-5cd7994f="" class="van-icon van-icon-arrow van-cell__right-icon">
+                        <!---->
+                    </i>
+                            </div>
+                            <div data-v-5cd7994f="" class="van-cell logout">
+                                <div data-v-5cd7994f="" class="van-cell__title">
+                                    <span data-v-5cd7994f="">Đăng xuất</span>
+                                </div>
+                                <i data-v-5cd7994f="" class="van-icon van-icon-arrow" style="line-height: inherit;">
+                        <!---->
+                    </i>
+                            </div>
+                </div>
+
+                <div data-v-9241de2e="" class="site-tabbar">
+                    <div class="bottom-bar van-hairline--top-bottom van-tabbar van-tabbar--fixed">
+                        <div class="van-tabbar-item van-member-item1">
+                            <div class="van-tabbar-item__icon">
+                                <img class="img1" src="/images/home.png">
+                                <!---->
+                            </div>
+                            <div class="van-tabbar-item__text">
+                                <span>Trang chủ</span>
+                            </div>
+                        </div>
+                        <div class="van-tabbar-item van-member-item2">
+                            <div class="van-tabbar-item__icon">
+                                <img class="img2" src="/images/parity1.png">
+                                <!---->
+                            </div>
+                            <div class="van-tabbar-item__text">
+                                <span>winGO</span>
+                            </div>
+                        </div>
+                        <div class="van-tabbar-item van-member-item3 van-tabbar-item--active">
+                            <div class="van-tabbar-item__icon">
+                                <img class="img3" src="/images/ucenter1.png">
+                                <!---->
+                            </div>
+                            <div class="van-tabbar-item__text">
+                                <span>Của tôi</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="van-overlay" style="z-index: 2013;display: none;"></div>
+    <div role="dialog" class="van-dialog showCache" style="display: none;" aria-labelledby="Buộc xóa bộ nhớ cache?">
+        <div class="van-dialog__content van-dialog__content--isolated">
+            <div class="van-dialog__message">Buộc xóa bộ nhớ cache?</div>
+        </div>
+        <div class="van-hairline--top van-dialog__footer">
+            <button class="van-button van-button--default van-button--large van-dialog__cancel">
+            <div class="van-button__content">
+                <span class="van-button__text">Hủy</span>
+            </div>
+        </button>
+            <button class="van-button van-button--default van-button--large van-dialog__confirm van-hairline--left">
+            <div class="van-button__content">
+                <span class="van-button__text">Xác nhận</span>
+            </div>
+        </button>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="/js/chuck.core.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+
+</html>

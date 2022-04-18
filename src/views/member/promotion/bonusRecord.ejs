@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include('head'); -%>
+        <style>
+            .block_click {
+                cursor: wait;
+                pointer-events: none;
+            }
+        </style>
+        <title>Detail of sub Commision</title>
+</head>
+
+<body>
+    <div data-v-58c67bb8="" class="layout-content">
+        <!---->
+        <div data-v-a981e7e0="">
+            <div data-v-a981e7e0="" class="van-nav-bar">
+                <a href="index">
+                    <div class="van-nav-bar__left"><i class="van-icon van-icon-arrow-left van-nav-bar__arrow"><!----></i></div>
+                </a>
+                <div class="van-nav-bar__title van-ellipsis">Chi tiết hoa hồng</div>
+                <div class="van-nav-bar__right"></div>
+            </div>
+            <div data-v-a981e7e0="" class="detail-header">
+                <div data-v-a981e7e0="" class="top-selete">
+                    <div data-v-a981e7e0="" class="top-selete-sub active block_click">Cấp 1</div>
+                    <div data-v-a981e7e0="" class="top-selete-sub">Cấp 2</div>
+                </div>
+                <div data-v-a981e7e0="" class="reservation-chunk">
+                    <div data-v-a981e7e0="" class="reservation-chunk-sub">
+                        <div data-v-a981e7e0="" class="reservation-chunk-sub-title">Tổng cộng số người</div>
+                        <div data-v-a981e7e0="" class="reservation-chunk-sub-num"><b data-v-a981e7e0=""><?=$f1?></b></div>
+                    </div>
+                    <div data-v-a981e7e0="" class="reservation-chunk-sub">
+                        <div data-v-a981e7e0="" class="reservation-chunk-sub-title">lợi nhuận quảng cáo(₫)</div>
+                        <div data-v-a981e7e0="" class="reservation-chunk-sub-num"><b data-v-a981e7e0="">₫<?=money($info_bonus['hh_f1'])?></b></div>
+                    </div>
+                </div>
+            </div>
+            <div data-v-a981e7e0="" class="container">
+                <div data-v-a981e7e0="" role="feed" class="van-list">
+                    <?php include "load_hh_f1.php"; ?>
+                </div>
+                <div class="van-list__finished-text">Không còn dữ liệu</div>
+                <div class="van-list__placeholder"></div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.top-selete-sub').click(function(e) {
+                e.preventDefault();
+                $('.top-selete-sub').toggleClass('active');
+            });
+        });
+    </script>
+    <script>
+        $('.top-selete-sub').click(function() {
+            $('.top-selete-sub').removeClass("block_click");
+            $(this).addClass("block_click");
+        });
+        $(document).ready(function() {
+            $('.top-selete-sub:eq(0)').click(function() {
+                $('.top-selete-sub:eq(0)').addClass('active');
+                $('.top-selete-sub:eq(1)').removeClass('active');
+                $('.reservation-chunk-sub-num:eq(0) b').html('<?=$f1?>');
+                $('.reservation-chunk-sub-num:eq(1) b').html('<?='₫
+                    '.money($info_bonus['
+                    hh_f1 '])?>');
+                $('.van-list').load('load_hh_f1.php');
+            });
+            $('.top-selete-sub:eq(1)').click(function() {
+                $('.top-selete-sub:eq(1)').addClass('active');
+                $('.top-selete-sub:eq(0)').removeClass('active');
+                $('.reservation-chunk-sub-num:eq(0) b').html('<?php if($f2 != "") { echo $f2; } else { echo 0; } ?>');
+                $('.reservation-chunk-sub-num:eq(1) b').html('<?='₫
+                    '.money($info_bonus['
+                    hh_f2 '])?>');
+                $('.van-list').load('load_hh_f2.php');
+            });
+        });
+    </script>
+</body>
+
+</html>

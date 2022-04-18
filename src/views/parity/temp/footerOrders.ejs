@@ -1,0 +1,133 @@
+<div role="feed" class="van-list">
+    <%  if(history_order.length > 0) {%>
+        <% for(var i = 0; i < history_order.length;i++) { %>
+            
+            <div class="order-box">
+                <div class="top">
+                    <em>₫</em>
+                    <span class="money"><%=String(history_order[i].so_tien_cuoc).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%></span>
+                    <div>kim ngạch thỏa thuận </div>
+                    <span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;<%=history_order[i].time_buy%></span>
+                </div>
+                <div class="other">
+                    <div class="left">
+                        <div class="item flex-box">
+                            <span class="auto">Giai đoạn</span>
+                            <!--Giai đoạn-->
+                            <b><%=history_order[i].giai_doan%></b>
+                            <!--Giai đoạn-->
+                        </div>
+                        <div class="item flex-box">
+                            <span class="auto">Trạng thái</span>
+                            <!--trạng thái-->
+                            <% if(history_order[i].status == 0) { %>
+                                <b>Chờ</b>
+                            <% } %>
+                            <% if(history_order[i].status == 1) { %>
+                                <b style="color: rgb(30, 184, 63);">Thành công</b>
+                            <% } %>
+                            <% if(history_order[i].status == 2) { %>
+                                <b style="color: rgb(245, 41, 38);">Thất bại</b>
+                            <% } %>
+                            <!--trạng thái-->
+                        </div>
+                        <div class="item flex-box">
+                            <!--Giá mở bán-->
+                            <% if(history_order[i].status == 0) { %>
+                            <span class="auto">Thời gian mở bán</span>
+                            <b>Chờ</b>
+                            <% } %>
+                            <% if(history_order[i].status != 0) { %>
+                                <span class="auto">Giá mở bán</span>
+                                <b><%=String(history_order[i].ket_qua).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%></b>
+                            <% } %>
+                            <!--Giá mở bán-->
+                        </div>
+                        <div class="item flex-box">
+                            <!--Kết quả-->
+                            <% if(String(history_order[i].ket_qua).split("")[5] == "1" || String(history_order[i].ket_qua).split("")[5] == "3" || String(history_order[i].ket_qua).split("")[5] == "7" || String(history_order[i].ket_qua).split("")[5] == "9") { %>
+                                <span class="auto">Kết quả</span>
+                                <b style="color: rgb(30, 184, 63);">
+                                    <b style="color: rgb(0, 122, 204);"><%=String(history_order[i].ket_qua).split("")[5]%></b> Xanh
+                                </b>
+                            <% } %>
+                            <% if(String(history_order[i].ket_qua).split("")[5] == "2" || String(history_order[i].ket_qua).split("")[5] == "4" || String(history_order[i].ket_qua).split("")[5] == "6" || String(history_order[i].ket_qua).split("")[5] == "8") { %>
+                                <span class="auto">Kết quả</span>
+                                <b style="color: rgb(245, 41, 38);">
+                                    <b style="color: rgb(0, 122, 204);"><%=String(history_order[i].ket_qua).split("")[5]%></b> Đỏ
+                                </b>
+                            <% } %>
+                            <% if(String(history_order[i].ket_qua).split("")[5] == "5") { %>
+                                <span class="auto">Kết quả</span>
+                                <b style="color: rgb(30, 184, 63);">
+                                    <b style="color: rgb(0, 122, 204);"><%=String(history_order[i].ket_qua).split("")[5]%></b> Xanh
+                                    <b style="color: rgb(232, 57, 241);">Tím</b>
+                                </b>
+                            <% } %>
+                            <% if(String(history_order[i].ket_qua).split("")[5] == "0") { %>
+                                <span class="auto">Kết quả</span>
+                                <b style="color: rgb(245, 41, 38);">
+                                    <b style="color: rgb(0, 122, 204);"><%=String(history_order[i].ket_qua).split("")[5]%></b> Đỏ
+                                    <b style="color: rgb(232, 57, 241);">Tím</b>
+                                </b>
+                            <% } %>
+                            <!--Kết quả-->
+                        </div>
+                    </div>
+                    <div class="right">
+                        <div class="item flex-box">
+                            <span class="auto">Chọn</span>
+                            <!--Chọn-->
+                            <% if(history_order[i].chon == "t") { %>
+                            <b style="color: rgb(234, 58, 240);">Tím</b>
+                            <% } %>
+                            <% if(history_order[i].chon == "d") { %>
+                                <b style="color: rgb(245, 41, 38);">Đỏ</b>
+                            <% } %>
+                            <% if(history_order[i].chon == "x") { %>
+                                <b style="color: rgb(30, 184, 63);">Xanh</b>
+                            <% } %>
+                            <% if(history_order[i].chon != "d" && history_order[i].chon != "x" && history_order[i].chon != "t") { %>
+                                <b style="color: rgb(0, 122, 204);"><%=history_order[i].chon%></b>
+                            <% } %>
+                            <!--Chọn-->
+                        </div>
+                        <div class="item flex-box">
+                            <span class="auto">Giao hàng</span>
+                            <!--Giao hàng-->
+                            <b><%=String(history_order[i].giao_hang).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%></b>
+                            <!--Giao hàng-->
+                        </div>
+                        <div class="item flex-box">
+                            <span class="auto">Phí dịch vụ</span>
+                            <!--Phí dịch vụ-->
+                            <b><%=String(history_order[i].phi_dich_vu).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%></b>
+                            <!--Phí dịch vụ-->
+                        </div>
+                        <div class="item flex-box">
+                            <!--Số lượng-->
+                            <% if(history_order[i].status == 2) { %>
+                                <span class="auto">Số lượng</span>
+                                <b style="color: rgb(245, 41, 38);">
+                                <b>-</b> <%=String(history_order[i].giao_hang).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%></b>
+                            <% } %>
+                            <% if(history_order[i].status == 1) { %>
+                                <span class="auto">Số lượng</span>
+                                <b style="color: rgb(30, 184, 63);">
+                                <b>+</b> <%=String(history_order[i].nhan_duoc).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%></b>
+                            <% } %>
+                            <!--Số lượng-->
+                        </div>
+                    </div>
+                </div>
+                <div class="end-time">
+                    <button class="van-button van-button--default van-button--small complaints">
+                    <div class="van-button__content">
+                        <span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>
+                    </div>
+                </button>
+                </div>
+            </div>
+        <% } %>
+    <% } %>
+</div>

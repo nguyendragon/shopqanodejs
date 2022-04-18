@@ -1,0 +1,1938 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="description" content="a shop from vietnam.">
+    <link rel="icon" href="" type="image/x-icon">
+    <link rel="shortcut icon" href="" type="image/x-icon">
+    <title>Pairty order</title>
+    <!--CSS-->
+    <link href="/css/vantjs.css" rel="stylesheet">
+    <link href="/css/vendor.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/app.css">
+    <link rel="stylesheet" type="text/css" href="/css/pages__parity.css">
+    <link rel="stylesheet" type="text/css" href="/css/pages__member.css">
+    <link rel="stylesheet" type="text/css" href="/css/pages__promotion.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .block_click {
+            cursor: wait;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div data-v-58c67bb8="" class="layout-content">
+        <!---->
+        <div data-v-99b33750="">
+            <div data-v-99b33750="" class="van-nav-bar">
+                <a href="/parity/tran">
+                    <div class="van-nav-bar__left">
+                        <i class="van-icon van-icon-arrow-left van-nav-bar__arrow">
+                            <!---->
+                        </i>
+                    </div>
+                </a>
+                <div class="van-nav-bar__title van-ellipsis">Lwrth Đơn hàng</div>
+                <div class="van-nav-bar__right"></div>
+            </div>
+            <div data-v-99b33750="">
+                <div data-v-99b33750="" class="order-outer-content">
+                    <div data-v-99b33750="" class="top-selete">
+                        <div data-v-99b33750="" class="top-selete-sub">Đơn hàng đang chờ</div>
+                        <div data-v-99b33750="" class="top-selete-sub active block_click">Lịch sử đặt hàng</div>
+                    </div>
+                    <div data-v-99b33750="" class="reservation-chunk">
+                        <div data-v-99b33750="" class="reservation-chunk-sub">
+                            <div data-v-99b33750="" class="reservation-chunk-sub-title">Số dư khả dụng</div>
+                            <div data-v-99b33750="" class="reservation-chunk-sub-num">
+                                <%=String(user[0].money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%>
+                            </div>
+                        </div>
+                        <div data-v-99b33750="" class="reservation-chunk-sub">
+                            <div data-v-99b33750="" class="reservation-chunk-sub-title">Giao dịch phần thưởng đang chờ</div>
+                            <div data-v-99b33750="" class="reservation-chunk-sub-num">0</div>
+                        </div>
+                    </div>
+                </div>
+                <div data-v-99b33750="" class="order-content">
+                    <div role="feed" class="van-list display-none">
+
+                    </div>
+                    <div role="feed" class="van-list">
+
+                    </div>
+                    <div class="van-list__finished-text"></div>
+                    <div class="van-list__placeholder"></div>
+                </div>
+            </div>
+            <!---->
+        </div>
+    </div>
+    <!-- <div class="van-list__loading">
+        <div class="van-loading van-loading--circular"><span class="van-loading__spinner van-loading__spinner--circular" style="width: 16px; height: 16px;"><svg viewBox="25 25 50 50" class="van-loading__circular"><circle cx="50" cy="50" r="20" fill="none"></circle></svg></span>
+            <span class="van-loading__text">Đang tải...</span>
+        </div>
+    </div> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $('.top-selete-sub').click(function() {
+            $('.top-selete-sub').removeClass("block_click");
+            $(this).addClass("block_click");
+        });
+        $(document).ready(function() {
+            $(".top-selete-sub:eq(0)").on("click", function() {
+                $('.top-selete-sub:eq(0)').addClass('active');
+                $('.top-selete-sub:eq(1)').removeClass('active');
+                $('.van-list:eq(1)').addClass('display-none');
+                $('.van-list:eq(0)').removeClass('display-none');
+            });
+            $(".top-selete-sub:eq(1)").on("click", function() {
+                $('.top-selete-sub:eq(1)').addClass('active');
+                $('.top-selete-sub:eq(0)').removeClass('active');
+                $('.van-list:eq(0)').addClass('display-none');
+                $('.van-list:eq(1)').removeClass('display-none');
+            });
+        });
+    </script>
+    <script>
+        function formatMoney(money) {
+            return String(money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+        }
+        $(document).ready(function() {
+            var limit = 15;
+            var start = 0;
+            var action = 'inactive';
+
+            function load_country_data(limit, start) {
+                $.ajax({
+                    url: "/parity/orderWoipy",
+                    method: "POST",
+                    data: {
+                        limit: limit,
+                        start: start
+                    },
+                    cache: false,
+                    success: function(data) {
+                        const datas = JSON.parse(data);
+                        const chon = datas.chon.split(',');
+                        const giai_doan = datas.giai_doan.split(',');
+                        const giao_hang = datas.giao_hang.split(',');
+                        const ket_qua = datas.ket_qua.split(','); // VD: 208120
+                        const nhan_duoc = datas.nhan_duoc.split(',');
+                        const phi_dich_vu = datas.phi_dich_vu.split(',');
+                        const so_tien_cuoc = datas.so_tien_cuoc.split(',');
+                        const status = datas.status.split(',');
+                        const time_buy = datas.time_buy.split(',');
+                        const time_end = datas.time_end.split(',');
+                        for (let i = 0; i < ket_qua.length; i++) {
+                            const ket_qua1 = formatMoney(ket_qua[i]);
+                            const ket_qua2 = String(ket_qua[i]).split("")[5]; // VD: 0
+                            const money = formatMoney(so_tien_cuoc[i]);
+                            const chon1 = chon[i];
+                            const status1 = status[i];
+                            const giai_doan1 = giai_doan[i];
+                            const nhan_duoc1 = formatMoney(nhan_duoc[i]);
+                            const giao_hang1 = formatMoney(giao_hang[i]);
+                            const phi_dich_vu1 = formatMoney(phi_dich_vu[i]);
+                            const time_buy1 = time_buy[i].replace(".", ",");
+                            const time_end1 = time_end[i].replace(".", ",");
+                            if (chon1 == "d") {
+                                if (status1 == "1") {
+                                    if (ket_qua2 != "0") {
+                                        $('.van-list:eq(1)').append(
+                                            `<div class="order-box">` +
+                                            `<div class="top">` +
+                                            `<em>₫</em>` +
+                                            `<span class="money">${money}</span>` +
+                                            `<div>kim ngạch thỏa thuận </div>` +
+                                            `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                            `</div>` +
+                                            `<div class="other">` +
+                                            `<div class="left">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giai đoạn</span>` +
+                                            `<b>${giai_doan1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Trạng thái</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">Thành công</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giá mở bán</span>` +
+                                            `<b>${ket_qua1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Kết quả</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">` +
+                                            `<b style="color: rgb(0, 122, 204);">${ket_qua2}</b> Đỏ` +
+                                            `</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="right">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Chọn</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">Đỏ</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giao hàng</span>` +
+                                            `<b>${giao_hang1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Phí dịch vụ</span>` +
+                                            `<b>${phi_dich_vu1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Số lượng</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">` +
+                                            `<b>+</b> ${nhan_duoc1}</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                            `<div class="van-button__content">` +
+                                            `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                            `</div>` +
+                                            `</button>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<span class="auto">Thời gian dừng ${time_end1}</span>` +
+                                            `</div>` +
+                                            `</div>`
+                                        );
+                                    } else if (ket_qua2 == "0") {
+                                        $('.van-list:eq(1)').append(
+                                            `<div class="order-box">` +
+                                            `<div class="top">` +
+                                            `<em>₫</em>` +
+                                            `<span class="money">${money}</span>` +
+                                            `<div>kim ngạch thỏa thuận </div>` +
+                                            `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                            `</div>` +
+                                            `<div class="other">` +
+                                            `<div class="left">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giai đoạn</span>` +
+                                            `<b>${giai_doan1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Trạng thái</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">Thành công</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giá mở bán</span>` +
+                                            `<b>${ket_qua1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Kết quả</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">` +
+                                            `<b style="color: rgb(0, 122, 204);">${ket_qua2}</b> Đỏ` +
+                                            `<b style="color: rgb(232, 57, 241);"> Tím</b>` +
+                                            `</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="right">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Chọn</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">Đỏ</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giao hàng</span>` +
+                                            `<b>${giao_hang1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Phí dịch vụ</span>` +
+                                            `<b>${phi_dich_vu1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Số lượng</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">` +
+                                            `<b>+</b> ${nhan_duoc1}</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                            `<div class="van-button__content">` +
+                                            `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                            `</div>` +
+                                            `</button>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<span class="auto">Thời gian dừng ${time_end1}</span>` +
+                                            `</div>` +
+                                            `</div>`
+                                        );
+                                    }
+                                } else if (status1 == "2") {
+                                    if (ket_qua2 != "5") {
+                                        $('.van-list:eq(1)').append(
+                                            `<div class="order-box">` +
+                                            `<div class="top">` +
+                                            `<em>₫</em>` +
+                                            `<span class="money">${money}</span>` +
+                                            `<div>kim ngạch thỏa thuận </div>` +
+                                            `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                            `</div>` +
+                                            `<div class="other">` +
+                                            `<div class="left">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giai đoạn</span>` +
+                                            `<b>${giai_doan1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Trạng thái</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">Thất bại</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giá mở bán</span>` +
+                                            `<b>${ket_qua1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Kết quả</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">` +
+                                            `<b style="color: rgb(30, 184, 63);">
+                                    <b style="color: rgb(0, 122, 204);">${ket_qua2}</b>
+                                    Xanh lục</b>` +
+                                            `</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="right">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Chọn</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">Đỏ</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giao hàng</span>` +
+                                            `<b>${giao_hang1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Phí dịch vụ</span>` +
+                                            `<b>${phi_dich_vu1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Số lượng</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">` +
+                                            `<b>-</b> ${giao_hang1}</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                            `<div class="van-button__content">` +
+                                            `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                            `</div>` +
+                                            `</button>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<span class="auto">Thời gian dừng ${time_end1}</span>` +
+                                            `</div>` +
+                                            `</div>`
+                                        );
+                                    } else if (ket_qua2 == "5") {
+                                        $('.van-list:eq(1)').append(
+                                            `<div class="order-box">` +
+                                            `<div class="top">` +
+                                            `<em>₫</em>` +
+                                            `<span class="money">${money}</span>` +
+                                            `<div>kim ngạch thỏa thuận </div>` +
+                                            `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                            `</div>` +
+                                            `<div class="other">` +
+                                            `<div class="left">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giai đoạn</span>` +
+                                            `<b>${giai_doan1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Trạng thái</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">Thất bại</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giá mở bán</span>` +
+                                            `<b>${ket_qua1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Kết quả</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">` +
+                                            `<b style="color: rgb(0, 122, 204);">${ket_qua2}</b> Xanh lục` +
+                                            `<b style="color: rgb(232, 57, 241);"> Tím</b>` +
+                                            `</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="right">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Chọn</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">Đỏ</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giao hàng</span>` +
+                                            `<b>${giao_hang1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Phí dịch vụ</span>` +
+                                            `<b>${phi_dich_vu1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Số lượng</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">` +
+                                            `<b>-</b> ${giao_hang1}</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                            `<div class="van-button__content">` +
+                                            `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                            `</div>` +
+                                            `</button>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<span class="auto">Thời gian dừng ${time_end1}</span>` +
+                                            `</div>` +
+                                            `</div>`
+                                        );
+                                    }
+                                } else if (status1 == "0") {
+                                    $('.van-list:eq(1)').append(
+                                        `<div class="order-box">` +
+                                        `<div class="top">` +
+                                        `<em>₫</em>` +
+                                        `<span class="money">${money}</span>` +
+                                        `<div>kim ngạch thỏa thuận </div>` +
+                                        `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                        `</div>` +
+                                        `<div class="other">` +
+                                        `<div class="left">` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Giai đoạn</span>` +
+                                        `<b>${giai_doan1}</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Trạng thái</span>` +
+                                        `<b>Chờ</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Thời gian mở bán</span>` +
+                                        `<b>Chờ</b>` +
+                                        `</div>` +
+                                        `</div>` +
+                                        `<div class="right">` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Chọn</span>` +
+                                        `<b style="color: rgb(245, 41, 38);">Đỏ</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Giao hàng</span>` +
+                                        `<b>${giao_hang1}</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Phí dịch vụ</span>` +
+                                        `<b>${phi_dich_vu1}</b>` +
+                                        `</div>` +
+                                        `</div>` +
+                                        `</div>` +
+                                        `<div class="end-time">` +
+                                        `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                        `<div class="van-button__content">` +
+                                        `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                        `</div>` +
+                                        `</button>` +
+                                        `</div>` +
+                                        `</div>`
+                                    );
+                                }
+                            }
+                            if (chon1 == "x") {
+                                if (status1 == "1") {
+                                    if (ket_qua2 != "5") {
+                                        $('.van-list:eq(1)').append(
+                                            `<div class="order-box">` +
+                                            `<div class="top">` +
+                                            `<em>₫</em>` +
+                                            `<span class="money">${money}</span>` +
+                                            `<div>kim ngạch thỏa thuận </div>` +
+                                            `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                            `</div>` +
+                                            `<div class="other">` +
+                                            `<div class="left">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giai đoạn</span>` +
+                                            `<b>${giai_doan1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Trạng thái</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">Thành công</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giá mở bán</span>` +
+                                            `<b>${ket_qua1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Kết quả</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">` +
+                                            `<b style="color: rgb(0, 122, 204);">${ket_qua2}</b> Xanh lục` +
+                                            `</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="right">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Chọn</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">Xanh lục</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giao hàng</span>` +
+                                            `<b>${giao_hang1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Phí dịch vụ</span>` +
+                                            `<b>${phi_dich_vu1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Số lượng</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">` +
+                                            `<b>+</b> ${nhan_duoc1}</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                            `<div class="van-button__content">` +
+                                            `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                            `</div>` +
+                                            `</button>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<span class="auto">Thời gian dừng ${time_end1}</span>` +
+                                            `</div>` +
+                                            `</div>`
+                                        );
+                                    } else if (ket_qua2 == "5") {
+                                        $('.van-list:eq(1)').append(
+                                            `<div class="order-box">` +
+                                            `<div class="top">` +
+                                            `<em>₫</em>` +
+                                            `<span class="money">${money}</span>` +
+                                            `<div>kim ngạch thỏa thuận </div>` +
+                                            `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                            `</div>` +
+                                            `<div class="other">` +
+                                            `<div class="left">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giai đoạn</span>` +
+                                            `<b>${giai_doan1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Trạng thái</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">Thành công</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giá mở bán</span>` +
+                                            `<b>${ket_qua1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Kết quả</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">` +
+                                            `<b style="color: rgb(0, 122, 204);">${ket_qua2}</b> Xanh lục` +
+                                            `<b style="color: rgb(232, 57, 241);"> Tím</b>` +
+                                            `</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="right">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Chọn</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">Xanh lục</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giao hàng</span>` +
+                                            `<b>${giao_hang1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Phí dịch vụ</span>` +
+                                            `<b>${phi_dich_vu1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Số lượng</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">` +
+                                            `<b>+</b> ${nhan_duoc1}</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                            `<div class="van-button__content">` +
+                                            `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                            `</div>` +
+                                            `</button>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<span class="auto">Thời gian dừng ${time_end1}</span>` +
+                                            `</div>` +
+                                            `</div>`
+                                        );
+                                    }
+                                } else if (status1 == "2") {
+                                    if (ket_qua2 != "0") {
+                                        $('.van-list:eq(1)').append(
+                                            `<div class="order-box">` +
+                                            `<div class="top">` +
+                                            `<em>₫</em>` +
+                                            `<span class="money">${money}</span>` +
+                                            `<div>kim ngạch thỏa thuận </div>` +
+                                            `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                            `</div>` +
+                                            `<div class="other">` +
+                                            `<div class="left">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giai đoạn</span>` +
+                                            `<b>${giai_doan1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Trạng thái</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">Thất bại</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giá mở bán</span>` +
+                                            `<b>${ket_qua1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Kết quả</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">` +
+                                            `<b style="color: rgb(0, 122, 204);">${ket_qua2}</b> Đỏ` +
+                                            `</b>` +
+                                            `</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="right">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Chọn</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">Xanh lục</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giao hàng</span>` +
+                                            `<b>${giao_hang1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Phí dịch vụ</span>` +
+                                            `<b>${phi_dich_vu1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Số lượng</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">` +
+                                            `<b>-</b> ${giao_hang1}</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                            `<div class="van-button__content">` +
+                                            `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                            `</div>` +
+                                            `</button>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<span class="auto">Thời gian dừng ${time_end1}</span>` +
+                                            `</div>` +
+                                            `</div>`
+                                        );
+                                    } else if (ket_qua2 == "0") {
+                                        $('.van-list:eq(1)').append(
+                                            `<div class="order-box">` +
+                                            `<div class="top">` +
+                                            `<em>₫</em>` +
+                                            `<span class="money">${money}</span>` +
+                                            `<div>kim ngạch thỏa thuận </div>` +
+                                            `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                            `</div>` +
+                                            `<div class="other">` +
+                                            `<div class="left">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giai đoạn</span>` +
+                                            `<b>${giai_doan1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Trạng thái</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">Thất bại</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giá mở bán</span>` +
+                                            `<b>${ket_qua1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Kết quả</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">` +
+                                            `<b style="color: rgb(0, 122, 204);">${ket_qua2}</b> Đỏ` +
+                                            `<b style="color: rgb(232, 57, 241);"> Tím</b>` +
+                                            `</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="right">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Chọn</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">Xanh lục</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giao hàng</span>` +
+                                            `<b>${giao_hang1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Phí dịch vụ</span>` +
+                                            `<b>${phi_dich_vu1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Số lượng</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">` +
+                                            `<b>-</b> ${giao_hang1}</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                            `<div class="van-button__content">` +
+                                            `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                            `</div>` +
+                                            `</button>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<span class="auto">Thời gian dừng ${time_end1}</span>` +
+                                            `</div>` +
+                                            `</div>`
+                                        );
+                                    }
+                                } else if (status1 == "0") {
+                                    $('.van-list:eq(1)').append(
+                                        `<div class="order-box">` +
+                                        `<div class="top">` +
+                                        `<em>₫</em>` +
+                                        `<span class="money">${money}</span>` +
+                                        `<div>kim ngạch thỏa thuận </div>` +
+                                        `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                        `</div>` +
+                                        `<div class="other">` +
+                                        `<div class="left">` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Giai đoạn</span>` +
+                                        `<b>${giai_doan1}</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Trạng thái</span>` +
+                                        `<b>Chờ</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Thời gian mở bán</span>` +
+                                        `<b>Chờ</b>` +
+                                        `</div>` +
+                                        `</div>` +
+                                        `<div class="right">` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Chọn</span>` +
+                                        `<b style="color: rgb(30, 184, 63);">Xanh lục</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Giao hàng</span>` +
+                                        `<b>${giao_hang1}</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Phí dịch vụ</span>` +
+                                        `<b>${phi_dich_vu1}</b>` +
+                                        `</div>` +
+                                        `</div>` +
+                                        `</div>` +
+                                        `<div class="end-time">` +
+                                        `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                        `<div class="van-button__content">` +
+                                        `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                        `</div>` +
+                                        `</button>` +
+                                        `</div>` +
+                                        `</div>`
+                                    );
+                                }
+                            }
+                            if (chon1 == "t") {
+                                if (status1 == "1") {
+                                    if (ket_qua2 == "0") {
+                                        $('.van-list:eq(1)').append(
+                                            `<div class="order-box">` +
+                                            `<div class="top">` +
+                                            `<em>₫</em>` +
+                                            `<span class="money">${money}</span>` +
+                                            `<div>kim ngạch thỏa thuận </div>` +
+                                            `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                            `</div>` +
+                                            `<div class="other">` +
+                                            `<div class="left">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giai đoạn</span>` +
+                                            `<b>${giai_doan1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Trạng thái</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">Thành công</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giá mở bán</span>` +
+                                            `<b>${ket_qua1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Kết quả</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">` +
+                                            `<b style="color: rgb(0, 122, 204);">${ket_qua2}</b> Đỏ` +
+                                            `<b style="color: rgb(232, 57, 241);"> Tím</b>` +
+                                            `</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="right">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Chọn</span>` +
+                                            `<b style="color: rgb(232, 57, 241);"> Tím</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giao hàng</span>` +
+                                            `<b>${giao_hang1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Phí dịch vụ</span>` +
+                                            `<b>${phi_dich_vu1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Số lượng</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">` +
+                                            `<b>+</b> ${nhan_duoc1}</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                            `<div class="van-button__content">` +
+                                            `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                            `</div>` +
+                                            `</button>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<span class="auto">Thời gian dừng ${time_end1}</span>` +
+                                            `</div>` +
+                                            `</div>`
+                                        );
+                                    } else if (ket_qua2 == "5") {
+                                        $('.van-list:eq(1)').append(
+                                            `<div class="order-box">` +
+                                            `<div class="top">` +
+                                            `<em>₫</em>` +
+                                            `<span class="money">${money}</span>` +
+                                            `<div>kim ngạch thỏa thuận </div>` +
+                                            `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                            `</div>` +
+                                            `<div class="other">` +
+                                            `<div class="left">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giai đoạn</span>` +
+                                            `<b>${giai_doan1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Trạng thái</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">Thành công</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giá mở bán</span>` +
+                                            `<b>${ket_qua1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Kết quả</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">` +
+                                            `<b style="color: rgb(0, 122, 204);">${ket_qua2}</b> Xanh lục` +
+                                            `<b style="color: rgb(232, 57, 241);"> Tím</b>` +
+                                            `</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="right">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Chọn</span>` +
+                                            `<b style="color: rgb(232, 57, 241);"> Tím</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giao hàng</span>` +
+                                            `<b>${giao_hang1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Phí dịch vụ</span>` +
+                                            `<b>${phi_dich_vu1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Số lượng</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">` +
+                                            `<b>+</b> ${nhan_duoc1}</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                            `<div class="van-button__content">` +
+                                            `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                            `</div>` +
+                                            `</button>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<span class="auto">Thời gian dừng ${time_end1}</span>` +
+                                            `</div>` +
+                                            `</div>`
+                                        );
+                                    }
+                                } else if (status1 == "2") {
+                                    if (ket_qua2 == "2" || ket_qua2 == "4" || ket_qua2 == "6" || ket_qua2 == "8") {
+                                        $('.van-list:eq(1)').append(
+                                            `<div class="order-box">` +
+                                            `<div class="top">` +
+                                            `<em>₫</em>` +
+                                            `<span class="money">${money}</span>` +
+                                            `<div>kim ngạch thỏa thuận </div>` +
+                                            `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                            `</div>` +
+                                            `<div class="other">` +
+                                            `<div class="left">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giai đoạn</span>` +
+                                            `<b>${giai_doan1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Trạng thái</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">Thất bại</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giá mở bán</span>` +
+                                            `<b>${ket_qua1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Kết quả</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">` +
+                                            `<b style="color: rgb(0, 122, 204);">${ket_qua2}</b> Đỏ` +
+                                            `</b>` +
+                                            `</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="right">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Chọn</span>` +
+                                            `<b style="color: rgb(232, 57, 241);"> Tím</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giao hàng</span>` +
+                                            `<b>${giao_hang1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Phí dịch vụ</span>` +
+                                            `<b>${phi_dich_vu1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Số lượng</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">` +
+                                            `<b>-</b> ${giao_hang1}</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                            `<div class="van-button__content">` +
+                                            `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                            `</div>` +
+                                            `</button>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<span class="auto">Thời gian dừng ${time_end1}</span>` +
+                                            `</div>` +
+                                            `</div>`
+                                        );
+                                    } else if (ket_qua2 == "1" || ket_qua2 == "3" || ket_qua2 == "7" || ket_qua2 == "9") {
+                                        $('.van-list:eq(1)').append(
+                                            `<div class="order-box">` +
+                                            `<div class="top">` +
+                                            `<em>₫</em>` +
+                                            `<span class="money">${money}</span>` +
+                                            `<div>kim ngạch thỏa thuận </div>` +
+                                            `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                            `</div>` +
+                                            `<div class="other">` +
+                                            `<div class="left">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giai đoạn</span>` +
+                                            `<b>${giai_doan1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Trạng thái</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">Thất bại</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giá mở bán</span>` +
+                                            `<b>${ket_qua1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Kết quả</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">` +
+                                            `<b style="color: rgb(0, 122, 204);">${ket_qua2}</b> Xanh lục` +
+                                            `</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="right">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Chọn</span>` +
+                                            `<b style="color: rgb(232, 57, 241);"> Tím</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giao hàng</span>` +
+                                            `<b>${giao_hang1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Phí dịch vụ</span>` +
+                                            `<b>${phi_dich_vu1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Số lượng</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">` +
+                                            `<b>-</b> ${giao_hang1}</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                            `<div class="van-button__content">` +
+                                            `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                            `</div>` +
+                                            `</button>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<span class="auto">Thời gian dừng ${time_end1}</span>` +
+                                            `</div>` +
+                                            `</div>`
+                                        );
+                                    }
+                                } else if (status1 == "0") {
+                                    $('.van-list:eq(1)').append(
+                                        `<div class="order-box">` +
+                                        `<div class="top">` +
+                                        `<em>₫</em>` +
+                                        `<span class="money">${money}</span>` +
+                                        `<div>kim ngạch thỏa thuận </div>` +
+                                        `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                        `</div>` +
+                                        `<div class="other">` +
+                                        `<div class="left">` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Giai đoạn</span>` +
+                                        `<b>${giai_doan1}</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Trạng thái</span>` +
+                                        `<b>Chờ</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Thời gian mở bán</span>` +
+                                        `<b>Chờ</b>` +
+                                        `</div>` +
+                                        `</div>` +
+                                        `<div class="right">` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Chọn</span>` +
+                                        `<b style="color: rgb(232, 57, 241);">Tím</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Giao hàng</span>` +
+                                        `<b>${giao_hang1}</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Phí dịch vụ</span>` +
+                                        `<b>${phi_dich_vu1}</b>` +
+                                        `</div>` +
+                                        `</div>` +
+                                        `</div>` +
+                                        `<div class="end-time">` +
+                                        `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                        `<div class="van-button__content">` +
+                                        `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                        `</div>` +
+                                        `</button>` +
+                                        `</div>` +
+                                        `</div>`
+                                    );
+                                }
+                            }
+                            if (chon1 != "d" && chon1 != "x" && chon1 != "t") {
+                                if (status1 == "1") {
+                                    if (ket_qua2 == "5") {
+                                        $('.van-list:eq(1)').append(
+                                            `<div class="order-box">` +
+                                            `<div class="top">` +
+                                            `<em>₫</em>` +
+                                            `<span class="money">${money}</span>` +
+                                            `<div>kim ngạch thỏa thuận </div>` +
+                                            `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                            `</div>` +
+                                            `<div class="other">` +
+                                            `<div class="left">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giai đoạn</span>` +
+                                            `<b>${giai_doan1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Trạng thái</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">Thành công</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giá mở bán</span>` +
+                                            `<b>${ket_qua1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Kết quả</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">` +
+                                            `<b style="color: rgb(0, 122, 204);">${ket_qua2}</b> Xanh lục` +
+                                            `<b style="color: rgb(232, 57, 241);"> Tím</b>` +
+                                            `</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="right">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Chọn</span>` +
+                                            `<b style="color: rgb(0, 122, 204);">${chon1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giao hàng</span>` +
+                                            `<b>${giao_hang1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Phí dịch vụ</span>` +
+                                            `<b>${phi_dich_vu1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Số lượng</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">` +
+                                            `<b>+</b> ${nhan_duoc1}</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                            `<div class="van-button__content">` +
+                                            `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                            `</div>` +
+                                            `</button>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<span class="auto">Thời gian dừng ${time_end1}</span>` +
+                                            `</div>` +
+                                            `</div>`
+                                        );
+                                    }
+                                    if (ket_qua2 == "0") {
+                                        $('.van-list:eq(1)').append(
+                                            `<div class="order-box">` +
+                                            `<div class="top">` +
+                                            `<em>₫</em>` +
+                                            `<span class="money">${money}</span>` +
+                                            `<div>kim ngạch thỏa thuận </div>` +
+                                            `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                            `</div>` +
+                                            `<div class="other">` +
+                                            `<div class="left">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giai đoạn</span>` +
+                                            `<b>${giai_doan1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Trạng thái</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">Thành công</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giá mở bán</span>` +
+                                            `<b>${ket_qua1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Kết quả</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">` +
+                                            `<b style="color: rgb(0, 122, 204);">${ket_qua2}</b> Đỏ` +
+                                            `<b style="color: rgb(232, 57, 241);"> Tím</b>` +
+                                            `</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="right">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Chọn</span>` +
+                                            `<b style="color: rgb(0, 122, 204);">${chon1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giao hàng</span>` +
+                                            `<b>${giao_hang1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Phí dịch vụ</span>` +
+                                            `<b>${phi_dich_vu1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Số lượng</span>` +
+                                            `<b style="color: rgb(30, 184, 63);">` +
+                                            `<b>+</b> ${nhan_duoc1}</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                            `<div class="van-button__content">` +
+                                            `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                            `</div>` +
+                                            `</button>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<span class="auto">Thời gian dừng ${time_end1}</span>` +
+                                            `</div>` +
+                                            `</div>`
+                                        );
+                                    }
+                                    if (ket_qua2 != "0" && ket_qua2 != "5") {
+                                        if (ket_qua2 == "2" || ket_qua2 == "4" || ket_qua2 == "6" || ket_qua2 == "8") {
+                                            $('.van-list:eq(1)').append(
+                                                `<div class="order-box">` +
+                                                `<div class="top">` +
+                                                `<em>₫</em>` +
+                                                `<span class="money">${money}</span>` +
+                                                `<div>kim ngạch thỏa thuận </div>` +
+                                                `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                                `</div>` +
+                                                `<div class="other">` +
+                                                `<div class="left">` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Giai đoạn</span>` +
+                                                `<b>${giai_doan1}</b>` +
+                                                `</div>` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Trạng thái</span>` +
+                                                `<b style="color: rgb(30, 184, 63);">Thành công</b>` +
+                                                `</div>` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Giá mở bán</span>` +
+                                                `<b>${ket_qua1}</b>` +
+                                                `</div>` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Kết quả</span>` +
+                                                `<b style="color: rgb(245, 41, 38);">` +
+                                                `<b style="color: rgb(0, 122, 204);">${ket_qua2}</b> Đỏ` +
+                                                `</b>` +
+                                                `</div>` +
+                                                `</div>` +
+                                                `<div class="right">` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Chọn</span>` +
+                                                `<b style="color: rgb(0, 122, 204);">${chon1}</b>` +
+                                                `</div>` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Giao hàng</span>` +
+                                                `<b>${giao_hang1}</b>` +
+                                                `</div>` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Phí dịch vụ</span>` +
+                                                `<b>${phi_dich_vu1}</b>` +
+                                                `</div>` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Số lượng</span>` +
+                                                `<b style="color: rgb(30, 184, 63);">` +
+                                                `<b>+</b> ${nhan_duoc1}</b>` +
+                                                `</div>` +
+                                                `</div>` +
+                                                `</div>` +
+                                                `<div class="end-time">` +
+                                                `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                                `<div class="van-button__content">` +
+                                                `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                                `</div>` +
+                                                `</button>` +
+                                                `</div>` +
+                                                `<div class="end-time">` +
+                                                `<span class="auto">Thời gian dừng ${time_end1}</span>` +
+                                                `</div>` +
+                                                `</div>`
+                                            );
+                                        }
+                                        if (ket_qua2 == "1" || ket_qua2 == "3" || ket_qua2 == "7" || ket_qua2 == "9") {
+                                            $('.van-list:eq(1)').append(
+                                                `<div class="order-box">` +
+                                                `<div class="top">` +
+                                                `<em>₫</em>` +
+                                                `<span class="money">${money}</span>` +
+                                                `<div>kim ngạch thỏa thuận </div>` +
+                                                `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                                `</div>` +
+                                                `<div class="other">` +
+                                                `<div class="left">` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Giai đoạn</span>` +
+                                                `<b>${giai_doan1}</b>` +
+                                                `</div>` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Trạng thái</span>` +
+                                                `<b style="color: rgb(30, 184, 63);">Thành công</b>` +
+                                                `</div>` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Giá mở bán</span>` +
+                                                `<b>${ket_qua1}</b>` +
+                                                `</div>` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Kết quả</span>` +
+                                                `<b style="color: rgb(30, 184, 63);">` +
+                                                `<b style="color: rgb(0, 122, 204);">${ket_qua2}</b> Xanh lục` +
+                                                `</b>` +
+                                                `</div>` +
+                                                `</div>` +
+                                                `<div class="right">` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Chọn</span>` +
+                                                `<b style="color: rgb(0, 122, 204);">${chon1}</b>` +
+                                                `</div>` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Giao hàng</span>` +
+                                                `<b>${giao_hang1}</b>` +
+                                                `</div>` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Phí dịch vụ</span>` +
+                                                `<b>${phi_dich_vu1}</b>` +
+                                                `</div>` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Số lượng</span>` +
+                                                `<b style="color: rgb(30, 184, 63);">` +
+                                                `<b>+</b> ${nhan_duoc1}</b>` +
+                                                `</div>` +
+                                                `</div>` +
+                                                `</div>` +
+                                                `<div class="end-time">` +
+                                                `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                                `<div class="van-button__content">` +
+                                                `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                                `</div>` +
+                                                `</button>` +
+                                                `</div>` +
+                                                `<div class="end-time">` +
+                                                `<span class="auto">Thời gian dừng ${time_end1}</span>` +
+                                                `</div>` +
+                                                `</div>`
+                                            );
+                                        }
+                                    }
+                                } else if (status1 == "2") {
+                                    if (ket_qua2 == "5") {
+                                        $('.van-list:eq(1)').append(
+                                            `<div class="order-box">` +
+                                            `<div class="top">` +
+                                            `<em>₫</em>` +
+                                            `<span class="money">${money}</span>` +
+                                            `<div>kim ngạch thỏa thuận </div>` +
+                                            `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                            `</div>` +
+                                            `<div class="other">` +
+                                            `<div class="left">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giai đoạn</span>` +
+                                            `<b>${giai_doan1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Trạng thái</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">Thất bại</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giá mở bán</span>` +
+                                            `<b>${ket_qua1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Kết quả</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">` +
+                                            `<b style="color: rgb(30, 184, 63);">
+                                    <b style="color: rgb(0, 122, 204);">${ket_qua2}</b>
+                                    Xanh lục</b>` +
+                                            `<b style="color: rgb(232, 57, 241);"> Tím</b>` +
+                                            `</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="right">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Chọn</span>` +
+                                            `<b style="color: rgb(0, 122, 204);">${chon1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giao hàng</span>` +
+                                            `<b>${giao_hang1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Phí dịch vụ</span>` +
+                                            `<b>${phi_dich_vu1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Số lượng</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">` +
+                                            `<b>-</b> ${giao_hang1}</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                            `<div class="van-button__content">` +
+                                            `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                            `</div>` +
+                                            `</button>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<span class="auto">Thời gian dừng ${time_end1}</span>` +
+                                            `</div>` +
+                                            `</div>`
+                                        );
+                                    }
+                                    if (ket_qua2 == "0") {
+                                        $('.van-list:eq(1)').append(
+                                            `<div class="order-box">` +
+                                            `<div class="top">` +
+                                            `<em>₫</em>` +
+                                            `<span class="money">${money}</span>` +
+                                            `<div>kim ngạch thỏa thuận </div>` +
+                                            `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                            `</div>` +
+                                            `<div class="other">` +
+                                            `<div class="left">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giai đoạn</span>` +
+                                            `<b>${giai_doan1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Trạng thái</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">Thất bại</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giá mở bán</span>` +
+                                            `<b>${ket_qua1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Kết quả</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">` +
+                                            `<b style="color: rgb(0, 122, 204);">${ket_qua2}</b> Đỏ` +
+                                            `<b style="color: rgb(232, 57, 241);"> Tím</b>` +
+                                            `</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="right">` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Chọn</span>` +
+                                            `<b style="color: rgb(0, 122, 204);">${chon1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Giao hàng</span>` +
+                                            `<b>${giao_hang1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Phí dịch vụ</span>` +
+                                            `<b>${phi_dich_vu1}</b>` +
+                                            `</div>` +
+                                            `<div class="item flex-box">` +
+                                            `<span class="auto">Số lượng</span>` +
+                                            `<b style="color: rgb(245, 41, 38);">` +
+                                            `<b>-</b> ${giao_hang1}</b>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                            `<div class="van-button__content">` +
+                                            `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                            `</div>` +
+                                            `</button>` +
+                                            `</div>` +
+                                            `<div class="end-time">` +
+                                            `<span class="auto">Thời gian dừng ${time_end1}</span>` +
+                                            `</div>` +
+                                            `</div>`
+                                        );
+                                    }
+                                    if (ket_qua2 != "0" && ket_qua2 != "5") {
+                                        if (ket_qua2 == "2" || ket_qua2 == "4" || ket_qua2 == "6" || ket_qua2 == "8") {
+                                            $('.van-list:eq(1)').append(
+                                                `<div class="order-box">` +
+                                                `<div class="top">` +
+                                                `<em>₫</em>` +
+                                                `<span class="money">${money}</span>` +
+                                                `<div>kim ngạch thỏa thuận </div>` +
+                                                `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                                `</div>` +
+                                                `<div class="other">` +
+                                                `<div class="left">` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Giai đoạn</span>` +
+                                                `<b>${giai_doan1}</b>` +
+                                                `</div>` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Trạng thái</span>` +
+                                                `<b style="color: rgb(245, 41, 38);">Thất bại</b>` +
+                                                `</div>` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Giá mở bán</span>` +
+                                                `<b>${ket_qua1}</b>` +
+                                                `</div>` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Kết quả</span>` +
+                                                `<b style="color: rgb(245, 41, 38);">` +
+                                                `<b style="color: rgb(0, 122, 204);">${ket_qua2}</b> Đỏ` +
+                                                `</b>` +
+                                                `</div>` +
+                                                `</div>` +
+                                                `<div class="right">` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Chọn</span>` +
+                                                `<b style="color: rgb(0, 122, 204);">${chon1}</b>` +
+                                                `</div>` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Giao hàng</span>` +
+                                                `<b>${giao_hang1}</b>` +
+                                                `</div>` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Phí dịch vụ</span>` +
+                                                `<b>${phi_dich_vu1}</b>` +
+                                                `</div>` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Số lượng</span>` +
+                                                `<b style="color: rgb(245, 41, 38);">` +
+                                                `<b>-</b> ${giao_hang1}</b>` +
+                                                `</div>` +
+                                                `</div>` +
+                                                `</div>` +
+                                                `<div class="end-time">` +
+                                                `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                                `<div class="van-button__content">` +
+                                                `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                                `</div>` +
+                                                `</button>` +
+                                                `</div>` +
+                                                `<div class="end-time">` +
+                                                `<span class="auto">Thời gian dừng ${time_end1}</span>` +
+                                                `</div>` +
+                                                `</div>`
+                                            );
+                                        }
+                                        if (ket_qua2 == "1" || ket_qua2 == "3" || ket_qua2 == "7" || ket_qua2 == "9") {
+                                            $('.van-list:eq(1)').append(
+                                                `<div class="order-box">` +
+                                                `<div class="top">` +
+                                                `<em>₫</em>` +
+                                                `<span class="money">${money}</span>` +
+                                                `<div>kim ngạch thỏa thuận </div>` +
+                                                `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                                `</div>` +
+                                                `<div class="other">` +
+                                                `<div class="left">` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Giai đoạn</span>` +
+                                                `<b>${giai_doan1}</b>` +
+                                                `</div>` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Trạng thái</span>` +
+                                                `<b style="color: rgb(245, 41, 38);">Thất bại</b>` +
+                                                `</div>` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Giá mở bán</span>` +
+                                                `<b>${ket_qua1}</b>` +
+                                                `</div>` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Kết quả</span>` +
+                                                `<b style="color: rgb(30, 184, 63);">` +
+                                                `<b style="color: rgb(0, 122, 204);">${ket_qua2}</b> Xanh lục` +
+                                                `</b>` +
+                                                `</div>` +
+                                                `</div>` +
+                                                `<div class="right">` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Chọn</span>` +
+                                                `<b style="color: rgb(0, 122, 204);">${chon1}</b>` +
+                                                `</div>` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Giao hàng</span>` +
+                                                `<b>${giao_hang1}</b>` +
+                                                `</div>` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Phí dịch vụ</span>` +
+                                                `<b>${phi_dich_vu1}</b>` +
+                                                `</div>` +
+                                                `<div class="item flex-box">` +
+                                                `<span class="auto">Số lượng</span>` +
+                                                `<b style="color: rgb(245, 41, 38);">` +
+                                                `<b>-</b> ${giao_hang1}</b>` +
+                                                `</div>` +
+                                                `</div>` +
+                                                `</div>` +
+                                                `<div class="end-time">` +
+                                                `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                                `<div class="van-button__content">` +
+                                                `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                                `</div>` +
+                                                `</button>` +
+                                                `</div>` +
+                                                `<div class="end-time">` +
+                                                `<span class="auto">Thời gian dừng ${time_end1}</span>` +
+                                                `</div>` +
+                                                `</div>`
+                                            );
+                                        }
+                                    }
+                                } else if (status1 == "0") {
+                                    $('.van-list:eq(1)').append(
+                                        `<div class="order-box">` +
+                                        `<div class="top">` +
+                                        `<em>₫</em>` +
+                                        `<span class="money">${money}</span>` +
+                                        `<div>kim ngạch thỏa thuận </div>` +
+                                        `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                        `</div>` +
+                                        `<div class="other">` +
+                                        `<div class="left">` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Giai đoạn</span>` +
+                                        `<b>${giai_doan1}</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Trạng thái</span>` +
+                                        `<b>Chờ</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Thời gian mở bán</span>` +
+                                        `<b>Chờ</b>` +
+                                        `</div>` +
+                                        `</div>` +
+                                        `<div class="right">` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Chọn</span>` +
+                                        `<b style="color: rgb(0, 122, 204);">${chon1}</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Giao hàng</span>` +
+                                        `<b>${giao_hang1}</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Phí dịch vụ</span>` +
+                                        `<b>${phi_dich_vu1}</b>` +
+                                        `</div>` +
+                                        `</div>` +
+                                        `</div>` +
+                                        `<div class="end-time">` +
+                                        `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                        `<div class="van-button__content">` +
+                                        `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                        `</div>` +
+                                        `</button>` +
+                                        `</div>` +
+                                        `</div>`
+                                    );
+                                }
+                            }
+                        }
+                        if (giai_doan == '') {
+                            $('.van-list__finished-text').text("Không còn dữ liệu");
+                            action = 'active';
+                        } else {
+                            $('.van-list__finished-text').html('<div data-v-7d40872f="" class="order-content"><div role="feed" class="van-list" aria-busy="true"><div class="van-list__loading"><div class="van-loading van-loading--circular"><span class="van-loading__spinner van-loading__spinner--circular" style="width: 16px; height: 16px;"><svg viewBox="25 25 50 50" class="van-loading__circular"><circle cx="50" cy="50" r="20" fill="none"></circle></svg></span><span class="van-loading__text">Đang tải...</span></div></div><div class="van-list__placeholder"></div></div></div>');
+                            action = "inactive";
+                        }
+                    }
+                });
+            }
+
+            if (action == 'inactive') {
+                action = 'active';
+                load_country_data(limit, start);
+            }
+            $(window).scroll(function() {
+                if ($(window).scrollTop() + $(window).height() > $(".van-list:eq(1)").height() && action == 'inactive') {
+                    action = 'active';
+                    start = start + limit;
+                    setTimeout(function() {
+                        load_country_data(limit, start);
+                    }, 1200);
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            var limit = 30;
+            var start = 0;
+            var action = 'inactive';
+
+            function load_country_data(limit, start) {
+                $.ajax({
+                    url: "/parity/orderWoipy",
+                    method: "POST",
+                    data: {
+                        limit: limit,
+                        start: start
+                    },
+                    cache: false,
+                    success: function(data) {
+                        const datas = JSON.parse(data);
+                        const chon = datas.chon.split(',');
+                        const giai_doan = datas.giai_doan.split(',');
+                        const giao_hang = datas.giao_hang.split(',');
+                        const ket_qua = datas.ket_qua.split(','); // VD: 208120
+                        const nhan_duoc = datas.nhan_duoc.split(',');
+                        const phi_dich_vu = datas.phi_dich_vu.split(',');
+                        const so_tien_cuoc = datas.so_tien_cuoc.split(',');
+                        const status = datas.status.split(',');
+                        const time_buy = datas.time_buy.split(',');
+                        const time_end = datas.time_end.split(',');
+                        for (let i = 0; i < ket_qua.length; i++) {
+                            const ket_qua1 = formatMoney(ket_qua[i]);
+                            const ket_qua2 = String(ket_qua[i]).split("")[5]; // VD: 0
+                            const money = formatMoney(so_tien_cuoc[i]);
+                            const chon1 = chon[i];
+                            const status1 = status[i];
+                            const giai_doan1 = giai_doan[i];
+                            const nhan_duoc1 = formatMoney(nhan_duoc[i]);
+                            const giao_hang1 = formatMoney(giao_hang[i]);
+                            const phi_dich_vu1 = formatMoney(phi_dich_vu[i]);
+                            const time_buy1 = time_buy[i].replace(".", ",");
+                            const time_end1 = time_end[i].replace(".", ",");
+                            if (chon1 == "d") {
+                                if (status1 == "0") {
+                                    $('.van-list:eq(0)').append(
+                                        `<div class="order-box">` +
+                                        `<div class="top">` +
+                                        `<em>₫</em>` +
+                                        `<span class="money">${money}</span>` +
+                                        `<div>kim ngạch thỏa thuận </div>` +
+                                        `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                        `</div>` +
+                                        `<div class="other">` +
+                                        `<div class="left">` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Giai đoạn</span>` +
+                                        `<b>${giai_doan1}</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Trạng thái</span>` +
+                                        `<b>Chờ</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Thời gian mở bán</span>` +
+                                        `<b>Chờ</b>` +
+                                        `</div>` +
+                                        `</div>` +
+                                        `<div class="right">` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Chọn</span>` +
+                                        `<b style="color: rgb(245, 41, 38);">Đỏ</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Giao hàng</span>` +
+                                        `<b>${giao_hang1}</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Phí dịch vụ</span>` +
+                                        `<b>${phi_dich_vu1}</b>` +
+                                        `</div>` +
+                                        `</div>` +
+                                        `</div>` +
+                                        `<div class="end-time">` +
+                                        `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                        `<div class="van-button__content">` +
+                                        `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                        `</div>` +
+                                        `</button>` +
+                                        `</div>` +
+                                        `</div>`
+                                    );
+                                }
+                            }
+                            if (chon1 == "x") {
+                                if (status1 == "0") {
+                                    $('.van-list:eq(0)').append(
+                                        `<div class="order-box">` +
+                                        `<div class="top">` +
+                                        `<em>₫</em>` +
+                                        `<span class="money">${money}</span>` +
+                                        `<div>kim ngạch thỏa thuận </div>` +
+                                        `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                        `</div>` +
+                                        `<div class="other">` +
+                                        `<div class="left">` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Giai đoạn</span>` +
+                                        `<b>${giai_doan1}</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Trạng thái</span>` +
+                                        `<b>Chờ</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Thời gian mở bán</span>` +
+                                        `<b>Chờ</b>` +
+                                        `</div>` +
+                                        `</div>` +
+                                        `<div class="right">` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Chọn</span>` +
+                                        `<b style="color: rgb(30, 184, 63);">Xanh lục</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Giao hàng</span>` +
+                                        `<b>${giao_hang1}</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Phí dịch vụ</span>` +
+                                        `<b>${phi_dich_vu1}</b>` +
+                                        `</div>` +
+                                        `</div>` +
+                                        `</div>` +
+                                        `<div class="end-time">` +
+                                        `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                        `<div class="van-button__content">` +
+                                        `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                        `</div>` +
+                                        `</button>` +
+                                        `</div>` +
+                                        `</div>`
+                                    );
+                                }
+                            }
+                            if (chon1 == "t") {
+                                if (status1 == "0") {
+                                    $('.van-list:eq(0)').append(
+                                        `<div class="order-box">` +
+                                        `<div class="top">` +
+                                        `<em>₫</em>` +
+                                        `<span class="money">${money}</span>` +
+                                        `<div>kim ngạch thỏa thuận </div>` +
+                                        `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                        `</div>` +
+                                        `<div class="other">` +
+                                        `<div class="left">` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Giai đoạn</span>` +
+                                        `<b>${giai_doan1}</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Trạng thái</span>` +
+                                        `<b>Chờ</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Thời gian mở bán</span>` +
+                                        `<b>Chờ</b>` +
+                                        `</div>` +
+                                        `</div>` +
+                                        `<div class="right">` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Chọn</span>` +
+                                        `<b style="color: rgb(232, 57, 241);">Tím</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Giao hàng</span>` +
+                                        `<b>${giao_hang1}</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Phí dịch vụ</span>` +
+                                        `<b>${phi_dich_vu1}</b>` +
+                                        `</div>` +
+                                        `</div>` +
+                                        `</div>` +
+                                        `<div class="end-time">` +
+                                        `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                        `<div class="van-button__content">` +
+                                        `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                        `</div>` +
+                                        `</button>` +
+                                        `</div>` +
+                                        `</div>`
+                                    );
+                                }
+                            }
+                            if (chon1 != "d" && chon1 != "x" && chon1 != "t") {
+                                if (status1 == "0") {
+                                    $('.van-list:eq(0)').append(
+                                        `<div class="order-box">` +
+                                        `<div class="top">` +
+                                        `<em>₫</em>` +
+                                        `<span class="money">${money}</span>` +
+                                        `<div>kim ngạch thỏa thuận </div>` +
+                                        `<span class="time" style="background: none;letter-spacing: 0;">Thời gian khởi tạo&nbsp;${time_buy1}</span>` +
+                                        `</div>` +
+                                        `<div class="other">` +
+                                        `<div class="left">` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Giai đoạn</span>` +
+                                        `<b>${giai_doan1}</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Trạng thái</span>` +
+                                        `<b>Chờ</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Thời gian mở bán</span>` +
+                                        `<b>Chờ</b>` +
+                                        `</div>` +
+                                        `</div>` +
+                                        `<div class="right">` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Chọn</span>` +
+                                        `<b style="color: rgb(0, 122, 204);">${chon1}</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Giao hàng</span>` +
+                                        `<b>${giao_hang1}</b>` +
+                                        `</div>` +
+                                        `<div class="item flex-box">` +
+                                        `<span class="auto">Phí dịch vụ</span>` +
+                                        `<b>${phi_dich_vu1}</b>` +
+                                        `</div>` +
+                                        `</div>` +
+                                        `</div>` +
+                                        `<div class="end-time">` +
+                                        `<button onclick="location.href = '/complaint/help'" class="van-button van-button--default van-button--small complaints">` +
+                                        `<div class="van-button__content">` +
+                                        `<span class="van-button__text">Khiếu nại &nbsp;&nbsp;&gt;</span>` +
+                                        `</div>` +
+                                        `</button>` +
+                                        `</div>` +
+                                        `</div>`
+                                    );
+                                }
+                            }
+                        }
+                        if (giai_doan == '') {
+                            $('.van-list__finished-text').text("Không còn dữ liệu");
+                            action = 'active';
+                        } else {
+                            $('.van-list__finished-text').html('<div data-v-7d40872f="" class="order-content"><div role="feed" class="van-list" aria-busy="true"><div class="van-list__loading"><div class="van-loading van-loading--circular"><span class="van-loading__spinner van-loading__spinner--circular" style="width: 16px; height: 16px;"><svg viewBox="25 25 50 50" class="van-loading__circular"><circle cx="50" cy="50" r="20" fill="none"></circle></svg></span><span class="van-loading__text">Đang tải...</span></div></div><div class="van-list__placeholder"></div></div></div>');
+                            action = "inactive";
+                        }
+                    }
+                });
+            }
+
+            if (action == 'inactive') {
+                action = 'active';
+                load_country_data(limit, start);
+            }
+            $(window).scroll(function() {
+                if ($(window).scrollTop() + $(window).height() > $(".van-list:eq(1)").height() && action == 'inactive') {
+                    action = 'active';
+                    start = start + limit;
+                    setTimeout(function() {
+                        load_country_data(limit, start);
+                    }, 1200);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="description" content="a shop from vietnam.">
+    <link rel="icon" href="" type="image/x-icon">
+    <link rel="shortcut icon" href="" type="image/x-icon">
+    <title>Pairty Recrod</title>
+    <!--CSS-->
+    <link href="/css/vantjs.css" rel="stylesheet">
+    <link href="/css/vendor.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/app.css">
+    <link rel="stylesheet" type="text/css" href="/css/pages__parity.css">
+    <link rel="stylesheet" type="text/css" href="/css/pages__member.css">
+    <link rel="stylesheet" type="text/css" href="/css/pages__promotion.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <div data-v-58c67bb8="" class="layout-content">
+        <!---->
+        <div data-v-264e8c0e="">
+            <div data-v-264e8c0e="" class="van-nav-bar">
+                <a href="/parity/tran">
+                    <div class="van-nav-bar__left"><i class="van-icon van-icon-arrow-left van-nav-bar__arrow"><!----></i></div>
+                </a>
+                <div class="van-nav-bar__title van-ellipsis">LwrthLịch sử đặt hàng</div>
+                <div class="van-nav-bar__right"></div>
+            </div>
+            <div data-v-3978cf5e="" data-v-264e8c0e="" class="container">
+                <div data-v-3978cf5e="" class="header van-row van-row--flex">
+                    <div data-v-3978cf5e="" class="header__noe van-col van-col--9"> Giai đoạn</div>
+                    <div data-v-3978cf5e="" class="van-col van-col--5">Giá</div>
+                    <div data-v-3978cf5e="" class="van-col van-col--5">điểm số</div>
+                    <div data-v-3978cf5e="" class="header__child van-col van-col--5">Kết quả</div>
+                </div>
+                <!---->
+                <div data-v-3978cf5e="" role="feed" class="van-list van-list_show-parity">
+
+                </div>
+                <div class="van-list__finished-text">Không còn dữ liệu</div>
+                <div class="van-list__placeholder"></div>
+            </div>
+            <!---->
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+        function formatMoney(money) {
+            return String(money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+        }
+        $(document).ready(function() {
+            var limit = 20;
+            var start = 0;
+            var action = 'inactive';
+
+            function load_country_data(limit, start) {
+                $.ajax({
+                    url: "/parity/paritycat",
+                    method: "POST",
+                    data: {
+                        limit: limit,
+                        start: start
+                    },
+                    cache: false,
+                    success: function(data) {
+                        const datas = JSON.parse(data);
+                        const ket_qua = datas.ket_qua.split(','); // VD: 208120
+                        const giai_doan = datas.giai_doan.split(',');
+                        for (let i = 0; i < ket_qua.length; i++) {
+                            const ket_qua2 = String(ket_qua[i]).split("")[5]; // VD: 0
+                            const money = formatMoney(ket_qua[i]);
+                            if (ket_qua2 == "2" || ket_qua2 == "4" || ket_qua2 == "6" || ket_qua2 == "8") {
+                                $('.van-list_show-parity').append(
+                                    `<div data-v-3978cf5e="" class="content van-row van-row--flex van-row--justify-center">` +
+                                    `<div data-v-3978cf5e="" class="header__noe van-col van-col--9">${giai_doan[i]}</div> ` +
+                                    `<div data-v-3978cf5e="" class="van-col van-col--5">${money}</div> ` +
+                                    `<div data-v-3978cf5e="" class="van-col van-col--5">` +
+                                    `<b data-v-3978cf5e="" class="conten__aneven">${ket_qua2}</b>` +
+                                    `</div> ` +
+                                    `<div data-v-3978cf5e="" class="header__child point van-col van-col--5">` +
+                                    `<div data-v-3978cf5e="" class="point-box">` +
+                                    `<div data-v-3978cf5e="" class="point-box__aneven"></div> ` +
+                                    `<div data-v-3978cf5e="" class="point-box__add">` +
+                                    `</div>` +
+                                    `</div>` +
+                                    `</div>` +
+                                    `</div>`
+                                );
+                            }
+                            if (ket_qua2 == "1" || ket_qua2 == "3" || ket_qua2 == "7" || ket_qua2 == "9") {
+                                $('.van-list_show-parity').append(
+                                    `<div data-v-3978cf5e="" class="content van-row van-row--flex van-row--justify-center">` +
+                                    `<div data-v-3978cf5e="" class="header__noe van-col van-col--9">${giai_doan[i]}</div> ` +
+                                    `<div data-v-3978cf5e="" class="van-col van-col--5">${money}</div> ` +
+                                    `<div data-v-3978cf5e="" class="van-col van-col--5">` +
+                                    `<b data-v-3978cf5e="" class="content__anodd">${ket_qua2}</b>` +
+                                    `</div> ` +
+                                    `<div data-v-3978cf5e="" class="header__child point van-col van-col--5">` +
+                                    `<div data-v-3978cf5e="" class="point-box">` +
+                                    `<div data-v-3978cf5e="" class="point-box__anodd"></div> ` +
+                                    `<div data-v-3978cf5e="" class="point-box__add">` +
+                                    `</div>` +
+                                    `</div>` +
+                                    `</div>` +
+                                    `</div>`
+                                );
+                            }
+                            if (ket_qua2 == "0") {
+                                $('.van-list_show-parity').append(
+                                    `<div data-v-3978cf5e="" class="content van-row van-row--flex van-row--justify-center">` +
+                                    `<div data-v-3978cf5e="" class="header__noe van-col van-col--9">${giai_doan[i]}</div> ` +
+                                    `<div data-v-3978cf5e="" class="van-col van-col--5">${money}</div> ` +
+                                    `<div data-v-3978cf5e="" class="van-col van-col--5">` +
+                                    `<b data-v-3978cf5e="" class="conten__aneven">${ket_qua2}</b>` +
+                                    `</div> ` +
+                                    `<div data-v-3978cf5e="" class="header__child point van-col van-col--5">` +
+                                    `<div data-v-3978cf5e="" class="point-box">` +
+                                    `<div data-v-3978cf5e="" class="point-box__aneven"></div> ` +
+                                    `<div data-v-3978cf5e="" class="point-box__aliquot">` +
+                                    `</div>` +
+                                    `</div>` +
+                                    `</div>` +
+                                    `</div>`
+                                );
+                            }
+                            if (ket_qua2 == "5") {
+                                $('.van-list_show-parity').append(
+                                    `<div data-v-3978cf5e="" class="content van-row van-row--flex van-row--justify-center">` +
+                                    `<div data-v-3978cf5e="" class="header__noe van-col van-col--9">${giai_doan[i]}</div> ` +
+                                    `<div data-v-3978cf5e="" class="van-col van-col--5">${money}</div> ` +
+                                    `<div data-v-3978cf5e="" class="van-col van-col--5">` +
+                                    `<b data-v-3978cf5e="" class="content__anodd">${ket_qua2}</b>` +
+                                    `</div> ` +
+                                    `<div data-v-3978cf5e="" class="header__child point van-col van-col--5">` +
+                                    `<div data-v-3978cf5e="" class="point-box">` +
+                                    `<div data-v-3978cf5e="" class="point-box__anodd"></div> ` +
+                                    `<div data-v-3978cf5e="" class="point-box__aliquot">` +
+                                    `</div>` +
+                                    `</div>` +
+                                    `</div>` +
+                                    `</div>`
+                                );
+                            }
+                        }
+                        if (giai_doan == '') {
+                            $('.van-list__finished-text').text("Không còn dữ liệu");
+                            action = 'active';
+                        } else {
+                            $('.van-list__finished-text').html('<div data-v-7d40872f="" class="order-content"><div role="feed" class="van-list" aria-busy="true"><div class="van-list__loading"><div class="van-loading van-loading--circular"><span class="van-loading__spinner van-loading__spinner--circular" style="width: 16px; height: 16px;"><svg viewBox="25 25 50 50" class="van-loading__circular"><circle cx="50" cy="50" r="20" fill="none"></circle></svg></span><span class="van-loading__text">Đang tải...</span></div></div><div class="van-list__placeholder"></div></div></div>');
+                            action = "inactive";
+                        }
+                    }
+                });
+            }
+
+            if (action == 'inactive') {
+                action = 'active';
+                load_country_data(limit, start);
+            }
+            $(window).scroll(function() {
+                if ($(window).scrollTop() + $(window).height() > $(".van-list_show-parity").height() && action == 'inactive') {
+                    action = 'active';
+                    start = start + limit;
+                    setTimeout(function() {
+                        load_country_data(limit, start);
+                    }, 500);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

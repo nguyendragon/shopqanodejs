@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="description" content="a shop from vietnam.">
+    <link rel="icon" href="" type="image/x-icon">
+    <link rel="shortcut icon" href="" type="image/x-icon">
+    <title>My bank card</title>
+    <!--CSS-->
+    <link href="/css/vantjs.css" rel="stylesheet">
+    <link href="/css/vendor.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/pages__myTask.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/app.css">
+    <link rel="stylesheet" type="text/css" href="/css/pages__parity.css">
+    <link rel="stylesheet" type="text/css" href="/css/pages__member.css">
+    <style>
+        .display-none {
+            display: none!important;
+        }
+        
+        .show_btn_bottom {
+            transform: translate3d(0px, 100%, 0px);
+        }
+        
+        .hsc {
+            overflow: hidden!important;
+        }
+        
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #fff;
+            z-index: 99;
+        }
+    </style>
+    <!--JS-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body class="">
+    <div id="preloader"></div>
+    <div data-v-58c67bb8="" class="layout-content">
+        <!---->
+        <div data-v-980651b2="" class="mybank-content">
+            <div data-v-980651b2="" class="van-nav-bar">
+                <a href="index">
+                    <div class="van-nav-bar__left"><i class="van-icon van-icon-arrow-left van-nav-bar__arrow"><!----></i></div>
+                </a>
+                <div class="van-nav-bar__title van-ellipsis">Thẻ ngân hàng của tôi</div>
+                <div class="van-nav-bar__right"></div>
+            </div>
+
+            <% if(results.length > 0) { %>
+                <div data-v-980651b2="" class="mybank-card-wapper">
+                    <div data-v-980651b2="" class="mybank-card-wapper__left">
+                        <div data-v-980651b2="" class="my-bank-card__title">
+                            Tên ngân hàng：&nbsp;:&nbsp;
+                            <%=results[0]['name_banking']%>
+                        </div>
+                        <div data-v-980651b2="" class="my-bank-card__subtitle">
+                            <%=results[0]['stk']%>
+                        </div>
+                    </div>
+                    <a data-v-980651b2="" class="mybank-card-wapper__link">Edit&nbsp;&gt;</a>
+                </div>
+                <!--Start-->
+                <div data-v-980651b2="" class="mybank-card-wapper__more display-none">
+                    <div data-v-980651b2="" class="van-cell-group van-hairline--top-bottom">
+                        <div data-v-980651b2="" class="van-cell van-field van-field--disabled">
+                            <div class="van-cell__title van-field__label"><span>Tên thật：</span></div>
+                            <div class="van-cell__value van-field__value">
+                                <div class="van-field__body">
+                                    <input type="text" disabled="disabled" value="<%=results[0]['name']%>" class="van-field__control"></div>
+                            </div>
+                        </div>
+                        <div data-v-980651b2="" class="van-cell van-field van-field--disabled">
+                            <div class="van-cell__title van-field__label"><span>Tên ngân hàng：</span></div>
+                            <div class="van-cell__value van-field__value">
+                                <div class="van-field__body">
+                                    <input type="text" disabled="disabled" value="<%=results[0]['name_banking']%>" class="van-field__control"></div>
+                            </div>
+                        </div>
+                        <div data-v-980651b2="" class="van-cell van-field van-field--disabled">
+                            <div class="van-cell__title van-field__label"><span>Số tài khoản：</span></div>
+                            <div class="van-cell__value van-field__value">
+                                <div class="van-field__body">
+                                    <input type="text" disabled="disabled" value="<%=results[0]['stk']%>" class="van-field__control"></div>
+                            </div>
+                        </div>
+                        <div data-v-980651b2="" class="van-cell van-field van-field--disabled">
+                            <div class="van-cell__title van-field__label"><span>Số điện thoại：</span></div>
+                            <div class="van-cell__value van-field__value">
+                                <div class="van-field__body">
+                                    <input type="text" disabled="disabled" value="<%=results[0]['sdt']%>" class="van-field__control"></div>
+                            </div>
+                        </div>
+                        <div data-v-980651b2="" class="van-cell van-cell--center van-field">
+                            <div class="van-field__left-icon"><i class="van-icon van-icon-comment"><!----></i></div>
+                            <div class="van-cell__value van-cell__value--alone van-field__value">
+                                <div class="van-field__body">
+                                    <input type="text" placeholder="Vui lòng nhập mã xác nhận" class="van-field__control otp-delete">
+                                    <div class="van-field__button">
+                                        <button data-v-980651b2="" class="group-button van-button van-button--primary van-button--small send_otp" disabled="disabled">
+                                            <div data-v-980651b2="" class="van-button__content">
+                                                <div class="show_cowndown show_cowndown3">
+                                                    <span data-v-980651b2="" class="van-button__text">Mã OTP</span>
+                                                </div>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div data-v-980651b2="" class="mybank-card-wapper__buttons">
+                            <button data-v-980651b2="" class="van-button van-button--default van-button--large btn-update" style="background-color: rgb(0, 184, 169); color: rgb(255, 255, 255); border-radius: 5px;">
+                                <div data-v-980651b2="" class="van-button__content">
+                                    <span data-v-980651b2="" class="van-button__text">Sửa đổi</span>
+                                </div>
+                            </button>
+                            <button data-v-980651b2="" class="van-button van-button--default van-button--large delete-bank" style="background-color: rgb(112, 112, 112); color: rgb(255, 255, 255); border-radius: 5px; margin-top: 10px;">
+                                    <div data-v-980651b2="" class="van-button__content">
+                                        <span data-v-980651b2="" class="van-button__text">Xóa</span>
+                                    </div>
+                                </button>
+                        </div>
+                    </div>
+                </div>
+                <!--END-->
+                <script>
+                    $(document).ready(function() {
+                        $('.mybank-card-wapper__link').click(function(e) {
+                            e.preventDefault();
+                            $('.mybank-card-wapper__more').toggleClass("display-none")
+                        });
+                        $('.btn-update').click(function(e) {
+                            e.preventDefault();
+                            $('.show-edit-btn').removeClass("display-none");
+                            $('.mybank-card-wapper__more').hide();
+                            $('.mybank-card-wapper').hide();
+                            $('.add_banking span').text("Sửa đổi");
+                            $('.add_banking').addClass("display-none");
+                            $('.backToShowBank').addClass("display-none");
+                            $('.backToShowBanks').removeClass("display-none");
+                            $('.name_user_bank').val("<%=results[0]['name']%>");
+                            $('.name_bank').val("<%=results[0]['name_banking']%>");
+                            $('.stk_bank').val();
+                            $('.re_stk_bank').val();
+                            $('.tinh').val("<%=results[0]['tinh']%>");
+                            $('.thanhpho').val("<%=results[0]['thanhpho']%>");
+                            $('.diachi').val("<%=results[0]['diachi']%>");
+                            $('.sdt').val("<%=results[0]['sdt']%>");
+                            $('.email_bank').val("<%=results[0]['email']%>");
+                            $('.otp_bank').val()
+                        });
+                        $('.backToShowBanks').click(function(e) {
+                            e.preventDefault();
+                            $('.mybank-card-wapper').show();
+                            $('.show-edit-btn').addClass("display-none");
+                            $('.mybank-card-wapper__more').show();
+                            $('.mybank-card-wapper__more').toggleClass("display-none")
+                        })
+                    })
+                </script>
+                <script>
+                    $(document).ready(function() {
+                        $('.delete-bank').click(function(e) {
+                            e.preventDefault();
+                            var otp_delete = $('.otp-delete').val().trim();
+                            if (otp_delete != "") {
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/member/myBank",
+                                    data: {
+                                        otp_delete: otp_delete,
+                                        type: "delete",
+                                    },
+                                    dataType: "json",
+                                    success: function(response) {
+                                        console.log(response);
+                                        if (response.message == 1) {
+                                            $('.van-toast--loading').removeClass('display-none');
+                                            $('.van-toast--text .van-toast__text').text('Xóa thành công !');
+                                            setTimeout(() => {
+                                                $('.van-toast--text').removeClass('display-none');
+                                                $('.van-toast--loading').addClass('display-none');
+                                                setTimeout(() => {
+                                                    $('.van-toast--text').addClass('display-none');
+                                                    window.location = "MyBank"
+                                                }, 500)
+                                            }, 900)
+                                        } else if (response.message == 0) {
+                                            $('.van-toast--loading').removeClass('display-none');
+                                            $('.van-toast--text .van-toast__text').text('Mã xác minh không đúng !');
+                                            setTimeout(() => {
+                                                $('.van-toast--text').removeClass('display-none');
+                                                $('.van-toast--loading').addClass('display-none');
+                                                setTimeout(() => {
+                                                    $('.van-toast--text').addClass('display-none')
+                                                }, 500)
+                                            }, 900)
+                                        }
+                                    }
+                                })
+                            } else if (otp_delete == "") {
+                                $('.van-toast--loading').removeClass('display-none');
+                                $('.van-toast--text .van-toast__text').text('Mã xác minh không đúng !');
+                                setTimeout(() => {
+                                    $('.van-toast--text').removeClass('display-none');
+                                    $('.van-toast--loading').addClass('display-none');
+                                    setTimeout(() => {
+                                        $('.van-toast--text').addClass('display-none')
+                                    }, 500)
+                                }, 900)
+                            }
+                        })
+                    })
+                </script>
+                <% } %>
+
+                    <% if(results.length == 0) { %>
+                        <div data-v-980651b2="" class="showBanking">
+                            <div data-v-980651b2="" style="padding: 20px 24px;" class="hideBtn">
+                                <button data-v-980651b2="" class="van-button van-button--default van-button--large" style="background-color: rgb(0, 184, 169); color: rgb(255, 255, 255); border-radius: 5px;">
+                            <div data-v-980651b2="" class="van-button__content">
+                                <span data-v-980651b2="" class="van-button__text">+Thêm thẻ ngân hàng mới</span>
+                            </div>
+                        </button>
+                            </div>
+                        </div>
+                        <% } %>
+
+                            <div data-v-980651b2="" class="van-cell-group show-edit-btn van-hairline--top-bottom display-none">
+                                <div data-v-980651b2 class="van-cell-group van-hairline--top-bottom" style="padding: 10px 24px;">
+                                    <div data-v-980651b2="" class="van-cell van-field">
+                                        <div class="van-cell__title van-field__label" style="width: 100px;">
+                                            <span>Tên thật：</span></div>
+                                        <div class="van-cell__value van-field__value">
+                                            <div class="van-field__body">
+                                                <input type="text" placeholder="Vui lòng nhập tên thật" class="van-field__control name_user_bank">
+                                            </div>
+                                            <div class="van-field__error-message"></div>
+                                        </div>
+                                    </div>
+                                    <div data-v-980651b2="" role="button" tabindex="0" class="van-cell van-cell--clickable van-field name-banking">
+                                        <div class="van-cell__title van-field__label">
+                                            <span>Tên ngân hàng：</span>
+                                        </div>
+                                        <div class="van-cell__value van-field__value">
+                                            <div class="van-field__body">
+                                                <input type="text" readonly="readonly" placeholder="Vui lòng chọn Tên Ngân hàng" class="van-field__control name_bank">
+                                            </div>
+                                            <div class="van-field__error-message"></div>
+                                        </div>
+                                    </div>
+                                    <div class="van-overlay display-none" style="z-index: 2019;opacity: 0;"></div>
+                                    <div data-v-980651b2="" class="van-popup van-popup--round van-popup--bottom show_btn_bottom" style="z-index: 2020;">
+                                        <div data-v-980651b2="" class="van-picker">
+                                            <div class="van-picker__toolbar">
+                                                <button type="button" class="van-picker__cancel">hủy bỏ</button>
+                                                <button type="button" class="van-picker__confirm">xác nhận</button>
+                                            </div>
+                                            <!---->
+                                            <div class="van-picker__columns" style="height: 264px;">
+                                                <div class="van-picker-column">
+                                                    <ul class="van-picker-column__wrapper" style="transform: translate3d(0px, 110px, 0px); transition-duration: 0ms; transition-property: none;">
+                                                        <li role="button" tabindex="0" class="van-picker-column__item van-picker-column__item--selected" style="height: 44px;">
+                                                            <div class="van-ellipsis">ABBANK</div>
+                                                        </li>
+                                                        <li role="button" tabindex="0" class="van-picker-column__item" style="height: 44px;">
+                                                            <div class="van-ellipsis">ACB</div>
+                                                        </li>
+                                                        <li role="button" tabindex="0" class="van-picker-column__item" style="height: 44px;">
+                                                            <div class="van-ellipsis">BIDV</div>
+                                                        </li>
+                                                        <li role="button" tabindex="0" class="van-picker-column__item" style="height: 44px;">
+                                                            <div class="van-ellipsis">EIB</div>
+                                                        </li>
+                                                        <li role="button" tabindex="0" class="van-picker-column__item" style="height: 44px;">
+                                                            <div class="van-ellipsis">MBBANK</div>
+                                                        </li>
+                                                        <li role="button" tabindex="0" class="van-picker-column__item" style="height: 44px;">
+                                                            <div class="van-ellipsis">SHB</div>
+                                                        </li>
+                                                        <li role="button" tabindex="0" class="van-picker-column__item" style="height: 44px;">
+                                                            <div class="van-ellipsis">STB</div>
+                                                        </li>
+                                                        <li role="button" tabindex="0" class="van-picker-column__item" style="height: 44px;">
+                                                            <div class="van-ellipsis">Techcom</div>
+                                                        </li>
+                                                        <li role="button" tabindex="0" class="van-picker-column__item" style="height: 44px;">
+                                                            <div class="van-ellipsis">VIB</div>
+                                                        </li>
+                                                        <li role="button" tabindex="0" class="van-picker-column__item" style="height: 44px;">
+                                                            <div class="van-ellipsis">Vietcombank</div>
+                                                        </li>
+                                                        <li role="button" tabindex="0" class="van-picker-column__item" style="height: 44px;">
+                                                            <div class="van-ellipsis">VietinBank</div>
+                                                        </li>
+                                                        <li role="button" tabindex="0" class="van-picker-column__item" style="height: 44px;">
+                                                            <div class="van-ellipsis">VPBank</div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="van-picker__mask" style="background-size: 100% 110px;"></div>
+                                                <div class="van-hairline-unset--top-bottom van-picker__frame" style="height: 44px;"></div>
+                                            </div>
+                                            <!---->
+                                        </div>
+                                    </div>
+                                    <!---->
+                                    <div data-v-980651b2="" class="van-cell van-field">
+                                        <div class="van-cell__title van-field__label" style="width: 100px;">
+                                            <span>Số tài khoản：</span></div>
+                                        <div class="van-cell__value van-field__value">
+                                            <div class="van-field__body">
+                                                <input type="text" placeholder="Vui lòng nhập số tài khoản ngân hàng" class="van-field__control stk_bank">
+                                            </div>
+                                            <div class="van-field__error-message"></div>
+                                        </div>
+                                    </div>
+                                    <div data-v-980651b2="" class="van-cell van-field">
+                                        <div class="van-cell__title van-field__label" style="width: 100px;">
+                                            <span>Xác nhận số tài khoản：</span></div>
+                                        <div class="van-cell__value van-field__value">
+                                            <div class="van-field__body">
+                                                <input type="text" placeholder="Vui lòng nhập lại số tài khoản ngân hàng" class="van-field__control re_stk_bank">
+                                            </div>
+                                            <div class="van-field__error-message"></div>
+                                        </div>
+                                    </div>
+                                    <div data-v-980651b2="" class="van-cell van-field">
+                                        <div class="van-cell__title van-field__label" style="width: 100px;">
+                                            <span>tỉnh：</span></div>
+                                        <div class="van-cell__value van-field__value">
+                                            <div class="van-field__body">
+                                                <input type="text" placeholder="Vui lòng nhập tên tỉnh" class="van-field__control tinh">
+                                            </div>
+                                            <div class="van-field__error-message"></div>
+                                        </div>
+                                    </div>
+                                    <div data-v-980651b2="" class="van-cell van-field">
+                                        <div class="van-cell__title van-field__label" style="width: 100px;">
+                                            <span>Thành phố：</span></div>
+                                        <div class="van-cell__value van-field__value">
+                                            <div class="van-field__body">
+                                                <input type="text" placeholder="Vui lòng nhập tên thành phố" class="van-field__control thanhpho">
+                                            </div>
+                                            <div class="van-field__error-message"></div>
+                                        </div>
+                                    </div>
+                                    <div data-v-980651b2="" class="van-cell van-field">
+                                        <div class="van-cell__title van-field__label" style="width: 100px;">
+                                            <span>Địa chỉ：</span></div>
+                                        <div class="van-cell__value van-field__value">
+                                            <div class="van-field__body">
+                                                <input type="text" placeholder="Vui lòng nhập địa chỉ" class="van-field__control diachi">
+                                            </div>
+                                            <div class="van-field__error-message"></div>
+                                        </div>
+                                    </div>
+                                    <div data-v-980651b2="" class="van-cell van-field">
+                                        <div class="van-cell__title van-field__label" style="width: 100px;">
+                                            <span>Số điện thoại：</span></div>
+                                        <div class="van-cell__value van-field__value">
+                                            <div class="van-field__body">
+                                                <input type="text" placeholder="Vui lòng nhập số điện thoại" class="van-field__control sdt">
+                                            </div>
+                                            <div class="van-field__error-message"></div>
+                                        </div>
+                                    </div>
+                                    <div data-v-980651b2="" class="van-cell van-field">
+                                        <div class="van-cell__title van-field__label" style="width: 100px;"><span>Email:</span></div>
+                                        <div class="van-cell__value van-field__value">
+                                            <div class="van-field__body">
+                                                <input type="email" placeholder="Vui lòng nhập email" class="van-field__control email_bank">
+                                            </div>
+                                            <div class="van-field__error-message"></div>
+                                        </div>
+                                    </div>
+                                    <!---->
+                                    <div data-v-980651b2="" class="van-cell van-cell--center van-field">
+                                        <div class="van-field__left-icon"><i class="van-icon van-icon-comment"><!----></i></div>
+                                        <div class="van-cell__value van-cell__value--alone van-field__value">
+                                            <div class="van-field__body">
+                                                <input type="text" placeholder="Vui lòng nhập mã xác nhận" class="van-field__control otp_bank">
+                                                <div class="van-field__button">
+                                                    <button data-v-980651b2="" class="group-button van-button van-button--primary van-button--small send_otp">
+                                                <div data-v-980651b2="" class="van-button__content">
+                                                    <div class="show_cowndown show_cowndown2">
+                                                        <span data-v-980651b2="" class="van-button__text">Mã OTP</span>
+                                                    </div>
+                                                </div>
+                                            </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div data-v-980651b2="" style="padding: 20px 12px;">
+                                        <button data-v-980651b2="" class="van-button van-button--default van-button--large add_banking" style="background-color: rgb(0, 184, 169); color: rgb(255, 255, 255); border-radius: 5px;">
+                                            <div data-v-980651b2="" class="van-button__content">
+                                                <span data-v-980651b2="" class="van-button__text">Thêm</span>
+                                            </div>
+                                        </button>
+                                        <button data-v-980651b2="" class="van-button van-button--default van-button--large btn-update-banking" style="background-color: rgb(0, 184, 169); color: rgb(255, 255, 255); border-radius: 5px;">
+                                            <div data-v-980651b2="" class="van-button__content">
+                                                <span data-v-980651b2="" class="van-button__text">Sửa đổi</span>
+                                            </div>
+                                        </button>
+                                        <button data-v-980651b2="" class="van-button van-button--default van-button--large backToShowBank" style="background-color: rgb(112, 112, 112); color: rgb(255, 255, 255); margin-top: 5px; border-radius: 5px; font-size: 20px;">
+                                            <div data-v-980651b2="" class="van-button__content">
+                                                <span data-v-980651b2="" class="van-button__text">Hủy</span>
+                                            </div>
+                                        </button>
+                                        <button data-v-980651b2="" class="van-button van-button--default van-button--large backToShowBanks display-none" style="background-color: rgb(112, 112, 112); color: rgb(255, 255, 255); margin-top: 5px; border-radius: 5px; font-size: 20px;">
+                                            <div data-v-980651b2="" class="van-button__content">
+                                                <span data-v-980651b2="" class="van-button__text">Hủy</span>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+        </div>
+
+
+        <div class="van-toast van-toast--middle van-toast--loading display-none" style="z-index: 2003;">
+            <div class="van-loading van-loading--circular van-toast__loading" style="line-height: 0;">
+                <span class="van-loading__spinner van-loading__spinner--circular">
+                <svg viewBox="25 25 50 50" class="van-loading__circular">
+                    <circle cx="50" cy="50" r="20" fill="none"></circle>
+                </svg>
+            </span>
+            </div>
+            <div class="van-toast__text">Đang tải</div>
+        </div>
+        <div data-v-6fae224a="" class="mark">
+            <div data-v-6fae224a="" class="van-loading van-loading--circular">
+                <span data-v-6fae224a="" class="van-loading__spinner van-loading__spinner--circular" style="color: rgb(0, 0, 0);">
+                    <svg data-v-6fae224a="" viewBox="25 25 50 50" class="van-loading__circular">
+                        <circle data-v-6fae224a="" cx="50" cy="50" r="20" fill="none"></circle>
+                    </svg>
+                </span>
+            </div>
+        </div>
+        <div class="van-toast van-toast--middle van-toast--text display-none" style="z-index: 2001;">
+            <div class="van-toast__text"></div>
+        </div>
+        <script src="https://rawgit.com/leizongmin/js-xss/master/dist/xss.js"></script>
+        <script>
+            $(window).on('load', function() {
+                $('#preloader').fadeOut(300);
+                $('body').delay(500).css({
+                    'overflow': 'visible'
+                });
+                $('.mark').fadeOut('fast');
+            })
+        </script>
+        <script src="/js/bank.core.js"></script>
+        <script src="/js/chuck.core.js"></script>
+</body>
+
+</html>

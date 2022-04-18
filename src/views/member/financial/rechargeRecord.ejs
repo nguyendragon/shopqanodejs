@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="description" content="a shop from vietnam.">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <title>Recharge Record</title>
+    <link href="/css/vantjs.css" rel="stylesheet">
+    <link href="/css/vendor.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/pages__finance.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/app.css">
+    <link rel="stylesheet" type="text/css" href="/css/pages__parity.css">
+    <link rel="stylesheet" type="text/css" href="/css/pages__member.css">
+    <style>
+        .display-none {
+            display: none;
+        }
+        
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #fff;
+            z-index: 99;
+        }
+        
+        .block_click {
+            cursor: wait;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body class="">
+    <div class="preloader"></div>
+    <div data-v-58c67bb8="" class="layout-content">
+        <!---->
+        <div data-v-b14a41da="" class="order-outer-content">
+            <div data-v-b14a41da="" class="bar-box">
+                <div data-v-b14a41da="" class="van-nav-bar van-nav-bar--fixed">
+                    <a onclick="history.back()">
+                        <div class="van-nav-bar__left"><i class="van-icon van-icon-arrow-left van-nav-bar__arrow"><!----></i></div>
+                    </a>
+                    <div class="van-nav-bar__title van-ellipsis">Lịch sử đặt hàng</div>
+                    <div class="van-nav-bar__right"></div>
+                </div>
+            </div>
+            <div data-v-b14a41da="" style="position: relative;">
+                <div data-v-b14a41da="" class="top-selete">
+                    <div data-v-b14a41da="" class="top-selete-sub active block_click">Đang chờ</div>
+                    <div data-v-b14a41da="" class="top-selete-sub">Thành công</div>
+                    <div data-v-b14a41da="" class="top-selete-sub">Thất bại</div>
+                    <div data-v-b14a41da="" class="top-selete-sub">Đóng</div>
+                </div>
+            </div>
+
+            <div data-v-b14a41da="" role="feed" class="van-list">
+                <!---->
+                <div data-v-b14a41da="" class="main-products">
+                    <% if (listrechargeWaiting.length > 0) { %>
+                        <% for (var i = 0; i < listrechargeWaiting.length; i++) { %>
+                            <div data-v-b14a41da="" class="reservation-booking">
+                                <div data-v-b14a41da="" style="margin-top: 10px;">
+                                    <div data-v-b14a41da="" class="booking-title">
+                                        <input type="text" value="<?=$show_don['id_txn'];?>" style="display: none" class="txn">
+                                        <div data-v-b14a41da=""> No.<span data-v-b14a41da=""><%=listrechargeWaiting[i].id_txn%></span></div>
+                                        <div data-v-b14a41da="" class="booking-title-no">
+                                            <%=listrechargeWaiting[i].time%>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div data-v-b14a41da="" class="van-cell-group van-hairline--top-bottom">
+                                    <div data-v-b14a41da="" class="van-cell van-cell__payway">
+                                        <div data-v-b14a41da=""><span data-v-b14a41da="" style="font-weight: 600;">Phương thức thanh toán:</span><br> <span data-v-b14a41da="" class="van-cell__status" style="font-size: 14px;">ONEPAY</span></div>
+                                        <div data-v-b14a41da=""><span data-v-b14a41da="" style="font-weight: 600;">Số lượng:</span> <span data-v-b14a41da="" style="font-size: 14px; color: rgb(0, 184, 169);">₫<%=String(listrechargeWaiting[i].money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%></span></div>
+                                    </div>
+                                    <!---->
+                                    <div data-v-b14a41da="" style="padding: 0px 24px; font-size: 12px;"></div>
+                                    <div data-v-b14a41da="" style="padding: 10px 16px; font-weight: 600;">Option</div>
+                                    <div data-v-b14a41da="" style="display: flex; margin: 8px 18px 12px;">
+                                        <button data-v-b14a41da="" class="close close-btn van-button van-button--default van-button--small" style="border: 1px solid rgb(161, 158, 158);">
+                            <div data-v-b14a41da="" class="van-button__content">
+                                <span data-v-b14a41da="" class="van-button__text">Đóng </span>
+                            </div></button>
+                                        <button data-v-b14a41da="" class="van-button van-button--primary van-button--small thanh-toan" style="font-weight: 500; flex: 1 1 0%; margin-left: 12px; background: #00b8a9; border: 1px solid rgb(161, 158, 158);"><div data-v-b14a41da="" class="van-button__content"><span data-v-b14a41da="" class="van-button__text">Thanh toán &nbsp;&nbsp;&gt;</span></div></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                                <% } %>
+                </div>
+                <!---->
+                <!---->
+                <div data-v-b14a41da="" class="main-products display-none">
+                    <% if (listrechargeSuccess.length > 0) { %>
+                        <% for (var i = 0; i < listrechargeSuccess.length; i++) { %>
+                            <div data-v-b14a41da="" class="reservation-booking">
+                                <div data-v-b14a41da="" style="margin-top: 10px;">
+                                    <div data-v-b14a41da="" class="booking-title">
+                                        <input type="text" value="<?=$show_don['id_txn'];?>" style="display: none" class="txn">
+                                        <div data-v-b14a41da=""> No.<span data-v-b14a41da=""><%=listrechargeSuccess[i].id_txn%></span></div>
+                                        <div data-v-b14a41da="" class="booking-title-no">
+                                            <%=listrechargeSuccess[i].time%>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div data-v-b14a41da="" class="van-cell-group van-hairline--top-bottom">
+                                    <div data-v-b14a41da="" class="van-cell van-cell__payway">
+                                        <div data-v-b14a41da=""><span data-v-b14a41da="" style="font-weight: 600;">Phương thức thanh toán:</span> <span data-v-b14a41da="" class="van-cell__status" style="font-size: 14px;">ONEPAY</span></div>
+                                        <div data-v-b14a41da=""><span data-v-b14a41da="" style="font-weight: 600;">Số lượng:</span> <span data-v-b14a41da="" style="font-size: 14px; color: rgb(0, 184, 169);">₫<%=String(listrechargeSuccess[i].money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%></span></div>
+                                    </div>
+                                    <!---->
+                                    <div data-v-b14a41da="" style="padding: 0px 24px; font-size: 12px;"></div>
+                                    <div data-v-b14a41da="" style="padding: 10px 16px; font-weight: 600;">Option</div>
+                                    <div data-v-b14a41da="" style="display: flex; margin: 8px 18px 12px;">
+                                        <button data-v-b14a41da="" class="van-button van-button--primary van-button--small" style="font-weight: 500; flex: 1 1 0%; margin-left: 12px; background: rgb(161, 158, 158); border: 1px solid rgb(161, 158, 158);"><div data-v-b14a41da="" class="van-button__content"><span data-v-b14a41da="" class="van-button__text">Phản ánh&nbsp;&nbsp;&gt;</span></div></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                                <% } %>
+                </div>
+                <!---->
+                <!---->
+                <div data-v-b14a41da="" class="main-products display-none">
+                    <% if (listrechargeFail.length > 0) { %>
+                        <% for (var i = 0; i < listrechargeFail.length; i++) { %>
+                            <div data-v-b14a41da="" class="reservation-booking">
+                                <div data-v-b14a41da="" style="margin-top: 10px;">
+                                    <div data-v-b14a41da="" class="booking-title">
+                                        <input type="text" value="<?=$show_don['id_txn'];?>" style="display: none" class="txn">
+                                        <div data-v-b14a41da=""> No.<span data-v-b14a41da=""><%=listrechargeFail[i].id_txn%></span></div>
+                                        <div data-v-b14a41da="" class="booking-title-no">
+                                            <%=listrechargeFail[i].time%>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div data-v-b14a41da="" class="van-cell-group van-hairline--top-bottom">
+                                    <div data-v-b14a41da="" class="van-cell van-cell__payway">
+                                        <div data-v-b14a41da=""><span data-v-b14a41da="" style="font-weight: 600;">Phương thức thanh toán:</span> <span data-v-b14a41da="" class="van-cell__status" style="font-size: 14px;">ONEPAY</span></div>
+                                        <div data-v-b14a41da=""><span data-v-b14a41da="" style="font-weight: 600;">Số lượng:</span> <span data-v-b14a41da="" style="font-size: 14px; color: rgb(0, 184, 169);">₫<%=String(listrechargeFail[i].money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%></span></div>
+                                    </div>
+                                    <!---->
+                                    <div data-v-b14a41da="" style="padding: 0px 24px; font-size: 12px;"></div>
+                                    <div data-v-b14a41da="" style="padding: 10px 16px; font-weight: 600;">Option</div>
+                                    <div data-v-b14a41da="" style="display: flex; margin: 8px 18px 12px;">
+                                        <button data-v-b14a41da="" class="van-button van-button--primary van-button--small" style="font-weight: 500; flex: 1 1 0%; margin-left: 12px; background: rgb(161, 158, 158); border: 1px solid rgb(161, 158, 158);"><div data-v-b14a41da="" class="van-button__content"><span data-v-b14a41da="" class="van-button__text">Phản ánh&nbsp;&nbsp;&gt;</span></div></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                                <% } %>
+                </div>
+                <!---->
+                <!---->
+                <div data-v-b14a41da="" class="main-products display-none">
+                    <% if (listrechargeClosed.length > 0) { %>
+                        <% for (var i = 0; i < listrechargeClosed.length; i++) { %>
+                            <div data-v-b14a41da="" class="reservation-booking">
+                                <div data-v-b14a41da="" style="margin-top: 10px;">
+                                    <div data-v-b14a41da="" class="booking-title">
+                                        <input type="text" value="<?=$show_don['id_txn'];?>" style="display: none" class="txn">
+                                        <div data-v-b14a41da=""> No.<span data-v-b14a41da=""><%=listrechargeClosed[i].id_txn%></span></div>
+                                        <div data-v-b14a41da="" class="booking-title-no">
+                                            <%=listrechargeClosed[i].time%>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div data-v-b14a41da="" class="van-cell-group van-hairline--top-bottom">
+                                    <div data-v-b14a41da="" class="van-cell van-cell__payway">
+                                        <div data-v-b14a41da=""><span data-v-b14a41da="" style="font-weight: 600;">Phương thức thanh toán:</span> <span data-v-b14a41da="" class="van-cell__status" style="font-size: 14px;">ONEPAY</span></div>
+                                        <div data-v-b14a41da=""><span data-v-b14a41da="" style="font-weight: 600;">Số lượng:</span> <span data-v-b14a41da="" style="font-size: 14px; color: rgb(0, 184, 169);">₫<%=String(listrechargeClosed[i].money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%></span></div>
+                                    </div>
+                                    <!---->
+                                    <div data-v-b14a41da="" style="padding: 0px 24px; font-size: 12px;"></div>
+                                    <div data-v-b14a41da="" style="padding: 10px 16px; font-weight: 600;">Option</div>
+                                    <div data-v-b14a41da="" style="display: flex; margin: 8px 18px 12px;">
+                                        <button data-v-b14a41da="" class="van-button van-button--primary van-button--small" style="font-weight: 500; flex: 1 1 0%; margin-left: 12px; background: rgb(161, 158, 158); border: 1px solid rgb(161, 158, 158);"><div data-v-b14a41da="" class="van-button__content"><span data-v-b14a41da="" class="van-button__text">Phản ánh&nbsp;&nbsp;&gt;</span></div></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                                <% } %>
+                </div>
+                <!---->
+            </div>
+            <div class="van-list__finished-text">Không còn dữ liệu</div>
+            <div class="van-list__placeholder"></div>
+            <!---->
+        </div>
+    </div>
+    <div class="van-overlay display-none" style="z-index: 2002;"></div>
+    <div role="dialog" class="van-dialog display-none" style="z-index: 2006;">
+        <div class="van-dialog__content van-dialog__content--isolated">
+            <div class="van-dialog__message">Xác nhận hủy đơn hàng chưa thanh toán ! </div>
+        </div>
+        <div class="van-hairline--top van-dialog__footer"><button class="van-button van-button--default van-button--large van-dialog__cancel"><div class="van-button__content"><span class="van-button__text">Hủy</span></div></button><button class="van-button van-button--default van-button--large van-dialog__confirm van-hairline--left"><div class="van-button__content"><span class="van-button__text">Xác nhận</span></div></button></div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $('.top-selete-sub:eq(0)').click(function(e) {
+            $('.main-products').addClass('display-none');
+            $('.main-products:eq(0)').removeClass('display-none');
+        });
+        $('.top-selete-sub:eq(1)').click(function(e) {
+            e.preventDefault();
+            $('.main-products').addClass('display-none');
+            $('.main-products:eq(1)').removeClass('display-none');
+        });
+        $('.top-selete-sub:eq(2)').click(function(e) {
+            e.preventDefault();
+            $('.main-products').addClass('display-none');
+            $('.main-products:eq(2)').removeClass('display-none');
+        });
+        $('.top-selete-sub:eq(3)').click(function(e) {
+            $('.main-products').addClass('display-none');
+            $('.main-products:eq(3)').removeClass('display-none');
+        });
+        $('.top-selete-sub').click(function() {
+            $('.top-selete-sub').removeClass("block_click");
+            $(this).addClass("block_click");
+        });
+        $(document).ready(function() {
+            $('.top-selete-sub').click(function(e) {
+                e.preventDefault();
+                $(this).addClass('active').siblings().removeClass('active');
+            });
+            $('.van-dialog__cancel, .van-overlay, .van-dialog__confirm').click(function(e) {
+                e.preventDefault();
+                $('.van-overlay, .van-dialog').addClass('display-none');
+            });
+        });
+        $('.close').click(function(e) {
+            e.preventDefault();
+            $('.van-overlay, .van-dialog').removeClass('display-none');
+        });
+        $(window).on('load', function() {
+            $('.preloader').delay(100).fadeOut('fast');
+        });
+    </script>
+    <% if (listrechargeWaiting.length > 0) { %>
+        <script>
+            $('.van-dialog__confirm').click(function(e) {
+                $.ajax({
+                    type: "POST",
+                    url: "/couleepay/closeReceipt",
+                    data: {
+                        id_don_hang: "<%=listrechargeWaiting[0].id_txn%>",
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.message == 1) {
+                            $('.main-products:eq(0)').addClass("display-none");
+                            setTimeout(() => {
+                                location.reload();
+                            }, 1000);
+                        }
+                    }
+                });
+            });
+            $('.thanh-toan').click(function(e) {
+                e.preventDefault();
+                location.href = "/couleepay/<%=listrechargeWaiting[0].id_txn%>/receipt";
+            });
+        </script>
+        <% } %>
+</body>
+
+</html>

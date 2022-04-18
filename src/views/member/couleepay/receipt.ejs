@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+    <meta content="IE=Edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <link rel="icon" href="/favicon.ico">
+    <title>Pay Desk</title>
+    <link href="/cssCouleepay/chunk-vendors.dcc2ed00.css" rel="stylesheet">
+    <link href="/cssCouleepay/app.3e31acb6.css" rel="stylesheet">
+</head>
+
+<% if (couleepays.length > 0) { %>
+<% if (couleepays[0].loai == "bank") { %>
+<body style="">
+    <div class="container p-0">
+        <nav class="navbar-expand-lg navbar-dark bg-primary px-4 py-2">
+            <a class="navbar-brand" href="javascript:void(0);">
+                <span class="lang vn" style="display: inline;">Thanh toán tại đây</span>
+            </a>
+            <ul class="navbar-nav float-right">
+                <li class="nav-item dropdown">
+                    <p class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="lang en" style="display: none;">Language</span>
+
+                        <span class="lang vn" style="display: inline;">Ngôn ngữ</span>
+                    </p>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" id="langBtnVn" href="javascript:void(0);">Việt Nam</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <div class="row mx-1 mt-2 mb-5" id="contentBox">
+            <div class="col-12 col-sm-12 col-md-8 p-1 showPayPage" style="display: block;">
+                <div class="card border-primary" style="font-size: 20px">
+                    <div class="card-header">
+                        <h2 class="text-center lang vn" id="payBankNameVn" style="display: block;">Thanh toán cho BANK.</h2>
+                    </div>
+                    <div class="card-body" align="center">
+
+                        <div class="text-center mt-2 text-b14">
+                            <span class="lang vn" style="display: inline;">Thời gian hiệu lực của đơn hàng:</span>
+                            <span id="timeClock" class="ml-2 text-danger" align="center"><br><i></i> <span class="text-danger" id="timeClocks" style="font-weight: 600;font-size: 32px;"></span></span>
+                        </div>
+
+                        <ul class="list-group mt-2">
+                            <li class="list-group-item border">
+                                <div class="text-left text-b14">
+                                    <span>
+                                    <span class="lang vn" style="display: inline;">Mã đơn đặt hàng</span>
+                                    </span>：
+                                    <span class="text-danger payMarkSpan" style="font-weight: 600;"><%=couleepays[0].ma_don%> </span>
+                                </div>
+                                <button class="btn btn-success float-right mt-1 copyButton" id="copyMark" data-clipboard-text="2930510">
+                                    <span class="lang vn" style="display: inline;">Sao chép</span>
+                                </button>
+                            </li>
+
+                            <li class="list-group-item border">
+                                <h5 id="markHelp" class="text-danger">
+                                    <span class="lang vn" style="display: inline;">
+                                        Vui lòng sao chép mã đơn đặt hàng trên và điền vào cột ghi chú, vui lòng không thay đổi để tránh sai sót
+                                    </span>
+                                </h5>
+                            </li>
+
+                            <li class="list-group-item border">
+                                <div class="text-left text-b12">
+                                    <span>
+                                        <span class="lang vn" style="display: inline;">Ngân hàng</span>
+                                    </span>：
+                                    <span class="text-primary payCodeName"><%=bankings[0].name_bank%></span>
+                                </div>
+                                <button class="btn btn-success float-right mt-1" id="copyName">
+                                    <span class="lang vn" style="display: inline;">Sao chép</span>
+                                </button>
+                            </li>
+
+                            <li class="list-group-item border">
+                                <div class="text-left text-b12">
+                                    <span>
+                                    <span class="lang vn" style="display: inline;">Số tiền</span>
+                                    </span>：
+                                    <span class="text-primary payPointsSpan" copy-clipboard-money="<%=couleepays[0].money%>"><%=String(couleepays[0].money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%> đ</span>
+                                </div>
+                                <button class="btn btn-success float-right mt-1" id="copyPoints">
+                                    <span class="lang vn" style="display: inline;">Sao chép</span>
+                                </button>
+                            </li>
+
+                            <li class="list-group-item border">
+                                <div class="text-left text-b12">
+                                    <span>
+                                        <span class="lang vn" style="display: inline;">Tài khoản thụ hưởng</span>
+                                    </span>：
+                                    <span class="text-primary payCodeSpan"><%= bankings[0].name %></span>
+                                </div>
+                                <button class="btn btn-success float-right mt-1" id="copyCode">
+                                    <span class="lang vn" style="display: inline;">Sao chép</span>
+                                </button>
+                            </li>
+
+                            <li class="list-group-item border">
+                                <div class="text-left text-b12">
+                                    <span>
+                                    <span class="lang vn" style="display: inline;">Tài khoản nhận tiền</span>
+                                    </span>：
+                                    <span class="text-primary payAccountSpan"><%= bankings[0].info %></span>
+                                </div>
+                                <button class="btn btn-success float-right mt-1" id="copyAccount" data-clipboard-text="0001570056820">
+                                    <span class="lang vn" style="display: inline;">Sao chép</span>
+                                </button>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 p-1 showPayPage" style="display: block;">
+                <div class="card border-warning">
+                    <ul class="list-group list-group-flush text-b10">
+                        <li class="list-group-item border p-2 text-center">
+                            <h4 class="lang en" style="display: none;">
+                                How to transfer the payment via online banking and QR code scanning
+                                <footer class="blockquote-footer">Only peer transfers provide bank scan code payment methods</footer>
+                            </h4>
+                            <h4 class="lang vn" style="display: block;">
+                                Phương thức chuyển khoản internet banking và quét mã trên
+                                <footer class="blockquote-footer">Chỉ có chuyển khoản cùng lúc cung cấp phương thức thanh toán bằng mã quét ngân hàng</footer>
+                            </h4>
+                        </li>
+                        <li class="list-group-item border p-2 text-center text-danger">
+                            <span class="lang vn" style="display: inline;">Cùng ngân hàng có thể trực tiếp quét mã tiến hành thanh toán</span>
+                        </li>
+                        <li class="list-group-item border p-2">
+                            <span class="lang vn" style="display: inline;">1. Vui lòng nhập số tiền của đơn hàng</span>
+                        </li>
+                        <li class="list-group-item border p-2">
+                            <span class="lang vn" style="display: inline;">2. Vui lòng sao chép mã đơn đặt hàng hàng và điền vào cột ghi chú để hoàn tất thanh toán bằng mã quét</span>
+                        </li>
+                        <li class="list-group-item border p-2">
+                            <span class="lang vn" style="display: inline;">3. Sau khi chuyển khoản thành công, trang tính tiền sẽ chuyển sang màn hình thành công tức là đã thanh toán thành công</span>
+                        </li>
+
+                        <li class="list-group-item border p-2 text-center text-danger">
+                            <span class="lang vn" style="display: inline;">Khác ngân hàng vui lòng nhập thông tin chuyển khoản theo cách thủ công</span>
+                        </li>
+                        <li class="list-group-item border p-2">
+                            <span class="lang vn" style="display: inline;">1. Khác ngân hàng vui lòng sao chép số tài khoản nhận tiền</span>
+                        </li>
+                        <li class="list-group-item border p-2">
+                            <span class="lang vn" style="display: inline;">2. Vui lòng nhập số tiền của đơn hàng</span>
+                        </li>
+                        <li class="list-group-item border p-2">
+                            <span class="lang vn" style="display: inline;">3. Vui lòng sao chép mã đơn đặt hàng và điền vào cột ghi chú để hoàn tất thanh toán chuyển khoản liên ngân hàng</span>
+                        </li>
+                        <li class="list-group-item border p-2">
+                            <span class="lang vn" style="display: inline;">4. Sau khi chuyển khoản thành công, trang tính tiền sẽ chuyển sang màn hình thành công tức là đã thanh toán thành công</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+<% } %>
+<% if (couleepays[0].loai == "momo") { %>
+    <body style="">
+    <div class="container p-0">
+        <nav class="navbar-expand-lg navbar-dark bg-primary px-4 py-2" style="background-color: #b10065!important;">
+            <a class="navbar-brand" href="javascript:void(0);">
+                <span class="lang vn" style="display: inline;">Thanh toán tại đây</span>
+            </a>
+            <ul class="navbar-nav float-right">
+                <li class="nav-item dropdown">
+                    <p class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="lang en" style="display: none;">Language</span>
+
+                        <span class="lang vn" style="display: inline;">Ngôn ngữ</span>
+                    </p>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" id="langBtnVn" href="javascript:void(0);">Việt Nam</a>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <div class="row mx-1 mt-2 mb-5" id="contentBox">
+            <div class="col-12 col-sm-12 col-md-8 p-1 showPayPage" style="display: block;">
+                <div class="card border-primary" style="font-size: 20px">
+                    <div class="card-header">
+                        <h2 class="text-center lang vn" id="payBankNameVn" style="display: block;">Thanh toán cho MOMO.</h2>
+                    </div>
+                    <div class="card-body" align="center">
+
+                        <div class="text-center mt-2 text-b14">
+                            <span class="lang vn" style="display: inline;">Thời gian hiệu lực của đơn hàng:</span>
+                            <span id="timeClock" class="ml-2 text-danger" align="center"><br><i></i> <span class="text-danger" id="timeClocks" style="font-weight: 600;font-size: 32px;"></span></span>
+                        </div>
+
+                        <ul class="list-group mt-2">
+                            <li class="list-group-item border">
+                                <div class="text-left text-b14">
+                                    <span>
+                                    <span class="lang vn" style="display: inline;">Mã đơn đặt hàng</span>
+                                    </span>：
+                                    <span class="text-danger payMarkSpan" style="font-weight: 600;"><%=couleepays[0].ma_don%></span>
+                                </div>
+                                <button class="btn btn-success float-right mt-1 copyButton" id="copyMark" data-clipboard-text="2930510">
+                                    <span class="lang vn" style="display: inline;">Sao chép</span>
+                                </button>
+                            </li>
+
+                            <li class="list-group-item border">
+                                <h5 id="markHelp" class="text-danger">
+                                    <span class="lang vn" style="display: inline;">
+                                    Vui lòng sao chép mã đơn đặt hàng trên và điền vào cột ghi chú, vui lòng không thay đổi để tránh sai sót</span>
+                                </h5>
+                            </li>
+
+                            <li class="list-group-item border">
+                                <div class="text-left text-b12">
+                                    <span>
+                                    <span class="lang vn" style="display: inline;">Ví điện tử </span>
+                                    </span>：
+                                    <span class="text-primary payCodeName" style="color: #b10065!important;"><%=bankings[1].name_bank%></span>
+                                </div>
+                                <button class="btn btn-success float-right mt-1" id="copyName" data-clipboard-text="100000">
+                                    <span class="lang vn" style="display: inline;">Sao chép</span>
+                                </button>
+                            </li>
+
+                            <li class="list-group-item border">
+                                <div class="text-left text-b12">
+                                    <span>
+                                    <span class="lang vn" style="display: inline;">Số tiền</span>
+                                    </span>：
+                                    <span class="text-primary payPointsSpan" copy-clipboard-money="<%=couleepays[0].money%>"><%=String(couleepays[0].money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%> đ</span>
+                                </div>
+                                <button class="btn btn-success float-right mt-1" id="copyPoints" data-clipboard-text="100000">
+                                    <span class="lang vn" style="display: inline;">Sao chép</span>
+                                </button>
+                            </li>
+
+                            <li class="list-group-item border">
+                                <div class="text-left text-b12">
+                                    <span>
+                                        <span class="lang vn" style="display: inline;">Tài khoản thụ hưởng</span>
+                                    </span>：
+                                    <span class="text-primary payCodeSpan"><%=bankings[1].name%></span>
+                                </div>
+                                <button class="btn btn-success float-right mt-1" id="copyCode" data-clipboard-text="TRINH TRONG THANH">
+                                    <span class="lang vn" style="display: inline;">Sao chép</span>
+                                </button>
+                            </li>
+
+                            <li class="list-group-item border">
+                                <div class="text-left text-b12">
+                                    <span>
+                                    <span class="lang vn" style="display: inline;">Tài khoản nhận tiền</span>
+                                    </span>：
+                                    <span class="text-primary payAccountSpan"><%=bankings[1].info%></span>
+                                </div>
+                                <button class="btn btn-success float-right mt-1" id="copyAccount" data-clipboard-text="0001570056820">
+                                    <span class="lang vn" style="display: inline;">Sao chép</span>
+                                </button>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-12 col-md-4 p-1 showPayPage" style="display: block;">
+                <div class="card border-warning">
+                    <ul class="list-group list-group-flush text-b10">
+                        <li class="list-group-item border p-2 text-center">
+                            <h4 class="lang en" style="display: none;">
+                                How to transfer the payment via online banking and QR code scanning
+                                <footer class="blockquote-footer">Only peer transfers provide bank scan code payment methods</footer>
+                            </h4>
+                            <h4 class="lang vn" style="display: block;">
+                                Phương thức chuyển tiền MOMO và quét mã trên
+                                <footer class="blockquote-footer">Chỉ có chuyển khoản cùng lúc cung cấp phương thức thanh toán bằng mã quét ngân hàng</footer>
+                            </h4>
+                        </li>
+                        <li class="list-group-item border p-2 text-center text-danger">
+                            <span class="lang vn" style="display: inline;">Cùng ngân hàng có thể trực tiếp quét mã tiến hành thanh toán</span>
+                        </li>
+                        <li class="list-group-item border p-2">
+                            <span class="lang vn" style="display: inline;">1. Vui lòng nhập số tiền của đơn hàng</span>
+                        </li>
+                        <li class="list-group-item border p-2">
+                            <span class="lang vn" style="display: inline;">2. Vui lòng sao chép mã đơn đặt hàng hàng và điền vào cột ghi chú để hoàn tất thanh toán bằng mã quét</span>
+                        </li>
+                        <li class="list-group-item border p-2">
+                            <span class="lang vn" style="display: inline;">3. Sau khi chuyển khoản thành công, trang tính tiền sẽ chuyển sang màn hình thành công tức là đã thanh toán thành công</span>
+                        </li>
+
+                        <li class="list-group-item border p-2 text-center text-danger">
+                            <span class="lang vn" style="display: inline;">Khác ngân hàng vui lòng nhập thông tin chuyển khoản theo cách thủ công</span>
+                        </li>
+                        <li class="list-group-item border p-2">
+                            <span class="lang vn" style="display: inline;">1. Khác ngân hàng vui lòng sao chép số tài khoản nhận tiền</span>
+                        </li>
+                        <li class="list-group-item border p-2">
+                            <span class="lang vn" style="display: inline;">2. Vui lòng nhập số tiền của đơn hàng</span>
+                        </li>
+                        <li class="list-group-item border p-2">
+                            <span class="lang vn" style="display: inline;">3. Vui lòng sao chép mã đơn đặt hàng và điền vào cột ghi chú để hoàn tất thanh toán chuyển khoản liên ngân hàng</span>
+                        </li>
+                        <li class="list-group-item border p-2">
+                            <span class="lang vn" style="display: inline;">4. Sau khi chuyển khoản thành công, trang tính tiền sẽ chuyển sang màn hình thành công tức là đã thanh toán thành công</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+<% } %>
+
+<% if (couleepays[0].status != 0) { %>
+    <script>
+        location.href = "/member/index";
+    </script>
+<% } %>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        $('#copyMark').click(function(e) {
+            var copyText = $('.payMarkSpan');
+            copyText.text();
+            navigator.clipboard.writeText(copyText.text());
+        });
+        $('#copyName').click(function(e) {
+            var copyText = $('.payCodeName');
+            copyText.text();
+            navigator.clipboard.writeText(copyText.text());
+        });
+        $('#copyPoints').click(function(e) {
+            var copyText = $('.payPointsSpan').attr('copy-clipboard-money');
+            navigator.clipboard.writeText(copyText);
+        });
+        $('#copyCode').click(function(e) {
+            var copyText = $('.payCodeSpan');
+            copyText.text();
+            navigator.clipboard.writeText(copyText.text());
+        });
+        $('#copyAccount').click(function(e) {
+            var copyText = $('.payAccountSpan');
+            copyText.text();
+            navigator.clipboard.writeText(copyText.text());
+        });
+        $('#copyMark, #copyName, #copyPoints, #copyCode, #copyAccount').click(function(e) {
+            swal("Success!", "", "success");
+        });
+
+        var timeClocks = document.querySelector('#timeClocks');
+        var getTimeEnd = Number("<%=couleepays[0].timeEnd%>");
+        var tet = new Date(getTimeEnd).getTime();
+        var countDowns = setInterval(run,0);
+        function formatTime(time) {
+            return (time <= 9) ? "0" + time : time;
+        } 
+        function run(){
+            var now = new Date().getTime();
+            var timeRest = tet - now;
+            var minute = Math.floor(timeRest%(1000*60*60)/(1000*60));
+            var sec = Math.floor(timeRest%(1000*60)/(1000));
+            timeClocks.innerHTML = formatTime(minute) + ' : ' + formatTime(sec) +"  ";
+            if(timeRest <= 0) {
+                clearInterval(countDowns);
+                timeClocks.innerHTML = "Time is up !";
+            }              
+        }
+    </script>
+<% } %>
+</body>
+
+</html>

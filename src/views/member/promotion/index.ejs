@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include('head'); -%>
+        <style>
+            .img-baer img {
+                margin-top: 25px;
+                width: calc(100vw - 88px);
+                height: 100%;
+                object-fit: cover;
+            }
+            
+            .closer {
+                display: none;
+            }
+        </style>
+        <title>Promotion</title>
+</head>
+
+<body class="">
+    <div data-v-58c67bb8="" class="layout-content">
+        <!---->
+        <div data-v-a922001c="" class="promotion-content">
+            <div data-v-a922001c="" class="nav-height">
+                <div data-v-a922001c="" class="van-nav-bar van-nav-bar--fixed">
+                    <a href="/member/index">
+                        <div class=" van-nav-bar__left "><i class="van-icon van-icon-arrow-left van-nav-bar__arrow "><!----></i></div>
+                    </a>
+                    <div class="van-nav-bar__title van-ellipsis ">Quảng cáo của tôi</div>
+                    <div class="van-nav-bar__right "></div>
+                </div>
+            </div>
+            <div data-v-a922001c=" " class="my ">
+                <div data-v-a922001c=" " class="top ">
+                    <div data-v-a922001c=" " class="left "><em data-v-a922001c=" ">₫</em><span data-v-a922001c="" style="font-size: 27px;"><%=String(wallet_bonus[0].money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')%></span>
+                        <div data-v-a922001c=" " class="title ">
+                            Tiền thưởng của tôi
+                        </div>
+                    </div>
+                    <div data-v-a922001c=" " class="right ">
+                        <a href="apply">
+                            <button data-v-a922001c=""> đề xuất rút tiền hoa hồng</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div data-v-a922001c=" " class="record ">
+                <div data-v-a922001c=" " href="bonusRecord " class="record-item bonusRecord">
+                    <span data-v-a922001c=" ">Lịch sử hoa hồng</span>
+                </div>
+
+                <div data-v-a922001c=" " href="applyRecord " class="record-item applyRecord">
+                    <span data-v-a922001c=" ">Lịch sử áp dụng</span>
+                </div>
+            </div>
+            <div data-v-a922001c=" " class="info ">
+                <div data-v-a922001c=" " class="title "><span data-v-a922001c=" ">quảng cáo</span> <a data-v-a922001c=" " href="promotion">Lịch sử quảng cáo &gt;</a></div>
+                <div data-v-a922001c=" " style="padding: 10px; color: rgb(0, 184, 169); ">Thành viên hoạt động hôm nay:<span data-v-a922001c=" ">&nbsp;<?=$online_today?></span></div>
+                <div data-v-a922001c=" " class="promotion ">
+                    <div data-v-a922001c=" " class="top-selete ">
+                        <div data-v-a922001c=" " class="top-selete-sub active">Cấp 1</div>
+                        <div data-v-a922001c=" " class="top-selete-sub">Cấp 2</div>
+                    </div>
+                    <div data-v-a922001c=" " class="reservation-chunk ">
+                        <div data-v-a922001c=" " class="reservation-chunk-sub ">
+                            <div data-v-a922001c=" " class="reservation-chunk-sub-title ">Tổng cộng số người</div>
+                            <div data-v-a922001c=" " class="reservation-chunk-sub-num">
+                                <span><%=quantity_f1[0].soluong%></span>
+                            </div>
+                        </div>
+                        <div data-v-a922001c=" " class="reservation-chunk-sub ">
+                            <div data-v-a922001c=" " class="reservation-chunk-sub-title ">lợi nhuận quảng cáo(₫)</div>
+                            <div data-v-a922001c=" " class="reservation-chunk-sub-num">₫
+                                <%=String(wallet_bonus[0].ref_f1).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')%>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div data-v-a922001c=" " class="thick-box"></div>
+            <div data-v-a922001c=" " class="invite ">
+                <div data-v-a922001c=" " class="invite-item"><span data-v-a922001c=" ">Mời bạn bè</span></div>
+                <div data-v-a922001c=" " class="invite-item">
+                    <button data-v-a922001c=" " href="share ">Tiếp tục ngay</button>
+                </div>
+            </div>
+            <!---->
+        </div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('.top-selete-sub:eq(0)').click(function() {
+                $('.top-selete-sub:eq(0)').addClass('active');
+                $('.top-selete-sub:eq(1)').removeClass('active');
+                $('.reservation-chunk-sub-num:eq(0)').html('<%=quantity_f1[0].soluong%>');
+                $('.reservation-chunk-sub-num:eq(1)').html("₫ " + "<%=String(wallet_bonus[0].ref_f1).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')%>");
+            });
+            $('.top-selete-sub:eq(1)').click(function() {
+                $('.top-selete-sub:eq(1)').addClass('active');
+                $('.top-selete-sub:eq(0)').removeClass('active');
+                $('.reservation-chunk-sub-num:eq(0)').html('<%=countF2%>');
+                $('.reservation-chunk-sub-num:eq(1)').html("₫ " + "<%=String(wallet_bonus[0].ref_f2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')%>");
+            });
+            $('.bonusRecord').click(function() {
+                window.location = "bonusRecord";
+            });
+            $('.invite-item button').click(function() {
+                window.location = "share";
+            });
+            $('.applyRecord').click(function() {
+                window.location = "applyRecord";
+            });
+        });
+    </script>
+</body>
+
+</html>

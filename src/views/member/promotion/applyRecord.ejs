@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include('head'); -%>
+        <title>Apply Records</title>
+</head>
+
+<body>
+    <div data-v-58c67bb8="" class="layout-content">
+        <!---->
+        <div data-v-2b98d1b6="">
+            <div data-v-2b98d1b6="" class="van-nav-bar">
+                <a onclick="history.back()">
+                    <div class="van-nav-bar__left">
+                        <i class="van-icon van-icon-arrow-left van-nav-bar__arrow"><!----></i>
+                    </div>
+                </a>
+                <div class="van-nav-bar__title van-ellipsis">Lịch sử hoa hồng</div>
+                <div class="van-nav-bar__right"></div>
+            </div>
+            <div data-v-2b98d1b6="" class="header">
+                <div data-v-2b98d1b6="">Ngày</div>
+                <div data-v-2b98d1b6="">Trạng thái</div>
+            </div>
+            <div data-v-2b98d1b6="" class="section record-list">
+                <div data-v-2b98d1b6="" role="feed" class="van-list">
+                    <% if (withdraw_bonus.length > 0) { %>
+                    <% for (var i = 0; i < withdraw_bonus.length; i++) { %>
+                    <div data-v-2b98d1b6="" class="section-header">tháng
+                        <%=withdraw_bonus[i].time_month_year %>
+                    </div>
+                    <div data-v-2b98d1b6="" class="record-item">
+                        <div data-v-2b98d1b6="" class="record-item__left">
+                            <span data-v-2b98d1b6="" class="record-item-left__days">Ngày <%=withdraw_bonus[i].day %></span>
+                        </div>
+                        <div data-v-2b98d1b6="" class="record-item__context">
+                            <img data-v-2b98d1b6="" src="/images/coin.png" class="record-item__icon">
+                            <div data-v-2b98d1b6="" class="record-item__number">
+                                <span data-v-2b98d1b6="">
+                                        <b data-v-2b98d1b6="">₫<%=withdraw_bonus[i].money %></b>
+                                    </span>
+                                <span data-v-2b98d1b6="" style="font-size: 12px; color: rgb(137, 137, 137);">Hoa Hồng</span>
+                            </div>
+                        </div>
+                        <% if (withdraw_bonus[i].status == 0) { %>
+                        <div data-v-2b98d1b6="" class="record-item__right">
+                            <span data-v-2b98d1b6="" style="color: rgb(162, 162, 162);">Đang áp dụng</span>
+                        </div>
+                        <% } %>
+                        <% if (withdraw_bonus[i].status == 1) { %>
+                        <div data-v-2b98d1b6="" class="record-item__right" style="padding-right: 5px;">
+                            <span data-v-2b98d1b6="" style="color: rgb(18, 115, 57);">Thành công</span>
+                        </div>
+                        <% } %>
+                    </div>
+                    <% } %>
+                    <% } %>
+                </div>
+                <div class="van-list__finished-text">Không còn dữ liệu</div>
+                <div class="van-list__placeholder"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

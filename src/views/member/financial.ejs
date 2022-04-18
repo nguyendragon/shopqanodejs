@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-control" content="no-cache">
+    <meta http-equiv="Cache" content="no-cache">
+    <meta content="telephone=no" name="format-detection">
+    <meta name="description" content="a shop from vietnam.">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <title>Financial</title>
+    <link href="/css/vantjs.css" rel="stylesheet">
+    <link href="/css/vendor.css" rel="stylesheet">
+    <link href="/css/main.css" rel="stylesheet">
+    <link href="/css/pages__finance.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/app.css">
+    <link rel="stylesheet" type="text/css" href="/css/pages__parity.css">
+    <link rel="stylesheet" type="text/css" href="/css/pages__member.css">
+    <style>
+        .display-none {
+            display: none;
+        }
+        
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #fff;
+            z-index: 99;
+        }
+    </style>
+
+</head>
+
+<body class="">
+    <div data-v-58c67bb8="" class="layout-content">
+        <!---->
+        <div data-v-7844dbae="" class="security-content">
+            <div data-v-7844dbae="" class="van-nav-bar van-nav-bar--fixed">
+                <a href="/member/index">
+                    <div class="van-nav-bar__left"><i class="van-icon van-icon-arrow-left van-nav-bar__arrow"><!----></i></div>
+                </a>
+                <div class="van-nav-bar__title van-ellipsis">Chi tiết tài chính</div>
+                <div class="van-nav-bar__right"></div>
+            </div>
+            <div data-v-7844dbae="" class="bar-box"></div>
+            <div data-v-7844dbae="" class="container">
+                <div data-v-7844dbae="">thời gian tạo ra</div>
+                <div data-v-7844dbae="">các loại tài chính</div>
+                <div data-v-7844dbae=""></div>
+                <div data-v-7844dbae="">số tiền</div>
+            </div>
+            <div data-v-7844dbae="">
+                <div data-v-7844dbae="" role="feed" class="van-list" style="padding: 0px;">
+
+                </div>
+                <div class="van-list__finished-text"></div>
+                <div class="van-list__placeholder"></div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var limit = 15;
+            var start = 0;
+            var action = 'inactive';
+
+            function load_country_data(limit, start) {
+                $.ajax({
+                    url: "load_financial.php",
+                    method: "POST",
+                    data: {
+                        limit: limit,
+                        start: start
+                    },
+                    cache: false,
+                    success: function(data) {
+                        $('.van-list').append(data);
+                        if (data == '') {
+                            action = 'active';
+                            $('.van-list__finished-text').text("Không còn dữ liệu");
+                        } else {
+                            action = "inactive";
+                            $('.van-list__finished-text').html('<div class="van-list__loading"><div class="van-loading van-loading--circular"><span class="van-loading__spinner van-loading__spinner--circular" style="width: 16px; height: 16px;"><svg viewBox="25 25 50 50" class="van-loading__circular"><circle cx="50" cy="50" r="20" fill="none"></circle></svg></span><span class="van-loading__text">Đang tải</span></div></div>');
+                        }
+                    }
+                });
+            }
+
+            if (action == 'inactive') {
+                action = 'active';
+                load_country_data(limit, start);
+            }
+            $(window).scroll(function() {
+                if ($(window).scrollTop() + $(window).height() > $(".van-list").height() && action == 'inactive') {
+                    action = 'active';
+                    start = start + limit;
+                    setTimeout(function() {
+                        load_country_data(limit, start);
+                    }, 1000);
+                }
+            });
+
+        });
+    </script>
+</body>
+
+</html>

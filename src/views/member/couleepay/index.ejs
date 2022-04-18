@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+    <meta content="IE=Edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <link rel="icon" href="/cssCouleepay/favicon.ico">
+    <title>Pay Desk</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="/cssCouleepay/chunk-vendors.dcc2ed00.css" rel="stylesheet">
+    <link href="/cssCouleepay/app.3e31acb6.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app">
+        <div class="payment-main">
+            <!---->
+            <div class="payment-info">
+                <div data-v-4eae9266="" class="info-content">
+                    <div data-v-4eae9266="" class="payment-nav">
+                        <a href="/financial/recharge">
+                            <span data-v-4eae9266="">
+                                <svg data-v-4eae9266="" t="1624414023869" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2379" class="icon">
+                                    <path data-v-4eae9266="" d="M896 464a48 48 0 0 1 6.528 95.552L896 560H128a48 48 0 0 1-6.528-95.552L128 464h768z" p-id="2380"></path>
+                                    <path data-v-4eae9266="" d="M371.84 159.936a48 48 0 0 1 72.128 62.912l-4.672 5.312-285.952 282.688 286.336 289.472a48 48 0 0 1 4.288 62.464l-4.672 5.376a48 48 0 0 1-62.528 4.288l-5.376-4.672-320-323.52a48 48 0 0 1-4.288-62.528l4.672-5.376 320-316.416z" p-id="2381"></path>
+                                </svg> 
+                                <span data-v-4eae9266="" class="back"></span>
+                            </span>
+                        </a>
+                    </div>
+                    <div data-v-4eae9266="" class="payment-info-wapper">
+                        <div data-v-4eae9266="" class="title-text">giá trị đơn hàng</div>
+                        <div data-v-4eae9266="" class="total-amount"><small data-v-4eae9266="">₫</small><span data-v-4eae9266="">
+                            <% if (couleepays.length > 0) { %>
+                                <%=String(couleepays[0].money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%>
+                            <% } %>
+                            <% if (couleepays.length == 0) { %>
+                                0
+                            <% } %>
+                        </span>
+                            <!---->
+                        </div>
+                        <div data-v-4eae9266="" class="subtitle-text">Txn:
+                            <%=id_txn%>
+                        </div>
+                    </div>
+                </div>
+                <% if(couleepays.length > 0) { %>
+                    <% if(couleepays[0].loai == 0) { %>
+                        <div class="payment-way">
+                            <div data-v-301e0c40="" class="payment-container">
+                                <h3 data-v-301e0c40="">Phương thức thanh toán</h3>
+                                <div data-v-301e0c40="" class="payment-list-group">
+                                    <div data-v-301e0c40="" class="payment-list-item mt-3">
+                                        <div variant="primary" class="payment-cell">
+                                            <i class="payment-cell__left-icon">
+                                            <img color="white" src="/images/bankigg.png" style="object-fit: contain;"></i>
+                                            <div class="payment-list-item__text payment-cell__text">
+                                                <span> thẻ chuyển thẻ</span>
+                                                <!---->
+                                            </div>
+                                            <i class="payment-cell__right-icon">
+                                                <svg viewBox="0 0 16 16" width="1em" height="1em" focusable="false" role="img" aria-label="arrow right circle" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi-arrow-right-circle b-icon bi"><g><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path><path fill-rule="evenodd" d="M4 8a.5.5 0 0 0 .5.5h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5A.5.5 0 0 0 4 8z"></path></g></svg></i></div>
+                                        <!---->
+                                    </div>
+                                    <div data-v-301e0c40="" class="payment-list-item mt-3">
+                                        <div variant="primary" class="payment-cell">
+                                            <i class="payment-cell__left-icon">
+                                            <img color="white" src="/images/wallet.99c4a615.png" style="object-fit: contain;"></i>
+                                            <div class="payment-list-item__text payment-cell__text">
+                                                <span> ví điện tử</span>
+                                                <!---->
+                                            </div>
+                                            <i class="payment-cell__right-icon">
+                                                <svg viewBox="0 0 16 16" width="1em" height="1em" focusable="false" role="img" aria-label="arrow right circle" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi-arrow-right-circle b-icon bi"><g><path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"></path><path fill-rule="evenodd" d="M4 8a.5.5 0 0 0 .5.5h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5A.5.5 0 0 0 4 8z"></path></g></svg></i></div>
+                                        <!---->
+                                    </div>
+                                    <!---->
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                <% } %>
+                <% if(couleepays.length == 0) { %>
+                    <div class="payment-way" style="text-align: center; font-weight: 600;margin-top: 25px;">Đơn hàng không tồn tại !</div>
+                <% } %>
+                <% if(couleepays.length > 0) { %>
+                    <% if(couleepays[0].loai != 0) { %>
+                        <% if(couleepays[0].status == 0) { %>
+                            <div class="payment-way" style="text-align: center; font-weight: 600;margin-top: 25px;">Đơn hàng đang xử lý...</div>
+                        <% } %>
+                        <% if(couleepays[0].status != 0) { %>
+                            <div class="payment-way" style="text-align: center; font-weight: 600;margin-top: 25px;">Đơn hàng đã được xử lý !</div>
+                        <% } %>
+                    <% } %>
+                <% } %>
+            </div>
+        </div>
+    </div>
+    <!---->
+    <!---->
+    <% if (couleepays.length > 0) {%>
+        <script>
+            $(document).ready(function() {
+                $('.payment-list-item:eq(0)').click(function(e) {
+                    e.preventDefault();
+                    $(".payment-cell:eq(0)").animate({
+                        right: '500px'
+                    });
+                    setTimeout(() => {
+                        var id_don_hang = "<%=couleepays[0].id_txn%>";
+                        $.ajax({
+                            type: "POST",
+                            url: "/couleepay/receipt",
+                            data: {
+                                typeS: "bank",
+                                id_don_hang: id_don_hang,
+                            },
+                            dataType: "json",
+                            success: function(response) {
+                                if (response.message == 1) {
+                                    location.href = `/couleepay/<%=couleepays[0].id_txn%>/receipt`;
+                                }
+                            }
+                        });
+                    }, 300);
+                });
+                $('.payment-list-item:eq(1)').click(function(e) {
+                    e.preventDefault();
+                    $(".payment-cell:eq(1)").animate({
+                        right: '500px'
+                    });
+                    setTimeout(() => {
+                        var id_don_hang = '<%=couleepays[0].id_txn%>';
+                        $.ajax({
+                            type: "POST",
+                            url: "/couleepay/receipt",
+                            data: {
+                                typeS: "momo",
+                                id_don_hang: id_don_hang,
+                            },
+                            dataType: "json",
+                            success: function(response) {
+                                if (response.message == 1) {
+                                    location.href = `/couleepay/<%=couleepays[0].id_txn%>/receipt`;
+                                }
+                            }
+                        });
+                    }, 300);
+                });
+            });
+        </script>
+        <% } %>
+</body>
+
+</html>
