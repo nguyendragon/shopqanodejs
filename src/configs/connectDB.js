@@ -14,10 +14,21 @@ import mysql from 'mysql2/promise';
 //     password: '',
 //     database: 'ridanode'
 // }); 
+
+// local
 const connection = mysql.createPool({
     host: 'localhost',
-    user: 'rida080gjbq_9wfq',
-    password: 'fh00SmxE3rc3QO',
-    database: '9wfq_rida080gjbq'
+    user: 'root',
+    password: '',
+    database: 'ridanode'
 });
+
+// vps
+// const connection = mysql.createPool({
+//     host: 'localhost',
+//     user: 'rida080gjbq_9wfq',
+//     password: 'fh00SmxE3rc3QO',
+//     database: '9wfq_rida080gjbq'
+// });
+
 export default connection;
