@@ -9,7 +9,7 @@ var jwt = require('jsonwebtoken');
 var cron = require('node-cron');
 require('dotenv').config();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 const app = express();
 
 // tạo 1 sever socketio

@@ -15,9 +15,9 @@ import mysql from 'mysql2/promise';
 //     database: 'ridanode'
 // });
 const connection = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '',
+    host: '103.81.84.104',
+    user: 'rida080',
+    password: 'y4PRMeU75FGe',
     database: 'ridanode'
 });
 export default connection;
