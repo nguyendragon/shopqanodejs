@@ -13,11 +13,11 @@ import mysql from 'mysql2/promise';
 //     user: 'root',
 //     password: '',
 //     database: 'ridanode'
-// });
+// }); 
 const connection = mysql.createPool({
-    host: '103.81.84.104',
-    user: 'rida080',
-    password: 'y4PRMeU75FGe',
-    database: 'ridanode'
+    host: 'localhost',
+    user: 'rida080gjbq_9wfq',
+    password: 'fh00SmxE3rc3QO',
+    database: '9wfq_rida080gjbq'
 });
 export default connection;
