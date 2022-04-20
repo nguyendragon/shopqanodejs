@@ -37,7 +37,7 @@ const getPageMember1 = async(req, res) => {
     var totalGreen = formatMoneys(totalMoneyGreen[0].total); // tổng số tiền cược xanh
     var totalViolet = formatMoneys(totalMoneyViolet[0].total); // tổng số tiền cược tím
 
-    var totalNumber = formatMoneys(totalMoney[0].total); // tổng số tiền cược số
+    var totalNumber = formatMoneys(totalMoney[0].total); // tổng s ố tiền cược số
     var totalNumber0 = formatMoneys(totalMoney0[0].total); // tổng số tiền cược 0
     var totalNumber1 = formatMoneys(totalMoney1[0].total); // tổng số tiền cược 1
     var totalNumber2 = formatMoneys(totalMoney2[0].total); // tổng số tiền cược 2
