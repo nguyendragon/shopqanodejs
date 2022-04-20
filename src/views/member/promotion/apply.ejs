@@ -65,11 +65,11 @@
                     <div data-v-44e02e65="" class="info-time">Thời gian phục vụ</div>
                     <div data-v-44e02e65="" class="info-note">
                         <!---->
-                        <span data-v-44e02e65="">thứ hai: 00:00-23:00</span>
-                        <span data-v-44e02e65="">thứ ba: 00:00-23:00</span>
-                        <span data-v-44e02e65="">thứ tư: 00:00-23:00</span>
-                        <span data-v-44e02e65="">thứ năm: 00:00-23:00</span>
-                        <span data-v-44e02e65="">thứ sáu: 00:00-23:00</span>
+                        <span data-v-44e02e65="">Thứ hai: 00:00-23:00</span>
+                        <span data-v-44e02e65="">Thứ ba: 00:00-23:00</span>
+                        <span data-v-44e02e65="">Thứ tư: 00:00-23:00</span>
+                        <span data-v-44e02e65="">Thứ năm: 00:00-23:00</span>
+                        <span data-v-44e02e65="">Thứ sáu: 00:00-23:00</span>
                         <!---->
                     </div>
                 </div>
@@ -138,30 +138,36 @@
                 } else {
                     $.ajax({
                         type: "POST",
-                        url: "main.php",
+                        url: "/promotion/apply",
                         data: {
                             bonus: bonus,
                         },
                         dataType: "JSON",
                         success: function(response) {
-                            if (response == 1) {
+                            if (response.message == 1) {
                                 $('.van-toast--success').removeClass('display-none');
                                 setTimeout(() => {
                                     $('.van-toast--success').addClass('display-none');
-                                    window.location = "applyRecord";
-                                }, 1000);
-                            } else if (response == 0) {
-                                $('.van-toast--fail .van-toast__text').text('Số hoa hồng không đủ');
+                                    location.href = "/promotion/applyRecord";
+                                }, 1200);
+                            } else if (response.message == 3) {
+                                $('.van-toast--fail .van-toast__text').text('Số hoa hồng không đủ để thực hiện yêu cầu này !');
                                 $('.van-toast--fail').removeClass('display-none');
                                 setTimeout(() => {
                                     $('.van-toast--fail').addClass('display-none');
-                                }, 1000);
-                            } else if (response == 2) {
+                                }, 1200);
+                            } else if (response.message == 4) {
                                 $('.van-toast--fail .van-toast__text').text('Mỗi ngày chỉ được thực hiện tạo đơn rút 1 lần');
                                 $('.van-toast--fail').removeClass('display-none');
                                 setTimeout(() => {
                                     $('.van-toast--fail').addClass('display-none');
-                                }, 1000);
+                                }, 1200);
+                            } else if (response.message == 2) {
+                                $('.van-toast--fail .van-toast__text').text('Có đơn hàng chưa được phê duyệt vui lòng thử lại sau !');
+                                $('.van-toast--fail').removeClass('display-none');
+                                setTimeout(() => {
+                                    $('.van-toast--fail').addClass('display-none');
+                                }, 1200);
                             }
                         }
                     });

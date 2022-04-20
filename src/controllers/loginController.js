@@ -28,7 +28,7 @@ const loginFunc = async(req, res) => {
             user: {...others },
             timeNow: timeNow
         }, process.env.JWT_ACCESS_TOKEN, { expiresIn: "7d" });
-        await connection.execute('UPDATE `users` SET `token` = ? WHERE `phone_login` = ? ', [accessToken, phone_login]);
+        await connection.execute('UPDATE `users` SET `token` = ?, `status_login` = ? WHERE `phone_login` = ? ', [accessToken, 1, phone_login]);
         res.end(`{"message": 1, "username": "${phone_login}", "token": "${accessToken}"}`);
     }
 }

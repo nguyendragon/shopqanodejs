@@ -95,8 +95,11 @@ const JoinParity = async(req, res) => {
     var tokenUser = req.cookies.token;
     var token = jwt.verify(tokenUser, process.env.JWT_ACCESS_TOKEN);
     var phone_login = token.user.phone_login;
+    var name_member = token.user.name_member;
+    var ma_gt = token.user.ma_gt;
+    var ma_gt_f1 = token.user.ma_gt_f1;
 
-    var join = req.body.join; // tham gia vào
+    var join = req.body.join; // tham gia vào 
     var price = Number(req.body.price); // Số tiền cược
     var quantity = Number(req.body.quantity); // Số lượng cược
     var quantity1 = Number(req.body.quantity); // Số lượng cược để nhân với price rồi cho vào db    
@@ -118,6 +121,7 @@ const JoinParity = async(req, res) => {
             default:
                 break;
         }
+
         /***************  xác thực  *****************/
         const [user] = await connection.execute('SELECT * FROM `users` WHERE `phone_login` = ? AND `veri` = 1', [phone_login]);
         const [tage_woipy] = await connection.execute('SELECT * FROM `tage_woipy` WHERE `ket_qua` = ?', [0]);
@@ -137,24 +141,65 @@ const JoinParity = async(req, res) => {
             hh_f1 = 0;
             hh_f2 = 0;
         } else {
-            hh_f1 = (price1 / 100) * 0.6;
-            hh_f2 = (price1 / 100) * 0.4;
+            var hh_f1s = (price1 / 100) * 0.6;
+            var hh_f2s = (price1 / 100) * 0.4;
+            if (hh_f1s <= 3000 || hh_f2s <= 3000) {
+                hh_f1 = hh_f1s;
+                hh_f2 = hh_f2s;
+            } else if (hh_f1s >= 3000 || hh_f2s >= 3000) {
+                hh_f1 = 3000;
+                hh_f2 = 2000;
+            }
         }
+
+        if (user[0].lever != "admin" && user[0].lever != "boss") {
+            const [get_phone_user] = await connection.execute('SELECT `phone_login`, `ma_gt_f1`, `lever` FROM `users` WHERE `ma_gt` = ? AND `veri` = 1', [ma_gt_f1]);
+            const maGTf1 = get_phone_user[0].ma_gt_f1; // lấy ra mã gt f1
+            const phone_login_f1 = get_phone_user[0].phone_login; // lấy ra số điện thoại f1
+            const [get_phone_f2] = await connection.execute('SELECT `phone_login` FROM `users` WHERE `ma_gt` = ? AND `veri` = 1', [maGTf1]);
+
+
+            // update wallet_bonus_f1
+            const [wallet_bonus_f1] = await connection.execute('SELECT `money`, `ref_f1`, `ref_f2` FROM `wallet_bonus` WHERE `phone_login` = ?', [phone_login_f1]);
+
+            // get tien f1
+            var total_money_f1 = wallet_bonus_f1[0].money;
+            var total_ref_f1 = wallet_bonus_f1[0].ref_f1;
+
+            // update wallet_bonus f1
+            await connection.execute('UPDATE `wallet_bonus` SET `money` = ?, `ref_f1` = ? WHERE `phone_login` = ?', [total_money_f1 + hh_f1, total_ref_f1 + hh_f1, phone_login_f1]);
+            if (get_phone_f2.length > 0) {
+                const phone_login_f2 = get_phone_f2[0].phone_login; // lấy ra số điện thoại f2
+                const [wallet_bonus_f2] = await connection.execute('SELECT `money`, `ref_f1`, `ref_f2` FROM `wallet_bonus` WHERE `phone_login` = ?', [phone_login_f2]);
+                // get tien f2
+                var total_money_f2 = wallet_bonus_f2[0].money;
+                var total_ref_f2 = wallet_bonus_f2[0].ref_f2;
+                // update wallet_bonus_f2
+                await connection.execute('UPDATE `wallet_bonus` SET `money` = ?, `ref_f2` = ? WHERE `phone_login` = ?', [total_money_f2 + hh_f2, total_ref_f2 + hh_f2, phone_login_f2]);
+            }
+        }
+
         /**_________________________________ */
         var time = TimeCreate();
         /********************* Cược ***********************/
+
+        // send lv client 
+        let level = 0;
+        if (user[0].lever == "admin" || user[0].lever == "boss") {
+            level = 1;
+        }
 
         if (info_user.token == tokenUser) {
             if (info_user.money < price1) {
                 res.end('{"message": 0}');
             } else {
-                const sql = 'INSERT INTO `order_woipy` SET `phone_login` = ?, `permission` = ?, `giai_doan` = ?, `chon` = ?, `so_tien_cuoc` = ?, `giao_hang` = ?, `phi_dich_vu` = ?, `hh_f1` = ?, `hh_f2` = ?, `time_buy` = ? ';
+                const sql = 'INSERT INTO `order_woipy` SET `phone_login` = ?,`name_user` = ?, `ma_gt` = ?, `ma_gt_f1` = ?, `permission` = ?, `giai_doan` = ?, `chon` = ?, `so_tien_cuoc` = ?, `giao_hang` = ?, `phi_dich_vu` = ?, `hh_f1` = ?, `hh_f2` = ?, `time_buy` = ? ';
                 const sql2 = 'UPDATE `users` SET `money` = ? WHERE `phone_login` = ?';
-                await connection.execute(sql, [phone_login, permission, giai_doan, join, price1, giao_hang, phi_dich_vu, hh_f1, hh_f2, time]);
+                await connection.execute(sql, [phone_login, name_member, ma_gt, ma_gt_f1, permission, giai_doan, join, price1, giao_hang, phi_dich_vu, hh_f1, hh_f2, time]);
                 await connection.execute(sql2, [info_user.money - price1, phone_login]);
                 const [user2] = await connection.execute('SELECT * FROM `users` WHERE `phone_login` = ? AND `veri` = 1', [phone_login]);
 
-                res.end(`{"message": 1, "money": ${user2[0].money}, "so_tien_cuoc": ${price1},"giai_doan": ${giai_doan},  "giao_hang": ${giao_hang},  "join": "${join}", "phi_dich_vu": ${phi_dich_vu} }`);
+                res.end(`{"message": 1, "money": ${user2[0].money}, "so_tien_cuoc": ${price1},"giai_doan": ${giai_doan},  "giao_hang": ${giao_hang},  "join": "${join}", "phi_dich_vu": ${phi_dich_vu}, "name_member": "${name_member}","level": "${level}" }`);
             }
         } else {
             res.end('{"message": "error"}');

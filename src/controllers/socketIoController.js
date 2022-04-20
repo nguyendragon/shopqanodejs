@@ -13,16 +13,12 @@ const getPageMember = async(req, res) => {
 const sendMessageAdmin = (io) => {
     // var time = TimeCreate();
     io.on('connection', (socket) => {
-        // console.log('a user connected ' + socket.id);
         socket.on('data-server', (msg) => {
-            // console.log('message: ' + msg.name);
             io.emit('data-server', msg);
         });
-        // var tage_woipy = "Hello world";
-        // io.emit('data-server', { tage_woipy: tage_woipy });
-        socket.on("disconnect", () => {
-            // console.log('a user disconnect ' + socket.id);
-        });
+        // socket.on("disconnect", () => {
+        // console.log('a user disconnect ' + socket.id);
+        // });
     });
 }
 module.exports = {

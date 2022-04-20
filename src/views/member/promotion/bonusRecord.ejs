@@ -8,6 +8,9 @@
                 cursor: wait;
                 pointer-events: none;
             }
+            .display-none {
+                display: none;
+            }
         </style>
         <title>Detail of sub Commision</title>
 </head>
@@ -31,17 +34,54 @@
                 <div data-v-a981e7e0="" class="reservation-chunk">
                     <div data-v-a981e7e0="" class="reservation-chunk-sub">
                         <div data-v-a981e7e0="" class="reservation-chunk-sub-title">Tổng cộng số người</div>
-                        <div data-v-a981e7e0="" class="reservation-chunk-sub-num"><b data-v-a981e7e0=""><?=$f1?></b></div>
+                        <div data-v-a981e7e0="" class="reservation-chunk-sub-num"><b data-v-a981e7e0=""><%=quantity_f1[0].soluong%></b></div>
                     </div>
                     <div data-v-a981e7e0="" class="reservation-chunk-sub">
                         <div data-v-a981e7e0="" class="reservation-chunk-sub-title">lợi nhuận quảng cáo(₫)</div>
-                        <div data-v-a981e7e0="" class="reservation-chunk-sub-num"><b data-v-a981e7e0="">₫<?=money($info_bonus['hh_f1'])?></b></div>
+                        <div data-v-a981e7e0="" class="reservation-chunk-sub-num"><b data-v-a981e7e0=""></b></div>
                     </div>
                 </div>
             </div>
             <div data-v-a981e7e0="" class="container">
                 <div data-v-a981e7e0="" role="feed" class="van-list">
-                    <?php include "load_hh_f1.php"; ?>
+                    <% if (order_woipy_f1.length > 0) { %>
+                        <% for (var i = 0; i < order_woipy_f1.length; i++) { %>
+                            <div data-v-a981e7e0="" class="container-title">
+                                <div data-v-a981e7e0="" class="container-title-left">
+                                    <img data-v-a981e7e0="" src="/images/myimg.png" class="container-title-left__head"> 
+                                    <div data-v-a981e7e0="" class="container-title-left__text">
+                                        <span data-v-a981e7e0=""><%=order_woipy_f1[i].name_user%></span> 
+                                        <span data-v-a981e7e0="" class="container-title-left__textspan"></span>
+                                    </div>
+                                </div> 
+                                <div data-v-a981e7e0="" class="container-title-right">
+                                    <span data-v-a981e7e0="">₫</span> 
+                                    <span data-v-a981e7e0=""><%=String(order_woipy_f1[i].hh_f1).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')%></span>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% } %>
+                </div>
+                <div data-v-a981e7e0="" role="feed" class="van-list display-none">
+                    <% if (listArray.length > 0) { %>
+                        <% for (var i = 0; i < listArray.length; i++) { %>
+                            <% for(var j = 0; j < listArray[i].length; j++) { %>
+                                <div data-v-a981e7e0="" class="container-title">
+                                    <div data-v-a981e7e0="" class="container-title-left">
+                                        <img data-v-a981e7e0="" src="/images/myimg.png" class="container-title-left__head"> 
+                                        <div data-v-a981e7e0="" class="container-title-left__text">
+                                            <span data-v-a981e7e0=""><%=listArray[i][j].name_user%></span> 
+                                            <span data-v-a981e7e0="" class="container-title-left__textspan"></span>
+                                        </div>
+                                    </div> 
+                                    <div data-v-a981e7e0="" class="container-title-right">
+                                        <span data-v-a981e7e0="">₫</span> 
+                                        <span data-v-a981e7e0=""><%=String(listArray[i][j].hh_f2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')%></span>
+                                    </div>
+                                </div>
+                            <% } %>
+                        <% } %>
+                    <% } %>
                 </div>
                 <div class="van-list__finished-text">Không còn dữ liệu</div>
                 <div class="van-list__placeholder"></div>
@@ -51,35 +91,38 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
+            function formatMoney(money) {
+                return String(money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+            }
+            const f1 = '<%=quantity_f1[0].soluong%>';
+            const f2 = '<%=countF2%>';
+            const wallet_f1 = '₫' + formatMoney('<%=wallet_bonus[0].ref_f1%>');
+            const wallet_f2 = '₫' + formatMoney('<%=wallet_bonus[0].ref_f2%>');
+            $('.reservation-chunk-sub-num:eq(1) b').text(wallet_f1);
+
             $('.top-selete-sub').click(function(e) {
                 e.preventDefault();
                 $('.top-selete-sub').toggleClass('active');
             });
-        });
-    </script>
-    <script>
-        $('.top-selete-sub').click(function() {
-            $('.top-selete-sub').removeClass("block_click");
-            $(this).addClass("block_click");
-        });
-        $(document).ready(function() {
+            $('.top-selete-sub').click(function() {
+                $('.top-selete-sub').removeClass("block_click");
+                $(this).addClass("block_click");
+            });
             $('.top-selete-sub:eq(0)').click(function() {
                 $('.top-selete-sub:eq(0)').addClass('active');
                 $('.top-selete-sub:eq(1)').removeClass('active');
-                $('.reservation-chunk-sub-num:eq(0) b').html('<?=$f1?>');
-                $('.reservation-chunk-sub-num:eq(1) b').html('<?='₫
-                    '.money($info_bonus['
-                    hh_f1 '])?>');
-                $('.van-list').load('load_hh_f1.php');
+                $('.reservation-chunk-sub-num:eq(0) b').html(f1);
+                $('.reservation-chunk-sub-num:eq(1) b').html(wallet_f1);
+                $('.van-list:eq(1)').addClass('display-none');
+                $('.van-list:eq(0)').removeClass('display-none');
             });
             $('.top-selete-sub:eq(1)').click(function() {
                 $('.top-selete-sub:eq(1)').addClass('active');
                 $('.top-selete-sub:eq(0)').removeClass('active');
-                $('.reservation-chunk-sub-num:eq(0) b').html('<?php if($f2 != "") { echo $f2; } else { echo 0; } ?>');
-                $('.reservation-chunk-sub-num:eq(1) b').html('<?='₫
-                    '.money($info_bonus['
-                    hh_f2 '])?>');
-                $('.van-list').load('load_hh_f2.php');
+                $('.reservation-chunk-sub-num:eq(0) b').html(f2);
+                $('.reservation-chunk-sub-num:eq(1) b').html(wallet_f2);
+                $('.van-list:eq(0)').addClass('display-none');
+                $('.van-list:eq(1)').removeClass('display-none');
             });
         });
     </script>

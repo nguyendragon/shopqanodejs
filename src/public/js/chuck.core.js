@@ -4,6 +4,7 @@ $(document).ready(function() {
     $('.van-index-item2, .van-member-item2').click(function() { window.location = '/parity/tran' });
     $('.van-index-item3, .van-parity-item3').click(function() { window.location = '/member/index' });
     $('.van-index-item4').click(function() { window.location = '/home/search' });
+    $('.ql').click(function() { location.href = '/manage/admin/index'; });
     $('.index_about_nav span:eq(0)').click(function() { window.location = '/about/privacyPolicy' });
     $('.index_about_nav span:eq(1)').click(function() { window.location = '/about/privacyPolicy' });
     $('.index_about_nav span:eq(2)').click(function() { window.location = '/about/privacyPolicy' });

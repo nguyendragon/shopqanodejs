@@ -167,6 +167,7 @@ const add_tage_woipy = async(req, res) => {
     if (get_giai_doan.cau == 480) {
         cau_moi = '1';
         giai_doan_moi = Number(get_giai_doan.giai_doan) + 521;
+        await connection.execute('UPDATE `users` SET `status_login` = 0', []);
     } else {
         cau_moi = Number(get_giai_doan.cau) + 1;
         giai_doan_moi = Number(get_giai_doan.giai_doan) + 1;

@@ -1,9 +1,10 @@
+const socket = io();
 $(document).ready(function() {
-    const socket = io();
 
     function formatMoney(money) {
         return String(money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
     }
+
     socket.on('data-server', function(msg) {
         // in ra cầu mới
         if (msg.data) {
@@ -321,11 +322,16 @@ $('.show-order2').click(function(e) {
             dataType: "json",
             success: function(response) {
                 if (response.message == 1) {
+
                     var money = formatMoney(response.money);
                     var totalMoney = formatMoney(response.so_tien_cuoc);
+                    var totalMoney1 = response.so_tien_cuoc;
                     var giao_hang = formatMoney(response.giao_hang);
                     var phi_dich_vu = formatMoney(response.phi_dich_vu);
+                    var name_member = response.name_member;
+                    var level = response.level;
                     var time = TimeCreate();
+                    socket.emit('data-server', { name_member, totalMoney, totalMoney1, join, level, time });
                     $('.left_money').text(money);
                     if (join == "d") {
                         $(".van-list:eq(1)").prepend(

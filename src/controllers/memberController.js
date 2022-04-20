@@ -1,3 +1,4 @@
+import { logPlugin } from '@babel/preset-env/lib/debug';
 import connection from '../configs/connectDB';
 var jwt = require('jsonwebtoken');
 require('dotenv').config();
@@ -31,17 +32,24 @@ const promotion = async(req, res) => {
     const [wallet_bonus] = await connection.execute('SELECT * FROM `wallet_bonus` WHERE `phone_login` = ?', [phone_login]);
     const [quantity_f1] = await connection.execute('SELECT COUNT(*) AS soluong FROM `users` WHERE `ma_gt_f1` = ? ', [ma_gt]);
     const [list_f1] = await connection.query('SELECT `ma_gt` FROM `users` WHERE `ma_gt_f1` = ?', [ma_gt]);
+    const [online_f1] = await connection.query('SELECT COUNT(*) as online_f1 FROM `users` WHERE `ma_gt_f1` = ? AND `status_login` = 1', [ma_gt]);
     var countF2 = 0;
+    var countOnlineF2 = 0;
     if (list_f1.length > 0) {
-        for (let i = 0; i < 1; i++) {
+        for (let i = 0; i < list_f1.length; i++) {
             var list_f1s = list_f1[i].ma_gt;
             var [list_f2] = await connection.query('SELECT `ma_gt` AS f2 FROM `users` WHERE `ma_gt_f1` = ?', [list_f1s]);
             if (list_f2.length > 0) {
+                var f2promax = list_f2[0].f2;
+                const [online_f2] = await connection.query('SELECT `status_login` FROM `users` WHERE `ma_gt` = ?', [f2promax]);
+                if (online_f2[0].status_login == 1) {
+                    countOnlineF2 += 1;
+                }
                 countF2 += list_f2.length;
             }
         }
     }
-    return res.render('member/promotion/index.ejs', { wallet_bonus, quantity_f1, countF2 });
+    return res.render('member/promotion/index.ejs', { wallet_bonus, quantity_f1, countF2, online_f1, countOnlineF2 });
 }
 
 const promotionApply = async(req, res) => {
@@ -53,16 +61,95 @@ const promotionApply = async(req, res) => {
     return res.render('member/promotion/apply.ejs', { apply });
 }
 
+const withdrawBonus = async(req, res) => {
+    // 0. Đang chờ
+    // 1. Thành công
+    // 2. Có đơn hàng chưa duyệt 
+    // 3. Không đủ tiền
+    // 4. Hôm nay bạn đã rút tiền rồi
+
+    function formatTime(time) {
+        return (time < 10) ? "0" + time : time;
+    }
+    const dateNow = new Date();
+    var day = formatTime(dateNow.getDate());
+    var month = formatTime(dateNow.getMonth() + 1);
+    var year = dateNow.getFullYear();
+    var time_month_year = String(month) + " " + String(year);
+
+    var tokenUser = req.cookies.token;
+    var token = jwt.verify(tokenUser, process.env.JWT_ACCESS_TOKEN);
+    var phone_login = token.user.phone_login;
+
+    var bonus = req.body.bonus;
+    if (bonus >= 5000 && bonus <= 2000000) {
+        const [apply] = await connection.execute('SELECT `money` FROM `wallet_bonus` WHERE `phone_login` = ?', [phone_login]);
+        const [withdraw_bonus] = await connection.execute('SELECT * FROM `withdraw_bonus` WHERE `phone_login` = ? ORDER BY `id` DESC LIMIT 1', [phone_login]);
+        if (apply[0].money >= Number(bonus)) {
+            if (withdraw_bonus[0].day == day && withdraw_bonus[0].time_month_year == time_month_year) {
+                res.end('{"message": 4}');
+            } else {
+                if (withdraw_bonus[0].status != 0) {
+                    // tạo đơn rút hoa hồng
+                    const sql = "INSERT INTO `withdraw_bonus` SET `phone_login` = ?, `money` = ?, day = ?, time_month_year = ?, status = 0";
+                    await connection.execute(sql, [phone_login, bonus, day, time_month_year]);
+                    // update tiền
+                    const sql2 = "UPDATE `wallet_bonus` SET `money` = ? WHERE `phone_login` = ?";
+                    await connection.execute(sql2, [apply[0].money - bonus, phone_login]);
+                    res.end('{"message": 1}');
+                } else {
+                    res.end('{"message": 2}');
+                }
+            }
+        } else {
+            res.end('{"message": 3}');
+        }
+    } else {
+        res.end('{"message": "error"}');
+    }
+}
+
 const promotionApplyRecord = async(req, res) => {
     var tokenUser = req.cookies.token;
     var token = jwt.verify(tokenUser, process.env.JWT_ACCESS_TOKEN);
     var phone_login = token.user.phone_login;
-    const [withdraw_bonus] = await connection.execute('SELECT * FROM `withdraw_bonus` WHERE `phone_login` = ?', [phone_login]);
+    var ma_gt = token.user.ma_gt;
+    const [withdraw_bonus] = await connection.execute('SELECT * FROM `withdraw_bonus` WHERE `phone_login` = ? ORDER BY `id` DESC', [phone_login]);
     return res.render('member/promotion/applyRecord.ejs', { withdraw_bonus });
 }
 
-const promotionBonusRecord = (req, res) => {
-    return res.render('member/promotion/bonusRecord.ejs');
+// danh sách hoa hồng
+const promotionBonusRecord = async(req, res) => {
+    var tokenUser = req.cookies.token;
+    var token = jwt.verify(tokenUser, process.env.JWT_ACCESS_TOKEN);
+    var phone_login = token.user.phone_login;
+    var ma_gt = token.user.ma_gt;
+    var ma_gt_f1 = token.user.ma_gt_f1;
+
+    // ví bonus
+    const [wallet_bonus] = await connection.query('SELECT money, ref_f1, ref_f2 FROM `wallet_bonus` WHERE `phone_login` = ?', [phone_login]);
+
+    const [quantity_f1] = await connection.execute('SELECT COUNT(*) AS soluong FROM `users` WHERE `ma_gt_f1` = ? ', [ma_gt]);
+    const [list_f1] = await connection.query('SELECT `ma_gt` FROM `users` WHERE `ma_gt_f1` = ?', [ma_gt]);
+
+    // danh sách hoa hồng f1
+    const [order_woipy_f1] = await connection.query('SELECT phone_login, name_user, hh_f1, hh_f2 FROM `order_woipy` WHERE `ma_gt_f1` = ? AND `hh_f1` > 0 ORDER BY `id` DESC LIMIT 100', [ma_gt]);
+
+    var countF2 = 0;
+    var listArray = []; // đẩy danh sách hh f2 vào đây
+    if (list_f1.length > 0) {
+        for (let i = 0; i < list_f1.length; i++) {
+            var list_f1s = list_f1[i].ma_gt;
+            var [list_f2] = await connection.query('SELECT `ma_gt` AS f2 FROM `users` WHERE `ma_gt_f1` = ?', [list_f1s]);
+            if (list_f2.length > 0) {
+                var f2s = list_f2[0].f2;
+                var [order_woipy_f2] = await connection.query('SELECT phone_login, name_user, hh_f1, hh_f2 FROM `order_woipy` WHERE `ma_gt` = ? AND `hh_f2` > 0 ORDER BY `id` DESC LIMIT 100', [f2s]);
+                listArray.push(order_woipy_f2);
+                countF2 += list_f2.length;
+            }
+        }
+    }
+    return res.render('member/promotion/bonusRecord.ejs', { quantity_f1, countF2, wallet_bonus, order_woipy_f1, listArray });
 }
 
 const promotionPromotion = async(req, res) => {
@@ -70,12 +157,15 @@ const promotionPromotion = async(req, res) => {
     var token = jwt.verify(tokenUser, process.env.JWT_ACCESS_TOKEN);
     var phone_login = token.user.phone_login;
     var ma_gt = token.user.ma_gt;
-    const [ref_f1] = await connection.execute('SELECT name_user, time, ma_gt FROM `users` WHERE `ma_gt_f1` = ?', [ma_gt]);
-    var ref_f2 = []
+    const [ref_f1] = await connection.execute('SELECT name_user, time, ma_gt FROM `users` WHERE `ma_gt_f1` = ? ORDER BY `id` DESC', [ma_gt]);
+    var ref_f2 = [];
     if (ref_f1.length > 0) {
-        for (let i = 0; i < 1; i++) {
+        for (let i = 0; i < ref_f1.length; i++) {
             var list_f1s = ref_f1[i].ma_gt;
-            var [ref_f2] = await connection.query('SELECT name_user, time, ma_gt FROM `users` WHERE `ma_gt_f1` = ?', [list_f1s]);
+            var [ref_f2s] = await connection.query('SELECT name_user, time, ma_gt FROM `users` WHERE `ma_gt_f1` = ? ORDER BY `id` DESC', [list_f1s]);
+            if (ref_f2s.length > 0) {
+                ref_f2.push(ref_f2s);
+            }
         }
     }
     return res.render('member/promotion/promotion.ejs', { ref_f1, ref_f2 });
@@ -563,4 +653,5 @@ module.exports = {
     receipt,
     receiptID,
     closeReceipt,
+    withdrawBonus
 }

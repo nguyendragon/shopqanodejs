@@ -56,7 +56,7 @@
             </div>
             <div data-v-a922001c=" " class="info ">
                 <div data-v-a922001c=" " class="title "><span data-v-a922001c=" ">quảng cáo</span> <a data-v-a922001c=" " href="promotion">Lịch sử quảng cáo &gt;</a></div>
-                <div data-v-a922001c=" " style="padding: 10px; color: rgb(0, 184, 169); ">Thành viên hoạt động hôm nay:<span data-v-a922001c=" ">&nbsp;<?=$online_today?></span></div>
+                <div data-v-a922001c=" " style="padding: 10px; color: rgb(0, 184, 169); ">Thành viên hoạt động hôm nay:&nbsp;<span data-v-a922001c="" id="totalOnline"></span></div>
                 <div data-v-a922001c=" " class="promotion ">
                     <div data-v-a922001c=" " class="top-selete ">
                         <div data-v-a922001c=" " class="top-selete-sub active">Cấp 1</div>
@@ -90,15 +90,23 @@
     </div>
     <script>
         $(document).ready(function() {
+            function formatMoney(money) {
+                return String(money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+            }
+            var totalOnline_f1 = formatMoney('<%=online_f1[0].online_f1%>');
+            var totalOnline_f2 = formatMoney('<%=countOnlineF2%>');
+            $('#totalOnline').html(totalOnline_f1);
             $('.top-selete-sub:eq(0)').click(function() {
                 $('.top-selete-sub:eq(0)').addClass('active');
                 $('.top-selete-sub:eq(1)').removeClass('active');
+                $('#totalOnline').html(totalOnline_f1);
                 $('.reservation-chunk-sub-num:eq(0)').html('<%=quantity_f1[0].soluong%>');
                 $('.reservation-chunk-sub-num:eq(1)').html("₫ " + "<%=String(wallet_bonus[0].ref_f1).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')%>");
             });
             $('.top-selete-sub:eq(1)').click(function() {
                 $('.top-selete-sub:eq(1)').addClass('active');
                 $('.top-selete-sub:eq(0)').removeClass('active');
+                $('#totalOnline').html(totalOnline_f2);
                 $('.reservation-chunk-sub-num:eq(0)').html('<%=countF2%>');
                 $('.reservation-chunk-sub-num:eq(1)').html("₫ " + "<%=String(wallet_bonus[0].ref_f2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')%>");
             });

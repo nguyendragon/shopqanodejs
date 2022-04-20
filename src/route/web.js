@@ -36,6 +36,7 @@ const initWebRoutes = (app) => {
     router.get('/promotion/bonusRecord', middlewareController, memberController.promotionBonusRecord);
     router.get('/promotion/promotion', middlewareController, memberController.promotionPromotion);
     router.get('/promotion/share', middlewareController, memberController.promotionShare);
+    router.post('/promotion/apply', middlewareController, memberController.withdrawBonus);
 
     router.get('/member/MyWallet', middlewareController, memberController.myWallet);
 
@@ -93,7 +94,17 @@ const initWebRoutes = (app) => {
     router.post('/parity/tran', middlewareController, parityController.JoinParity);
 
     // Admin
-    router.get('/manage/admin/index', middlewareController, adminController.getPageMember1);
+    router.get('/manage/admin/index', adminController.middlewareAdminController, adminController.getPageMember1);
+    router.get('/manage/admin/statistical', adminController.middlewareAdminController, adminController.Statistical);
+    router.get('/manage/admin/recharge', adminController.middlewareAdminController, adminController.browseRecharge);
+    router.get('/manage/admin/rechargeRecord', adminController.middlewareAdminController, adminController.rechargeRecord);
+    router.get('/manage/admin/withdraw', adminController.middlewareAdminController, adminController.withdraw);
+    router.get('/manage/admin/withdrawBonus', adminController.middlewareAdminController, adminController.withdrawBonus);
+    router.get('/manage/admin/bonusRecord', adminController.middlewareAdminController, adminController.bonusRecord);
+    router.get('/manage/admin/withdrawRecord', adminController.middlewareAdminController, adminController.withdrawRecord);
+    router.get('/manage/admin/members', adminController.middlewareAdminController, adminController.listMembers);
+    router.get('/manage/admin/createBonus', adminController.middlewareAdminController, adminController.createBonus);
+    router.get('/manage/admin/settings', adminController.middlewareAdminController, adminController.settings);
 
     return app.use('/', router);
 }
