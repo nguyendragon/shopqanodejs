@@ -28,16 +28,6 @@
         .display-none {
             display: none;
         }
-        
-        .preloader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #fff;
-            z-index: 99;
-        }
     </style>
 
 </head>
@@ -62,7 +52,6 @@
             </div>
             <div data-v-7844dbae="">
                 <div data-v-7844dbae="" role="feed" class="van-list" style="padding: 0px;">
-
                 </div>
                 <div class="van-list__finished-text"></div>
                 <div class="van-list__placeholder"></div>
@@ -70,16 +59,18 @@
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
     <script>
+        function formatMoney(money) {
+            return String(money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');
+        }
         $(document).ready(function() {
-            var limit = 15;
+            var limit = 40;
             var start = 0;
             var action = 'inactive';
 
             function load_country_data(limit, start) {
                 $.ajax({
-                    url: "load_financial.php",
+                    url: "/financial/index",
                     method: "POST",
                     data: {
                         limit: limit,
@@ -87,8 +78,94 @@
                     },
                     cache: false,
                     success: function(data) {
-                        $('.van-list').append(data);
-                        if (data == '') {
+                        const datas = JSON.parse(data);
+                        const listLoai = datas.loai.split(',');
+                        const money = datas.money.split(',');
+                        const time = datas.time.split(',');
+                        for (let i = 0; i < listLoai.length; i++) {
+                            const money2 = formatMoney(money[i]);
+                            if (listLoai[i] == '0') {
+                                $('.van-list').append(
+                                    `<div data-v-7844dbae="" class="main">` +
+                                    `<div data-v-7844dbae="" style="width: 130px;">` +
+                                    `<div data-v-7844dbae="">${time[i]}</div>` +
+                                    `</div>` +
+                                    `<div data-v-7844dbae="" style="flex: 1 1 0%;">
+                                        <b data-v-7844dbae="">
+                                            <span data-v-7844dbae="">thu nhập</span>
+                                        </b>` +
+                                    `<div data-v-7844dbae="">Red-Envelope Received</div>` +
+                                    `</div>` +
+                                    `<div data-v-7844dbae="" style="width: 100px;"><span data-v-7844dbae="">${money2}</span></div>` +
+                                    `</div>`
+                                );
+                            }
+                            if (listLoai[i] == "1") {
+                                $('.van-list').append(
+                                    `<div data-v-7844dbae="" class="main">` +
+                                    `<div data-v-7844dbae="" style="width: 130px;">` +
+                                    `<div data-v-7844dbae="">${time[i]}</div>` +
+                                    `</div>` +
+                                    `<div data-v-7844dbae="" style="flex: 1 1 0%;">
+                                        <b data-v-7844dbae="">
+                                            <span data-v-7844dbae="">tiêu dùng</span>
+                                        </b>` +
+                                    `<div data-v-7844dbae="">ParityPlusCOrder_Amount</div>` +
+                                    `</div>` +
+                                    `<div data-v-7844dbae="" style="width: 100px;"><span data-v-7844dbae="">-${money2}</span></div>` +
+                                    `</div>`
+                                );
+                            }
+                            if (listLoai[i] == "2") {
+                                $('.van-list').append(
+                                    `<div data-v-7844dbae="" class="main">` +
+                                    `<div data-v-7844dbae="" style="width: 130px;">` +
+                                    `<div data-v-7844dbae="">${time[i]}</div>` +
+                                    `</div>` +
+                                    `<div data-v-7844dbae="" style="flex: 1 1 0%;">
+                                        <b data-v-7844dbae="">
+                                            <span data-v-7844dbae="">thu nhập</span>
+                                        </b>` +
+                                    `<div data-v-7844dbae="">ParityPlusCOrder_Amount</div>` +
+                                    `</div>` +
+                                    `<div data-v-7844dbae="" style="width: 100px;"><span data-v-7844dbae="">${money2}</span></div>` +
+                                    `</div>`
+                                );
+                            }
+                            if (listLoai[i] == "3") {
+                                $('.van-list').append(
+                                    `<div data-v-7844dbae="" class="main">` +
+                                    `<div data-v-7844dbae="" style="width: 130px;">` +
+                                    `<div data-v-7844dbae="">${time[i]}</div>` +
+                                    `</div>` +
+                                    `<div data-v-7844dbae="" style="flex: 1 1 0%;">
+                                        <b data-v-7844dbae="">
+                                            <span data-v-7844dbae="">thu nhập</span>
+                                        </b>` +
+                                    `<div data-v-7844dbae="">BonusApply Success</div>` +
+                                    `</div>` +
+                                    `<div data-v-7844dbae="" style="width: 100px;"><span data-v-7844dbae="">${money2}</span></div>` +
+                                    `</div>`
+                                );
+                            }
+                            if (listLoai[i] == "5") {
+                                $('.van-list').append(
+                                    `<div data-v-7844dbae="" class="main">` +
+                                    `<div data-v-7844dbae="" style="width: 130px;">` +
+                                    `<div data-v-7844dbae="">${time[i]}</div>` +
+                                    `</div>` +
+                                    `<div data-v-7844dbae="" style="flex: 1 1 0%;">
+                                        <b data-v-7844dbae="">
+                                            <span data-v-7844dbae="">Withdraws</span>
+                                        </b>` +
+                                    `<div data-v-7844dbae="">Withdrawal </div>` +
+                                    `</div>` +
+                                    `<div data-v-7844dbae="" style="width: 100px;"><span data-v-7844dbae="">${money2}</span></div>` +
+                                    `</div>`
+                                );
+                            }
+                        }
+                        if (datas.money == "") {
                             action = 'active';
                             $('.van-list__finished-text').text("Không còn dữ liệu");
                         } else {

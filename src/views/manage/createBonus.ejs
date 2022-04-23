@@ -9,7 +9,32 @@
     <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/admin.css">
+    <style>
+        .result {
+            display: flex;
+        }
+        
+        .result input {
+            width: 90%;
+            border-radius: 5px 0 0 5px;
+        }
+        
+        .result .input-group-text {
+            width: 10%;
+            border-radius: 0 5px 5px 0;
+            justify-content: center;
+            cursor: pointer;
+            background-color: #007bff;
+            color: #fff;
+        }
+        
+        .result .input-group-text:active,
+        .result .input-group-text:hover {
+            background-color: #2ecc71;
+        }
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -32,23 +57,30 @@
                         <div class="col-md-12">
                             <div style="padding: 10px 20px;">
                                 <div class="form-group">
+                                    <label for="exampleInputPassword1">Loại</label>
+                                    <select class="form-control">
+                                        <option value="0">--- Chọn loại ---</option>
+                                        <option value="1">Thưởng tuyển thành viên</option>
+                                        <option value="2">Tạo Lixi Random</option>
+                                        <option value="3">Chia đều</option>
+                                    </select>
+                                </div>
+                                <div class="form-group quantity" style="display: none;">
                                     <label for="quantity">Số lượng</label>
                                     <input type="text" class="form-control" id="quantity" placeholder="Enter the quantity">
                                 </div>
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Loại</label>
-                                    <select class="form-control">
-                                        <option>--- Chọn loại ---</option>
-                                        <option>Thưởng tuyển thành viên</option>
-                                        <option>Tạo Lixi Random</option>
-                                    </select>
+                                <div class="form-group money">
+                                    <label for="money">Số tiền</label>
+                                    <input type="text" class="form-control" id="money" placeholder="Enter the money">
                                 </div>
-                                <div class="form-group">
-                                    <label for="moeny">Số tiền</label>
-                                    <input type="text" class="form-control" id="moeny" placeholder="Enter the money">
+                                <div class="form-group result" style="display: none;">
+                                    <input type="text" class="form-control" id="money" placeholder="Enter the money">
+                                    <div class="input-group-text copy_link">
+                                        <i class="fa fa-clone" aria-hidden="true"></i>
+                                    </div>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary" style="width: 100%;">Submit</button>
+                                <button type="submit" class="btn btn-primary" style="width: 100%;margin-top: 26px;">Submit</button>
                             </div>
                         </div>
                     </div>
@@ -59,6 +91,105 @@
     <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/dist/js/adminlte.min.js"></script>
     <script src="/js/admin.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+
+    <script>
+        $('.copy_link').click(function(e) {
+            var url = $('.result input').val();
+            navigator.clipboard.writeText(url);
+            Swal.fire(
+                'Good job!',
+                'Sao chép thành công!',
+                'success'
+            );
+        });
+        $('select').change(function() {
+            var value = $('select :selected').val();
+            if (value == 2 || value == 3) {
+                $('.quantity').show();
+            } else {
+                $('#quantity').val("");
+                $('.quantity').hide();
+            }
+        });
+        // 0. --- Chọn loại ---
+        // 1. Thưởng tuyển thành viên
+        // 2. Tạo Lixi Random
+        // 3. Tạo Lixi chia đều
+
+        function ajaxPost(value, quantity, money) {
+            $.ajax({
+                type: "POST",
+                url: "/manage/admin/createBonus",
+                data: {
+                    value: value,
+                    quantity: quantity,
+                    money: money
+                },
+                dataType: "json",
+                success: function(response) {
+                    if (response.message == 4) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Bạn không đủ quyền...',
+                        })
+                    }
+                    if (response.message != 4 && response.message != "error") {
+                        $('input').val("");
+                        $('.result').show();
+                        $('.result input').val(location.hostname + "/redenvelope/detail?id=" + response.id_txn);
+                        Swal.fire(
+                            'Good job!',
+                            'Tạo lixi thành công!',
+                            'success'
+                        );
+                    }
+                }
+            });
+        }
+
+        $('.btn-primary').click(function(e) {
+            e.preventDefault();
+            var value = $('select :selected').val();
+            var quantity = $('#quantity').val();
+            var money = $('#money').val();
+            var checkMoney = $.isNumeric($('#money').val());
+            var checkQuantity = $.isNumeric($('#quantity').val());
+            if (value == 0) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                })
+            } else if (value == 1) {
+                if (checkMoney) {
+                    ajaxPost(value, 0, money);
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                    })
+                }
+            } else if (value == 2) {
+                if (checkMoney && checkQuantity) {
+                    ajaxPost(value, quantity, money);
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                    })
+                }
+            } else if (value == 3) {
+                if (checkMoney && checkQuantity) {
+                    ajaxPost(value, quantity, money);
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                    })
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>

@@ -91,6 +91,20 @@ const getParityindex = async(req, res) => {
     return res.render('parity/parityindex.ejs', { user });
 }
 
+const ParityReset = async(req, res) => {
+    var tokenUser = req.cookies.token;
+    var token = jwt.verify(tokenUser, process.env.JWT_ACCESS_TOKEN);
+    var phone_login = token.user.phone_login;
+    // user
+    const [user] = await connection.execute('SELECT `money` FROM `users` WHERE `phone_login` = ? AND `veri` = 1', [phone_login]);
+    if (user.length > 0) {
+        const money = user[0].money;
+        return res.end(`{"money": ${money}}`);
+    } else {
+        return res.end(`{"money": "error"}`);
+    }
+}
+
 const JoinParity = async(req, res) => {
     var tokenUser = req.cookies.token;
     var token = jwt.verify(tokenUser, process.env.JWT_ACCESS_TOKEN);
@@ -102,7 +116,7 @@ const JoinParity = async(req, res) => {
     var join = req.body.join; // tham gia vào 
     var price = Number(req.body.price); // Số tiền cược
     var quantity = Number(req.body.quantity); // Số lượng cược
-    var quantity1 = Number(req.body.quantity); // Số lượng cược để nhân với price rồi cho vào db    
+    var quantity1 = Number(req.body.quantity); // Số lượng cược để nhân với price rồi cho vào db
     if (join && price && quantity && quantity1) {
         (quantity < 1) ? quantity = 1: quantity;
         switch (price) {
@@ -195,8 +209,10 @@ const JoinParity = async(req, res) => {
             } else {
                 const sql = 'INSERT INTO `order_woipy` SET `phone_login` = ?,`name_user` = ?, `ma_gt` = ?, `ma_gt_f1` = ?, `permission` = ?, `giai_doan` = ?, `chon` = ?, `so_tien_cuoc` = ?, `giao_hang` = ?, `phi_dich_vu` = ?, `hh_f1` = ?, `hh_f2` = ?, `time_buy` = ? ';
                 const sql2 = 'UPDATE `users` SET `money` = ? WHERE `phone_login` = ?';
+                const sql3 = 'INSERT INTO `financial_details` SET `phone_login` = ?, `loai` = ?, `money` = ?, `time` = ?';
                 await connection.execute(sql, [phone_login, name_member, ma_gt, ma_gt_f1, permission, giai_doan, join, price1, giao_hang, phi_dich_vu, hh_f1, hh_f2, time]);
                 await connection.execute(sql2, [info_user.money - price1, phone_login]);
+                await connection.execute(sql3, [phone_login, 1, price1, time]);
                 const [user2] = await connection.execute('SELECT * FROM `users` WHERE `phone_login` = ? AND `veri` = 1', [phone_login]);
 
                 res.end(`{"message": 1, "money": ${user2[0].money}, "so_tien_cuoc": ${price1},"giai_doan": ${giai_doan},  "giao_hang": ${giao_hang},  "join": "${join}", "phi_dich_vu": ${phi_dich_vu}, "name_member": "${name_member}","level": "${level}" }`);
@@ -216,4 +232,5 @@ module.exports = {
     getParityindex,
     renderParitycat,
     renderIndexOrder,
+    ParityReset,
 }

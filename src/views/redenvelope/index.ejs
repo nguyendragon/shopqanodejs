@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta http-equiv="Expires" content="0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Cache-control" content="no-cache">
+  <meta http-equiv="Cache" content="no-cache">
+  <meta content="telephone=no" name="format-detection">
+  <meta name="description" content="a shop from vietnam.">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <title>Red Envelope</title>
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+  </style>
+  <link href="/css/main.css" rel="stylesheet">
+  <link href="/css/pages__redenvelope.css" rel="stylesheet">
+  <link href="/css/vantjs.css" rel="stylesheet">
+  <link href="/css/vendor.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body>
+  <div data-v-58c67bb8="" class="layout-content">
+    <!---->
+    <div data-v-3b8fad87="" class="envelope-context">
+      <div data-v-3b8fad87="" class="nav-bar__transparent van-nav-bar van-nav-bar--fixed">
+        <div class="van-nav-bar__left" onclick="history.back()"><i class="van-icon van-icon-arrow-left van-nav-bar__arrow">
+            <!---->
+          </i></div>
+        <div class="van-nav-bar__title van-ellipsis">Bao lì xì</div>
+        <div class="van-nav-bar__right"></div>
+      </div>
+      <div data-v-3b8fad87="">
+        <div data-v-3b8fad87="" class="top">
+          <img data-v-3b8fad87="" src="/images/red-001.jpg">
+        </div>
+        <div data-v-3b8fad87="" class="main-red ">Bao lì xì</div>
+        <% if (status_lixi == 1) { %>
+        <div data-v-3b8fad87="" class="main-box ddowhd">
+          <div data-v-3b8fad87="" class="bottom">
+            <input data-v-3b8fad87="" placeholder="CELL-PHONE NUMBER" id="input">
+            <button data-v-3b8fad87="" class="open">Mở bao lì xì</button>
+          </div>
+          <div data-v-3b8fad87="" style="position: absolute; right: 0px; margin-right: 12px;">
+            <div data-v-3b8fad87="" class="copy_link">
+              <a data-v-3b8fad87="" style="display: block; padding: 12px; color: rgb(154, 154, 151); text-align: center; font-size: 14px;">Sao chép link</a>
+            </div>
+          </div>
+        </div>
+        <% } %>
+        <% if (status_lixi == 2) { %>
+            <div data-v-3b8fad87="">
+                <div data-v-3b8fad87="" class="redpacket-collection main-box ddd">
+                    <span data-v-3b8fad87="">
+                        Hoàn thành
+                        <br data-v-3b8fad87="">
+                        I'm sorry you're late!
+                    </span>
+                    <p data-v-3b8fad87="">số lượng 0/<%=checkRedenvelope[0].quantity%>,Số tiền ₫0.00/<%=checkRedenvelope[0].money%>.00</p>
+                    <!---->
+                </div>
+                <div data-v-3b8fad87="" class="redpacket-collection-content">
+                    <button data-v-3b8fad87="" style="margin-bottom: 15px;">CÁC PHÁT TRIỂN ĐỎ CỦA TÔI</button>
+                </div>
+            </div>
+            <!---->
+            <div data-v-3b8fad87="" class="records">
+                <div data-v-3b8fad87="" role="feed" class="van-list">
+                    <% for (var i = 0; i < historyRedenvelope.length; i++) { %>
+                    <div data-v-3b8fad87="" class="record-box" style="display: flex; justify-content: center; align-items: center; padding: 15px;">
+                        <div data-v-3b8fad87="" class="record-box__left">
+                            <div data-v-3b8fad87="" class="image">
+                                <img data-v-3b8fad87="" src="/images/user-1.png">
+                            </div>
+                            </div> 
+                            <div data-v-3b8fad87="" class="record-box__center">
+                                <div data-v-3b8fad87="" class="info">
+                                    <span data-v-3b8fad87="" class="name"><%=historyRedenvelope[i].name_user%></span> 
+                                    <span data-v-3b8fad87="" class="time"><%=historyRedenvelope[i].time%></span>
+                                </div>
+                            </div> 
+                            <div data-v-3b8fad87="" class="record-box__right">
+                                <span data-v-3b8fad87="" style="font-size: 16px; color: rgb(122, 196, 140);">₫ <%=historyRedenvelope[i].money%>.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+                <div class="van-list__finished-text">Không còn dữ liệu</div>
+                <div class="van-list__placeholder"></div>
+            </div>
+        <% } %>
+        <div data-v-3b8fad87="" class="ouabfdu" style="display: none;">
+                <div data-v-3b8fad87="" class="redpacket-collection main-box ddd">
+                    <span data-v-3b8fad87="">
+                        Hoàn thành
+                        <br data-v-3b8fad87="">
+                        I'm sorry you're late!
+                    </span>
+                    <p data-v-3b8fad87="">số lượng 0/<%=checkRedenvelope[0].quantity%>,Số tiền ₫0.00/<%=checkRedenvelope[0].money%>.00</p>
+                    <!---->
+                </div>
+                <div data-v-3b8fad87="" class="redpacket-collection-content">
+                    <button data-v-3b8fad87="" style="margin-bottom: 15px;">CÁC PHÁT TRIỂN ĐỎ CỦA TÔI</button>
+                </div>
+                <!---->
+                <div data-v-3b8fad87="" class="records">
+                    <div data-v-3b8fad87="" role="feed" class="van-list">
+                        <% for (var i = 0; i < historyRedenvelope.length; i++) { %>
+                        <div data-v-3b8fad87="" class="record-box" style="display: flex; justify-content: center; align-items: center; padding: 15px;">
+                            <div data-v-3b8fad87="" class="record-box__left">
+                                <div data-v-3b8fad87="" class="image">
+                                    <img data-v-3b8fad87="" src="/images/user-1.png">
+                                </div>
+                                </div> 
+                                <div data-v-3b8fad87="" class="record-box__center">
+                                    <div data-v-3b8fad87="" class="info">
+                                        <span data-v-3b8fad87="" class="name"><%=historyRedenvelope[i].name_user%></span> 
+                                        <span data-v-3b8fad87="" class="time"><%=historyRedenvelope[i].time%></span>
+                                    </div>
+                                </div> 
+                                <div data-v-3b8fad87="" class="record-box__right">
+                                    <span data-v-3b8fad87="" style="font-size: 16px; color: rgb(122, 196, 140);">₫ <%=historyRedenvelope[i].money%>.00</span>
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
+                    <div class="van-list__finished-text">Không còn dữ liệu</div>
+                    <div class="van-list__placeholder"></div>
+                </div>
+            </div>
+            <!---->
+        </div>
+      <!---->
+    </div>
+  </div>
+  <div class="van-toast van-toast--middle van-toast--success" style="z-index: 2001; display: none;">
+    <i class="van-icon van-icon-success van-toast__icon" style="height: 36px;">
+      <!---->
+    </i>
+    <div class="van-toast__text"></div>
+  </div>
+  <div class="van-toast van-toast--middle van-toast--fail" style="z-index: 2005; display: none;">
+    <i class="van-icon van-icon-fail van-toast__icon" style="height: 46px;">
+      <!---->
+    </i>
+    <div class="van-toast__text"></div>
+  </div>
+  <script>
+    function setCookie(cname, cvalue, exdays) {
+        const d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        let expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+    $(document).ready(function() {
+      var url = window.location.href;
+      var id = url.split('=')[1];
+      const cookie = getCookie(id);
+      const statusju = '<%=status_lixi%>';
+      if (cookie != "" && statusju != 2) {
+          $('.ddowhd').hide();
+          $('.ouabfdu').show();
+          $('.ddd span').text(cookie+'.00');
+      }
+      if (cookie != "") {
+          $('.ddd span').text(cookie+'.00');
+      }
+      $('.copy_link').click(function(e) {
+        navigator.clipboard.writeText(url);
+        $('.van-toast--success .van-toast__text').text('Sao chép thành công');
+        $('.van-toast--success').fadeIn(200);
+        setTimeout(() => {
+          $('.van-toast--success').fadeOut(300);
+        }, 1000);
+      });
+      $('.open').click(function() {
+        let check_account = $('#input').val().trim();
+        if (check_account != "") {
+            $.ajax({
+                type: "POST",
+                url: "/redenvelope/detail",
+                data: {
+                    check_account: check_account,
+                    id: id,
+                },
+                dataType: "json",
+                success: function (response) {
+                    if (response.message == 1) {
+                        $('.van-toast--success .van-toast__text').text('Thành công');
+                        $('.van-toast--success').fadeIn(200);
+                        setTimeout(() => {
+                            $('.van-toast--success').fadeOut(200);
+                            location.reload();
+                        }, 1000);
+                        setCookie(id, Math.floor(response.money), 1);
+                    } else if (response.message == 2) {
+                        $('.van-toast--fail').fadeIn(200);
+                        $('.van-toast--fail .van-toast__text').text('Xin lỗi, bài chia sẻ lì xì này đã hoàn tất');
+                        setTimeout(() => {
+                            $('.van-toast--fail').fadeOut(200);
+                        }, 1000);
+                    } else if (response.message == 3) {
+                        $('.van-toast--fail').fadeIn(200);
+                        $('.van-toast--fail .van-toast__text').text('Số điện thoại chưa được đăng ký');
+                        setTimeout(() => {
+                            $('.van-toast--fail').fadeOut(200);
+                        }, 1000);
+                    } else if (response.message == 4) {
+                        $('.van-toast--fail').fadeIn(200);
+                        $('.van-toast--fail .van-toast__text').text('Bạn đã nhận bao lixi này rồi');
+                        setTimeout(() => {
+                            $('.van-toast--fail').fadeOut(200);
+                        }, 1000);
+                    } 
+                }
+            });
+        } else {
+            $('.van-toast--fail').fadeIn(200);
+            $('.van-toast--fail .van-toast__text').text('Số điện thoại di động chưa đăng ký');
+            setTimeout(() => {
+                $('.van-toast--fail').fadeOut(200);
+            }, 1000);
+        }
+      });
+    });
+    function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for(let i = 0; i <ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+  </script>
+</body>

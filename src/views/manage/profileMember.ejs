@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Danh sách rút tiền</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <%- include('nav') %>
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Profile</h1>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-3">
+
+                            <!-- Profile Image -->
+                            <div class="card card-primary card-outline">
+                                <div class="card-body box-profile">
+                                    <div class="text-center">
+                                        <img class="profile-user-img img-fluid img-circle" src="/images/facebook.jpg" alt="User profile picture">
+                                    </div>
+
+                                    <h3 class="profile-username text-center">
+                                        <%=info[0].name_member%>
+                                    </h3>
+
+                                    <p class="text-muted text-center"><%=info[0].name_user%></p>
+
+                                    <ul class="list-group list-group-unbordered mb-3">
+                                        <li class="list-group-item">
+                                            <b>Số dư</b> <a class="float-right"><%=String(info[0].money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');%></a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>Tổng nạp</b> <a class="float-right"><%=String(info[0].total_money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');%></a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>Hoa hồng</b> <a class="float-right"><%=String(wallet_bonus[0].money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');%></a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>F1</b> <a class="float-right">( <%=online_f1[0].online_f1%> / <%=quantity_f1[0].soluong%>) <%=String(wallet_bonus[0].ref_f1).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');%></a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>F2</b> <a class="float-right">(<%=countOnlineF2%> / <%=countF2%>) <%=String(wallet_bonus[0].ref_f2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');%></a>
+                                        </li>
+                                    </ul>
+
+                                    <a href="#" class="btn btn-primary btn-block"><b style="text-transform: uppercase;"><%=info[0].lever%></b></a>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                            <!-- /.card -->
+
+                            <!-- About Me Box -->
+                            <% if (info_banking.length > 0) { %>
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">About User</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    
+                                    <strong><i class="fas fa-pencil-alt mr-1"></i> Name</strong>
+
+                                    <p class="text-muted">
+                                        <span class="tag tag-danger"><%=info_banking[0].name%></span>
+                                    </p>
+
+                                    <hr>
+
+                                    <strong><i class="far fa-file-alt mr-1"></i> Số tài khoản</strong>
+
+                                    <p class="text-muted"><%=info_banking[0].stk%></p>
+                                    
+                                    <hr>
+
+                                    <strong><i class="fas fa-map-marker-alt mr-1"></i> Location</strong>
+
+                                    <p class="text-muted"><%=info_banking[0].diachi%></p>
+
+                                    <hr>
+                                    <strong><i class="fas fa-book mr-1"></i> Time add banking</strong>
+                                    <p class="text-muted">
+                                        <%=info_banking[0].time%>
+                                    </p>
+                                </div>
+                            </div>
+                            <% } %>
+                        </div>
+                        <div class="col-md-9" style="overflow: auto;">
+                            <section class="content">
+                                <!-- Default box -->
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Danh sách mời được</h3>
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body p-0" style="display: block; overflow-y: hidden;">
+                                        <table class="table table-striped projects">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">#</th>
+                                                    <th class="text-center">Tài khoản</th>
+
+                                                    <th class="text-center">Tên</th>
+
+                                                    <th class="text-center">Mã</th>
+                                                    <th class="text-center">Time Tạo</th>
+                                                    <th class="text-center">Status</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% if (ref_f1.length > 0) { %>
+                                                    <% for (var i = 0; i < ref_f1.length;i++) { %>
+                                                    <tr class="text-center" style="">
+                                                        <td style="color: #e74c3c;font-weight: 600;">F1</td>
+                                                        <td>
+                                                            <b style="color: #3498db"><%=ref_f1[i].phone_login%></b>
+                                                        </td>
+                                                        <td style="min-width: 210px;">
+                                                            <b><%=ref_f1[i].name_user%></b>
+                                                        </td>
+
+                                                        <td>
+                                                            <b><%=ref_f1[i].ma_gt%></b>
+                                                        </td>
+
+                                                        <td style="min-width: 210px;">
+                                                            <b><%=ref_f1[i].time%></b>
+                                                        </td>
+
+                                                        <% if (ref_f1[i].status_login == 0) { %>
+                                                        <td class="project-state">
+                                                            <span class="badge badge-warning">Offline</span>
+                                                        </td>
+                                                        <% } %>
+                                                        <% if (ref_f1[i].status_login == 1) { %>
+                                                        <td class="project-state">
+                                                            <span class="badge badge-success">Online</span>
+                                                        </td>
+                                                        <% } %>
+                                                    </tr>
+                                                    <% } %>
+                                                <% } %>
+                                                <% if (ref_f2.length > 0) { %>
+                                                <% if (ref_f2[0].length > 0) { %>
+                                                    <% for (var i = 0; i < ref_f2[0].length;i++) { %>
+                                                    <tr class="text-center" style="">
+                                                        <td style="color: #f1c40f;font-weight: 600;">F2</td>
+                                                        <td>
+                                                            <b style="color: #3498db"><%=ref_f2[0][i].phone_login%></b>
+                                                        </td>
+                                                        <td>
+                                                            <b><%=ref_f2[0][i].name_user%></b>
+                                                        </td>
+
+                                                        <td>
+                                                            <b><%=ref_f2[0][i].ma_gt%></b>
+                                                        </td>
+
+                                                        <td style="min-width: 210px;">
+                                                            <b><%=ref_f2[0][i].time%></b>
+                                                        </td>
+
+                                                        <% if (ref_f2[0][i].status_login == 0) { %>
+                                                        <td class="project-state">
+                                                            <span class="badge badge-warning">Offline</span>
+                                                        </td>
+                                                        <% } %>
+                                                        <% if (ref_f2[0][i].status_login == 1) { %>
+                                                        <td class="project-state">
+                                                            <span class="badge badge-success">Online</span>
+                                                        </td>
+                                                        <% } %>
+                                                    </tr>
+                                                    <% } %>
+                                                <% } %>
+                                                <% } %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <nav aria-label="Page navigation example" style="margin-top: 20px; display: flex; justify-content: center">
+                                        <ul class="pagination">
+                                            <li class="page-item previous">
+                                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                            </li>
+                                            <div id="numbers" style="display: flex"></div>
+                                            <li class="page-item next">
+                                                <a class="page-link" href="#">Next</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </section>
+                            <section class="content">
+                                <!-- Default box -->
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Danh sách đặt cược</h3>
+                                        <div class="card-tools">
+                                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                                <i class="fas fa-minus"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body p-0" style="display: block; overflow-y: hidden;">
+                                        <table class="table table-striped projects" id="table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center">Giai đoạn</th>
+                                                    <th class="text-center">Kết quả</th>
+
+                                                    <th class="text-center">Số tiền cược</th>
+
+                                                    <th class="text-center">Nhận được</th>
+                                                    <th class="text-center">Chọn</th>
+                                                    <th class="text-center">Status</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <% if (order_woipy.length > 0) { %>
+                                                    <% for (var i = 0; i < order_woipy.length;i++) { %>
+                                                    <tr class="text-center" style="">
+                                                        
+                                                        <td style="min-width: 210px;">
+                                                            <b style="color: #3498db"><%=order_woipy[i].giai_doan%></b>
+                                                        </td>
+                                                        <td style="min-width: 80px;font-weight: 600;"><%=order_woipy[i].ket_qua%></td>
+                                                        <td style="min-width: 210px;">
+                                                            <b><%=String(order_woipy[i].so_tien_cuoc).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');%></b>
+                                                        </td>
+
+                                                        <td>
+                                                            <b><%=String(order_woipy[i].nhan_duoc).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');%></b>
+                                                        </td>
+
+                                                        <td>
+                                                            <b><%=order_woipy[i].chon%></b>
+                                                        </td>
+
+                                                        <% if (order_woipy[i].status == 0) { %>
+                                                        <td class="project-state">
+                                                            <span class="badge badge-warning">Waiting...</span>
+                                                        </td>
+                                                        <% } %>
+                                                        <% if (order_woipy[i].status == 1) { %>
+                                                        <td class="project-state">
+                                                            <span class="badge badge-success">Success...</span>
+                                                        </td>
+                                                        <% } %>
+                                                        <% if (order_woipy[i].status == 2) { %>
+                                                        <td class="project-state">
+                                                            <span class="badge badge-danger">Lossed...</span>
+                                                        </td>
+                                                        <% } %>
+                                                    </tr>
+                                                    <% } %>
+                                                <% } %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <nav aria-label="Page navigation example" style="margin-top: 20px; display: flex; justify-content: center">
+                                        <ul class="pagination">
+                                            <li class="page-item previous">
+                                                <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                            </li>
+                                            <div id="numberss" style="display: flex"></div>
+                                            <li class="page-item next">
+                                                <a class="page-link" href="#">Next</a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    <script src="/plugins/jquery/jquery.min.js"></script>
+    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/dist/js/adminlte.min.js"></script>
+    <script src="/js/admin.js"></script>
+    <script src="/js/tables.js"></script>
+    <script>
+        $(function() {
+            const rowsPerPage = 30;
+            const rows = $('#table tbody tr');
+            const rowsCount = rows.length;
+            const pageCount = Math.ceil(rowsCount / rowsPerPage); // tránh số thập phân
+            const numbers = $('#numberss');
+            // Tạo phân trang.
+            for (var i = 0; i < pageCount; i++) {
+                numbers.append('<li class="page-item"><a class="page-link">' + (i + 1) + '</a></li>');
+            }
+
+            // Đánh dấu liên kết trang đầu tiên là hoạt động.
+            $('#numberss li:first-child a').addClass('active text-white');
+
+            // Hiển thị tập hợp các hàng đầu tiên.
+            displayRows(1);
+
+            // Khi nhấp vào phân trang.
+            $('#numberss li a').click(function(e) {
+                var $this = $(this);
+
+                e.preventDefault();
+
+                // Xóa lớp đang hoạt động khỏi các liên kết.
+                $('#numberss li a').removeClass('active text-white');
+
+                // Thêm lớp đang hoạt động vào liên kết hiện tại.
+                $this.addClass('active text-white');
+
+                // Hiển thị các hàng tương ứng với ID trang đã nhấp.
+                displayRows($this.text());
+            });
+
+            // Hàm hiển thị các hàng cho một trang cụ thể.
+            function displayRows(index) {
+                var start = (index - 1) * rowsPerPage;
+                var end = start + rowsPerPage;
+
+                // Ẩn tất cả các hàng.
+                rows.hide();
+
+                // Hiển thị các hàng thích hợp cho trang này.
+                rows.slice(start, end).show();
+            }
+
+            function hidePagination(params) {
+                const prev = $('#numberss .page-item:gt(5)').hide();
+            }
+            hidePagination();
+
+            $('.previous').click(function(e) {
+                e.preventDefault();
+                const prev = $('#numberss .page-item .active').parent().prev().children();
+                const lastSelect = prev.parent().next().children();
+                lastSelect.removeClass('active text-white');
+                prev.addClass('active text-white');
+                if (Number(prev.text()) != "") {
+                    displayRows(prev.text());
+                }
+            });
+            $('.next').click(function(e) {
+                e.preventDefault();
+                const next = $('#numberss .page-item .active').parent().next().children();
+                const lastSelect = next.parent().prev().children();
+                lastSelect.removeClass('active text-white');
+                next.addClass('active text-white');
+                if (Number(next.text()) != 0) {
+                    displayRows(next.text());
+                }
+                if (Number(next.text()) > 6) {
+                    showPagination(Number(next.text()))
+                } else {
+
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -141,13 +141,13 @@ const handlingOrder = async() => {
                 }
             }
         }
-
+        const sql3 = 'INSERT INTO `financial_details` SET `phone_login` = ?, `loai` = ?, `money` = ?, `time` = ?';
+        await connection.execute(sql3, [phone_login, 2, nhan_duoc, time]);
         const [users] = await connection.execute('SELECT `money` FROM `users` WHERE `phone_login` = ?', [phone_login]);
         var total = users[0].money + nhan_duoc;
         await connection.execute('UPDATE `order_woipy` SET `nhan_duoc` = ?, `status` = 1 WHERE `id` = ? ', [nhan_duoc, id]);
         const sql = 'UPDATE `users` SET `money` = ? WHERE `phone_login` = ? ';
         await connection.execute(sql, [total, phone_login]);
-
     }
 }
 
@@ -172,10 +172,22 @@ const add_tage_woipy = async(req, res) => {
         cau_moi = Number(get_giai_doan.cau) + 1;
         giai_doan_moi = Number(get_giai_doan.giai_doan) + 1;
     }
-    var update_kq = Math.floor(Math.random() * (205999 - 205000)) + 205000;; // Ra kết quả trong cầu cũ
-    const sql2 = 'UPDATE `tage_woipy` SET `ket_qua` = ?, `time_end` = ? WHERE `ket_qua` = 0';
+    const [get_ket_qua] = await connection.execute('SELECT `ket_qua` FROM `temp` ', []);
+    var update_kq = 0;
+
+    function createKQ(params) {
+        if (params == 0) {
+            return update_kq = Math.floor(Math.random() * (205999 - 205000)) + 205000;; // Ra kết quả trong cầu cũ
+        } else {
+            return update_kq = params;
+        }
+    }
+    update_kq = await createKQ(get_ket_qua[0].ket_qua);
     const sql = 'INSERT INTO `tage_woipy` SET `giai_doan` = ?, `ket_qua` = 0, `cau` = ?, `time_create` = ?';
+    const sql2 = 'UPDATE `tage_woipy` SET `ket_qua` = ?, `time_end` = ? WHERE `ket_qua` = 0';
+    const sql3 = 'UPDATE `temp` SET `ket_qua` = ?';
     await connection.execute(sql2, [update_kq, time]);
+    await connection.execute(sql3, [0]);
     await connection.execute(sql, [giai_doan_moi, cau_moi, time]);
     handlingOrder();
 }

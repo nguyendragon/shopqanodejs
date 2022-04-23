@@ -6,7 +6,14 @@ require('dotenv').config();
 
 // trang login
 const getPageLogin = (req, res) => {
-    return res.render('login/index.ejs');
+    const idIntive = req.query.invite_key;
+    var status = 0;
+    if (idIntive != undefined && idIntive != "") {
+        return res.render('login/index.ejs', { idIntive, status });
+    } else {
+        status = 1;
+        return res.render('login/index.ejs', { status });
+    }
 }
 
 // Đăng Nhập
@@ -75,6 +82,10 @@ const register = async(req, res) => {
     var otp = Math.floor(Math.random() * (999999 - 100000)) + 100000;
     let MaGioiThieu_User = Math.floor(Math.random() * (9999999 - 1000000)) + 1000000;
     let name_user = "Member" + phone_signup.substring(5);
+
+    // lấy ra số tiền khuyến mãi trong temp
+    const [money_temp] = await connection.execute("SELECT `khuyen_mai` FROM `temp`", []);
+
     const TimeCreate = () => {
         var arr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
         const dateNow = new Date();
@@ -93,6 +104,7 @@ const register = async(req, res) => {
         return day + " " + month + " " + year + ", " + time + " " + am_pm;
     }
 
+
     var timeCr = TimeCreate();
 
     if (phone_signup) {
@@ -104,8 +116,8 @@ const register = async(req, res) => {
         } else if (result[0].veri == 0) {
             const [rows] = await connection.execute("SELECT `ma_gt` FROM `users` WHERE ma_gt = ? ", [MaGioiThieu]);
             if (rows.length == 1) {
-                var sql = 'UPDATE `users` SET `id_user` = ?, `password_v1` = ?, `name_user` = ?, `ma_gt` = ?, `ma_gt_f1` = ?, `veri` = 1, `otp` = ?, `time` = ? WHERE `phone_login` = ? ';
-                await connection.execute(sql, [id_user, password_v1, name_user, MaGioiThieu_User, MaGioiThieu, otp, timeCr, phone_signup]);
+                var sql = 'UPDATE `users` SET `id_user` = ?, `password_v1` = ?, `name_user` = ?, `ma_gt` = ?, `ma_gt_f1` = ?, `veri` = 1, `otp` = ?, `time` = ?, `money` = ? WHERE `phone_login` = ? ';
+                await connection.execute(sql, [id_user, password_v1, name_user, MaGioiThieu_User, MaGioiThieu, otp, timeCr, money_temp[0].khuyen_mai, phone_signup]);
                 var sql_wallet_bonus = 'INSERT INTO `wallet_bonus` SET `phone_login` = ?, `time` = ?';
                 await connection.execute(sql_wallet_bonus, [phone_signup, timeCr]);
                 res.end('{"message": 1}');

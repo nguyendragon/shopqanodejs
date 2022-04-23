@@ -9,6 +9,7 @@ socket.on('data-server', function(msg) {
         $('.info-box-number').attr('totalmoney', 0);
         $('.info-box-number').text('0');
         $('.direct-chat-msg').remove();
+        $('#ketQua').text('Kết quả: 0');
     }
     // in ra cầu mới
     if (msg.join && msg.level == "0") {

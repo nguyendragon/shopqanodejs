@@ -495,6 +495,85 @@ const withdraw = async(req, res) => {
     }
 }
 
+const handlingwithdraw = async(req, res) => {
+
+    const TimeCreate = () => {
+        var arr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+        const dateNow = new Date();
+        var day = dateNow.getDate() < 10 ? "0" + dateNow.getDate() : dateNow.getDate();
+        var month = arr[dateNow.getMonth()];
+        var year = dateNow.getFullYear();
+        var hour = dateNow.getHours() < 10 ? "0" + dateNow.getHours() : dateNow.getHours();
+        var minute = dateNow.getMinutes() < 10 ? "0" + dateNow.getMinutes() : dateNow.getMinutes();
+        var time = hour + ":" + minute;
+        var am_pm = "";
+        if (dateNow.getHours() >= 12) {
+            am_pm = "pm";
+        } else {
+            am_pm = "am";
+        }
+        return day + " " + month + " " + year + ", " + time + " " + am_pm;
+    }
+
+    function readableRandomStringMaker(length) {
+        const dateNow = new Date();
+        var year = dateNow.getFullYear();
+        var month1 = Number(dateNow.getMonth()) + 1;
+        var month2 = month1 < 10 ? "0" + month1 : month1;
+        var day = dateNow.getDate() < 10 ? "0" + dateNow.getDate() : dateNow.getDate();
+        for (var string = ''; string.length < length; string += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'.charAt(Math.random() * 62 | 0));
+        return String(year) + String(month2) + String(day) + string;
+    }
+    const money = req.body.money;
+    const password_payment = md5(req.body.password_payment);
+    const checkType = req.body.checkType;
+    const id_txn = readableRandomStringMaker(16);
+    const tokenUser = req.cookies.token;
+    const token = jwt.verify(tokenUser, process.env.JWT_ACCESS_TOKEN);
+    const phone_login = token.user.phone_login;
+
+    var total_fee = 0;
+    if (money <= 500000) {
+        total_fee = 15000;
+    } else if (money > 500000) {
+        total_fee = (money / 100) * 3;
+    }
+
+    // 1. thành công 
+    // 2. không đủ tiền
+    // 3. chưa cài pass rút tiền
+    // 4. sai password
+    // 5. có đơn hàng chưa được duyệt
+
+    const realmoney = money - total_fee;
+    const time = TimeCreate();
+
+    const [results] = await connection.execute('SELECT `password_payment`, `money` FROM `users` WHERE `phone_login` = ? AND `veri` = 1', [phone_login]);
+    const [banking] = await connection.execute('SELECT `name_banking`, `stk` FROM `banking_user` WHERE `phone_login` = ?', [phone_login]);
+    const [don_hang] = await connection.execute('SELECT COUNT(*) as totalDH FROM `withdraw` WHERE `phone_login` = ? AND `status` = 0', [phone_login]);
+    if (money >= 200000 && password_payment && checkType && id_txn && phone_login) {
+        if (results[0].money - money >= 100000) {
+            if (results[0].password_payment == '0') {
+                res.end('{"message": 3}');
+            } else if (results[0].password_payment != password_payment) {
+                res.end('{"message": 4}');
+            } else if (don_hang[0].totalDH > 0) {
+                res.end('{"message": 5}');
+            } else {
+                await connection.execute('UPDATE `users` SET `money` = ? WHERE `phone_login` = ? ', [results[0].money - money, phone_login]);
+                await connection.execute('INSERT INTO `financial_details` SET `phone_login` = ?, `loai` = ?, `money` = ?, `time` = ?', [phone_login, 5, money, time]);
+                var sql = 'INSERT INTO `withdraw` SET `phone_login` = ?, `id_don` = ?, `name_banking` = ?, `stk` = ?, `money` = ?, `realmoney` = ?, `fee` = ?, `status` = 0, `time` = ? ';
+                await connection.execute(sql, [phone_login, id_txn, banking[0].name_banking, banking[0].stk, money, realmoney, total_fee, time]);
+                res.end('{"message": 1}');
+            }
+        } else {
+            res.end('{"message": 2}');
+        }
+    } else {
+        res.end('{"message": "error"}');
+    }
+}
+
 const withdrawRecord = async(req, res) => {
     // 0. Đang chờ
     // 1. Thành công
@@ -611,6 +690,126 @@ const closeReceipt = async(req, res) => {
     }
 }
 
+const Pageredenvelope = async(req, res) => {
+    // 1. Còn lixi
+    // 2. Hết lixi
+    var id_txn = req.query.id; // id lixi
+    let status_lixi = 1;
+    if (id_txn != undefined && id_txn != "") {
+        var [checkRedenvelope] = await connection.execute('SELECT * FROM `redenvelope` WHERE `id_txn` = ? ', [id_txn]);
+    }
+    if (id_txn == undefined || id_txn == "" || checkRedenvelope.length <= 0) {
+        return res.redirect('/index');
+    } else if (checkRedenvelope.length > 0 && checkRedenvelope[0].used != 0) {
+        status_lixi = 1;
+        var [historyRedenvelope] = await connection.execute('SELECT * FROM `history_redenvelope` WHERE `id_txn` = ? ', [id_txn]);
+        return res.render('redenvelope/index.ejs', { status_lixi, checkRedenvelope, historyRedenvelope });
+    } else if (checkRedenvelope.length > 0 && checkRedenvelope[0].used == 0) {
+        status_lixi = 2;
+        var [historyRedenvelope] = await connection.execute('SELECT * FROM `history_redenvelope` WHERE `id_txn` = ? ', [id_txn]);
+        return res.render('redenvelope/index.ejs', { status_lixi, checkRedenvelope, historyRedenvelope });
+    }
+}
+
+const methodRedenvelope = async(req, res) => {
+    // 1. thành công 
+    // 2. đã hết
+    // 3. số điện thoại không tồn tại 
+    // 4. đã nhận rồi 
+    const TimeCreate = () => {
+        var arr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+        const dateNow = new Date();
+        var day = dateNow.getDate() < 10 ? "0" + dateNow.getDate() : dateNow.getDate();
+        var month = arr[dateNow.getMonth()];
+        var year = dateNow.getFullYear();
+        var hour = dateNow.getHours() < 10 ? "0" + dateNow.getHours() : dateNow.getHours();
+        var minute = dateNow.getMinutes() < 10 ? "0" + dateNow.getMinutes() : dateNow.getMinutes();
+        var time = hour + ":" + minute;
+        var am_pm = "";
+        if (dateNow.getHours() >= 12) {
+            am_pm = "pm";
+        } else {
+            am_pm = "am";
+        }
+        return day + " " + month + " " + year + ", " + time + " " + am_pm;
+    }
+    var time = TimeCreate();
+    var check_account = req.body.check_account;
+    var id_txn = req.body.id;
+    const [checkRedenvelope] = await connection.execute('SELECT * FROM `redenvelope` WHERE `id_txn` = ? ', [id_txn]);
+    const [checkUser] = await connection.execute('SELECT * FROM `users` WHERE `phone_login` = ? ', [check_account]);
+    const [checkHistoryRedenvelope] = await connection.execute('SELECT * FROM `history_redenvelope` WHERE `phone_login` = ? AND `id_txn` = ? ', [check_account, id_txn]);
+    if (checkRedenvelope.length > 0) {
+        if (checkRedenvelope[0].used > 0) {
+            if (checkUser.length > 0) {
+                if (checkHistoryRedenvelope.length == 0) {
+                    if (checkRedenvelope[0].type == 'ref') {
+                        const sql = 'UPDATE `redenvelope` SET `used` = ?, `conlai` = ? WHERE `id_txn` = ? ';
+                        await connection.execute(sql, [0, 0, id_txn]);
+                        const sql1 = 'INSERT INTO `history_redenvelope` SET `phone_login` = ?, `name_user` = ?, `id_txn` = ?, `money` = ?,`time` = ? ';
+                        await connection.execute(sql1, [check_account, checkUser[0].name_user, id_txn, checkRedenvelope[0].money, time]);
+                        const sql2 = 'UPDATE `users` SET `money` = ? WHERE `phone_login` = ? ';
+                        await connection.execute(sql2, [checkRedenvelope[0].money + checkUser[0].money, check_account]);
+                        await connection.execute('INSERT INTO `financial_details` SET `phone_login` = ?, `loai` = ?, `money` = ?, `time` = ?', [check_account, 0, checkRedenvelope[0].money, time]);
+                        return res.end(`{"message": 1, "money": ${checkRedenvelope[0].money}}`);
+                    }
+                    if (checkRedenvelope[0].type == 'equal') {
+                        var total = checkRedenvelope[0].conlai - (checkRedenvelope[0].money / checkRedenvelope[0].quantity);
+                        const sql = 'UPDATE `redenvelope` SET `used` = ?, `conlai` = ? WHERE `id_txn` = ? ';
+                        await connection.execute(sql, [checkRedenvelope[0].used - 1, total, id_txn]);
+                        const sql1 = 'INSERT INTO `history_redenvelope` SET `phone_login` = ?, `name_user` = ?, `id_txn` = ?, `money` = ?,`time` = ? ';
+                        await connection.execute(sql1, [check_account, checkUser[0].name_user, id_txn, checkRedenvelope[0].money / checkRedenvelope[0].quantity, time]);
+                        const sql2 = 'UPDATE `users` SET `money` = ? WHERE `phone_login` = ? ';
+                        await connection.execute(sql2, [checkRedenvelope[0].money / checkRedenvelope[0].quantity + checkUser[0].money, check_account]);
+                        await connection.execute('INSERT INTO `financial_details` SET `phone_login` = ?, `loai` = ?, `money` = ?, `time` = ?', [check_account, 0, checkRedenvelope[0].money / checkRedenvelope[0].quantity, time]);
+                        return res.end(`{"message": 1, "money": ${checkRedenvelope[0].money / checkRedenvelope[0].quantity}}`);
+                    }
+                    // if (checkRedenvelope[0].type == 'random') {
+                    //     const sql = 'UPDATE `redenvelope` SET `used` = ?, `conlai` = ? WHERE `id_txn` = ? ';
+                    //     await connection.execute(sql, [0, 0, id_txn]);
+                    //     const sql1 = 'INSERT INTO `history_redenvelope` SET `phone_login` = ?, `name_user` = ?, `id_txn` = ?, `money` = ?,`time` = ? ';
+                    //     await connection.execute(sql1, [check_account, checkUser[0].name_user, id_txn, checkRedenvelope[0].money, time]);
+                    //     const sql2 = 'UPDATE `users` SET `money` = ? WHERE `phone_login` = ? ';
+                    //     await connection.execute(sql2, [checkRedenvelope[0].money, check_account]);
+                    //     return res.end('{"message": 1}');
+                    // }
+                } else {
+                    return res.end('{"message": 4}');
+                }
+            } else {
+                return res.end('{"message": 3}');
+            }
+        } else {
+            return res.end('{"message": 2}');
+        }
+    } else {
+        return res.end('{"message": "error"}');
+    }
+}
+
+const renderFinancial = async(req, res) => {
+    var tokenUser = req.cookies.token;
+    var token = jwt.verify(tokenUser, process.env.JWT_ACCESS_TOKEN);
+    var phone_login = token.user.phone_login;
+
+    let limit = req.body.limit;
+    let start = req.body.start;
+    if (limit && start) {
+        const [listDetails] = await connection.execute('SELECT * FROM `financial_details` WHERE `phone_login` = ? ORDER BY `id` DESC LIMIT ?,? ', [phone_login, start, limit]);
+        const loai = listDetails.map((list_order) => list_order.loai);
+        const money = listDetails.map((list_order) => list_order.money);
+
+        var array = [];
+        for (let i = 0; i < listDetails.length; i++) {
+            const time_end1 = listDetails[i].time.replace(",", ".");
+            array.push(time_end1);
+        }
+
+        return res.end(`{"loai": "${loai}","money": "${money}","time": "${array}"}`);
+    } else {
+        res.end('{"message": "error"}');
+    }
+}
 
 module.exports = {
     getPageMember,
@@ -653,5 +852,9 @@ module.exports = {
     receipt,
     receiptID,
     closeReceipt,
-    withdrawBonus
+    withdrawBonus,
+    handlingwithdraw,
+    Pageredenvelope,
+    methodRedenvelope,
+    renderFinancial
 }

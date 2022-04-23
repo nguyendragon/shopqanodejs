@@ -5,8 +5,11 @@ const getIndex = (req, res) => {
 
 // trang home/search
 const getHome = (req, res) => {
-    return res.render('home/index.ejs');
-}
+        return res.render('home/index.ejs');
+    }
+    // const sitemap = (req, res) => {
+    //     return res.render('home/sitemap.xml');
+    // }
 
 module.exports = {
     getIndex,

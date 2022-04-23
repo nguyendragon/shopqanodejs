@@ -21,7 +21,7 @@
                     <div class="container-fluid">
                         <div class="row mb-2">
                             <div class="col-sm-6">
-                                <h1>Duyệt rút hoa hồng</h1>
+                                <h1>Duyệt gửi mã OTP</h1>
                             </div>
                         </div>
                     </div>
@@ -34,15 +34,15 @@
                     <!-- Default box -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Danh sách rút hoa hồng</h3>
+                            <h3 class="card-title">Danh sách mã OTP</h3>
 
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
+                <i class="fas fa-minus"></i>
+              </button>
                                 <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                                <i class="fas fa-times"></i>
-                            </button>
+                <i class="fas fa-times"></i>
+              </button>
                             </div>
                         </div>
                         <div class="card-body p-0" style="overflow-y: hidden;">
@@ -51,41 +51,42 @@
                                     <tr>
                                         <th class="text-center">#</th>
                                         <th class="text-center">Tài khoản</th>
-                                        <th class="text-center">Tiền</th>
-                                        <th class="text-center">Status</th>
+                                        <th class="text-center">OTP</th>
+                                        <th class="text-center">IP</th>
+                                        <th class="text-center">Thời gian</th>
                                         <th class="text-center"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% if (bonus.length > 0) { %>
-                                        <% for (var i = 0; i < bonus.length; i++) { %>
+                                    <% if (listOTP.length > 0) { %>
+                                        <% for (var i = 0; i < listOTP.length; i++) { %>
                                             <tr class="text-center">
-                                                <td id="<%=bonus[i].id%>">
-                                                    <%=bonus[i].id%>
+                                                <td id="<%=listOTP[i].id%>">
+                                                    <%=listOTP[i].id%>
+                                                </td>
+                                                <td id="<%=listOTP[i].phone_login%>">
+                                                    <b><%=listOTP[i].phone_login%></b>
+                                                </td>
+                                                <td id="<%=listOTP[i].otp%>">
+                                                    <b><%=listOTP[i].otp%></b>
                                                 </td>
                                                 <td>
-                                                    <b style="color: #3498db"><%=bonus[i].phone_login%></b>
+                                                    <b><%=listOTP[i].ip%></b>
                                                 </td>
-                                                <td style="min-width: 105px;">
-                                                    <b style="color: #2ecc71"><%=String(bonus[i].money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');%></b>
+                                                <td style="min-width: 181px;">
+                                                    <b><%=listOTP[i].time%></b>
                                                 </td>
-                                                <td class="project-state">
-                                                    <span class="badge badge-warning">Waiting...</span>
-                                                </td>
-                                                <td class="project-actions text-center" style="min-width: 140px;">
+                                                <td class="project-actions text-center" style="min-width: 200px;">
+                                                    <a class="btn btn-info btn-sm send-btn" href="#">
+                                                        <i class="fa fa-paper-plane"></i> Send
+                                                    </a>
                                                     <a class="btn btn-success btn-sm confirm-btn" href="#">
-                                                        <i class="fa fa-check"></i>
-                                                    </a>
-                                                    <a class="btn btn-info btn-sm" href="#">
-                                                        <i class="fas fa-pencil-alt"></i>
-                                                    </a>
-                                                    <a class="btn btn-danger btn-sm delete-btn" href="#">
-                                                        <i class="fas fa-trash"></i>
+                                                        <i class="fa fa-check"></i> Confirm
                                                     </a>
                                                 </td>
                                             </tr>
                                             <% } %>
-                                        <% } %>
+                                                <% } %>
                                 </tbody>
                             </table>
                         </div>
@@ -100,62 +101,40 @@
     <script src="/dist/js/adminlte.min.js"></script>
     <script src="/js/admin.js"></script>
     <script>
+        $('.send-btn').click(function(e) {
+            e.preventDefault();
+            var parents = $(this).parent().parent();
+            var id = parents.children();
+            var phoneChild = id.children().prevObject[1].id;
+            var maOTP = id.children().prevObject[2].id;
+            const phone = "0" + phoneChild;
+            let url = `intent:${phone}#Intent;scheme=sms;S.sms_body=${maOTP};end`;
+            let win = window.open(url);
+        });
         $('.confirm-btn').click(function(e) {
             e.preventDefault();
             var parents = $(this).parent().parent();
             var id = parents.children();
-            var id_product = id.children().prevObject[0].id;
-            $.ajax({
-                type: "POST",
-                url: "/manage/admin/withdrawBonus",
-                data: {
-                    type: "confirm",
-                    id_product: id_product,
-                },
-                dataType: "json",
-                success: function(response) {
-                    if (response.message == 1) {
-                        Swal.fire(
-                            'Good job!',
-                            '<b style="color: #fff">Xác nhận thành công!</b>',
-                            'success'
-                        );
-                        parents.remove();
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Something went wrong!'
-                        });
-                    }
-                }
-            });
-        });
-        $('.delete-btn').click(function(e) {
-            e.preventDefault();
-            var parents = $(this).parent().parent();
-            var id = parents.children();
-            console.log(id);
-            var id_product = id.children().prevObject[0].id;
+            const phone = id.children().prevObject[1].id;
             Swal.fire({
-                title: 'Do you want to save the changes?',
+                title: 'Bạn đồng ý xác nhận thành công?',
                 showDenyButton: true,
                 denyButtonText: `No`,
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
                         type: "POST",
-                        url: "/manage/admin/withdrawBonus",
+                        url: "/manage/admin/sendotp",
                         data: {
-                            type: "delete",
-                            id_product: id_product,
+                            type: "confirm",
+                            phone: phone,
                         },
                         dataType: "json",
                         success: function(response) {
                             if (response.message == 1) {
                                 Swal.fire(
                                     'Good job!',
-                                    'Xác nhận thành công!',
+                                    '<b style="color: #fff">Xác nhận thành công!</b>',
                                     'success'
                                 );
                                 parents.remove();
@@ -172,7 +151,6 @@
                     Swal.fire('Changes are not saved', '', 'info')
                 }
             });
-
         });
     </script>
 </body>

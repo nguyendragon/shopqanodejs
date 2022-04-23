@@ -4,22 +4,8 @@ $(window).on('load', function() {
     }, 300);
 })
 $(document).ready(function() {
-    const checkActive = localStorage.getItem('active');
-    if (checkActive == null) {
-        localStorage.setItem('active', '/manage/admin/index');
-        location.href = `/manage/admin/index`;
-    } else {
-        $('.nav-pills .nav-item a').click(function(e) {
-            e.preventDefault();
-            const href = $(this).attr('href');
-            localStorage.setItem('active', `${href}`);
-            location.href = `${href}`;
-        });
-    }
-    const getHref = localStorage.getItem('active');
-
-    $(`a[href="${getHref}"]`).addClass('active');
-    $(`a[href="${getHref}"]`).css('pointerEvents', 'none');
+    $(`a[href="${window.location.pathname}"]`).addClass('active');
+    $(`a[href="${window.location.pathname}"]`).css('pointerEvents', 'none');
 });
 
 function formatMoney(money) {
@@ -179,9 +165,40 @@ cownDownTimer();
 
 $('.start-order').click(function(e) {
     e.preventDefault();
-    Swal.fire(
-        'Good job!',
-        'You clicked the button!',
-        'success'
-    );
+    const result = $('#editResult').val();
+    const checkNumber = $.isNumeric(result);
+    if (result != "" && result.length > 5 && result.length < 7 && checkNumber == true) {
+        $.ajax({
+            type: "POST",
+            url: "/manage/admin/index",
+            data: {
+                result: result,
+            },
+            dataType: "json",
+            success: function(response) {
+                if (response.message == 1) {
+                    $('#ketQua').text('Kết quả: ' + result);
+                    $('#editResult').val(205);
+                    Swal.fire(
+                        'Good job!',
+                        'Khởi tạo thành công!',
+                        'success'
+                    );
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong!'
+                    });
+                }
+            }
+        });
+    } else {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!'
+        });
+    }
+
 });

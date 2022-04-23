@@ -60,7 +60,6 @@
                     </div>
                     <div data-v-e8cee894="" class="bottom">
                         <div data-v-e8cee894="" class="invite">
-                            <p style="display: none;">account/login?invite_key=</p>
                             <%=ma_gt[0].ma_gt%>
                         </div>
                         <span data-v-e8cee894="">Mã giới thiệu của tôi</span>
@@ -78,10 +77,10 @@
     </div>
     <script>
         $('.getInvite').click(function(e) {
-            var copyText = $('.invite');
-            var copy1 = copyText.text().trim();
+            var copyText = '<%=ma_gt[0].ma_gt%>';
+            var copy1 = copyText.trim();
             // copyText.setSelectionRange(0, 99999);
-            copy = location.hostname + "/" + copy1;
+            copy = location.hostname + "/account/login?invite_key=" + copy1;
             navigator.clipboard.writeText(copy);
 
             $('.van-toast--success').fadeIn(0);

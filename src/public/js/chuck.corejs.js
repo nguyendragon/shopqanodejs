@@ -64,8 +64,6 @@ $(document).ready(function() {
         let expires = "expires=" + d.toUTCString();
         document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
     }
-    $('#phone_login').val("387650031");
-    $('#pass_login').val("Long2k3dx0");
     $('.login_check').click(function(e) {
         e.preventDefault();
         const phone_login = $('#phone_login').val().trim();
@@ -99,8 +97,6 @@ $(document).ready(function() {
                     setTimeout(function() {
                         $('.van-toast--loading').addClass('display-none');
                         $('.van-toast--loading').removeClass('display-flex');
-                        // localStorage.setItem('username', data.username);
-                        // localStorage.setItem('token', data.token);
                         setCookie('token', data.token, 7);
                         setTimeout(() => {
                             window.location = "/member/index"

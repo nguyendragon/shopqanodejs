@@ -2,381 +2,402 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Trang quản lý</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
-    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
-    <link rel="stylesheet" href="/css/pages__parity.css">
-    <link rel="stylesheet" href="/css/vantjs.css">
-    <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
-    <script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="/css/admin.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trang quản lý</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="/css/pages__parity.css">
+  <link rel="stylesheet" href="/css/vantjs.css">
+  <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+  <script src="https://cdn.socket.io/4.4.1/socket.io.min.js" integrity="sha384-fKnu0iswBIqkjxrhQCTZ7qlLHOFEgNkRmK2vaO/LbTZSXdJfAu6ewRBdwHPhBo/H" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/css/admin.css">
 
-    <style>
-        .active {
-            background-color: #007bff!important;
-        }
-    </style>
+  <style>
+    .active {
+      background-color: #007bff !important;
+    }
+
+    /* Chrome, Safari, Edge, Opera */
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    /* Firefox */
+
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+  </style>
 </head>
 
 <body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
-    <div class="wrapper">
-        <%- include('nav') %>
-            <div class="content-wrapper">
-                <div class="content-header">
-                    <div class="container-fluid">
-                        <div class="row mb-2">
-                            <div class="col-sm-6">
-                                <h1 class="m-0">Dashboard V2</h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <section class="content">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12 col-sm-6 col-md-3">
-                                <div class="info-box mb-3">
-                                    <span class="info-box-icon bg-danger elevation-1">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </span>
-
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Tham gia đỏ</span>
-                                        <span totalMoney='<%=totalRed%>' class="info-box-number orderRed"><%=String(totalRed).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="clearfix hidden-md-up"></div>
-
-                            <div class="col-12 col-sm-6 col-md-3">
-                                <div class="info-box mb-3">
-                                    <span class="info-box-icon elevation-1" style="background-color: #8e44ad;"><i class="fas fa-shopping-cart"></i></span>
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Tham gia tím</span>
-                                        <span totalMoney="<%=totalViolet%>" class="info-box-number orderViolet"><%=String(totalViolet).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-3">
-                                <div class="info-box mb-3">
-                                    <span class="info-box-icon bg-success elevation-1">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </span>
-
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Tham gia xanh</span>
-                                        <span totalMoney="<%=totalGreen%>" class="info-box-number orderGreen"><%=String(totalGreen).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-3">
-                                <div class="info-box">
-                                    <span class="info-box-icon bg-info elevation-1">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </span>
-
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Tham gia số</span>
-                                        <span totalMoney="<%=totalNumber%>" class="info-box-number orderNumbers"><%=String(totalNumber).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 col-sm-6 col-md-3">
-                                <div class="info-box mb-3">
-                                    <span class="info-box-icon elevation-1 bg-primary">0</span>
-
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Tham gia 0</span>
-                                        <span totalMoney="<%=totalNumber0%>" class="info-box-number orderNumber"><%=String(totalNumber0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="clearfix hidden-md-up"></div>
-
-                            <div class="col-12 col-sm-6 col-md-3">
-                                <div class="info-box mb-3">
-                                    <span class="info-box-icon elevation-1 bg-primary">1</span>
-
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Tham gia 1</span>
-                                        <span totalMoney="<%=totalNumber1%>" class="info-box-number orderNumber"><%=String(totalNumber1).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-3">
-                                <div class="info-box mb-3">
-                                    <span class="info-box-icon elevation-1 bg-primary">2</span>
-
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Tham gia 2</span>
-                                        <span totalMoney="<%=totalNumber2%>" class="info-box-number orderNumber"><%=String(totalNumber2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-3">
-                                <div class="info-box">
-                                    <span class="info-box-icon elevation-1 bg-primary">3</span>
-
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Tham gia 3</span>
-                                        <span totalMoney="<%=totalNumber3%>" class="info-box-number orderNumber"><%=String(totalNumber3).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 col-sm-6 col-md-3">
-                                <div class="info-box mb-3">
-                                    <span class="info-box-icon elevation-1 bg-primary">4</span>
-
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Tham gia 4</span>
-                                        <span totalMoney="<%=totalNumber4%>" class="info-box-number orderNumber"><%=String(totalNumber4).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="clearfix hidden-md-up"></div>
-
-                            <div class="col-12 col-sm-6 col-md-3">
-                                <div class="info-box mb-3">
-                                    <span class="info-box-icon elevation-1 bg-primary">5</span>
-
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Tham gia 5</span>
-                                        <span totalMoney="<%=totalNumber5%>" class="info-box-number orderNumber"><%=String(totalNumber5).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-3">
-                                <div class="info-box mb-3">
-                                    <span class="info-box-icon bg-primary elevation-1">6</span>
-
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Tham gia 6</span>
-                                        <span totalMoney="<%=totalNumber6%>" class="info-box-number orderNumber"><%=String(totalNumber6).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-3">
-                                <div class="info-box">
-                                    <span class="info-box-icon bg-primary elevation-1">7</span>
-
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Tham gia 7</span>
-                                        <span totalMoney="<%=totalNumber7%>" class="info-box-number orderNumber"><%=String(totalNumber7).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 col-sm-6 col-md-3">
-                                <div class="info-box mb-3">
-                                    <span class="info-box-icon bg-primary elevation-1">8</span>
-
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Tham gia 8</span>
-                                        <span totalMoney="<%=totalNumber8%>" class="info-box-number orderNumber"><%=String(totalNumber8).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="clearfix hidden-md-up"></div>
-
-                            <div class="col-12 col-sm-6 col-md-3">
-                                <div class="info-box mb-3">
-                                    <span class="info-box-icon elevation-1 bg-primary">9</span>
-
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Tham gia 9</span>
-                                        <span totalMoney="<%=totalNumber9%>" class="info-box-number orderNumber"><%=String(totalNumber9).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Main row -->
-                        <div class="row">
-                            <!-- Left col -->
-                            <div class="col-md-12">
-                                <!-- MAP & BOX PANE -->
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="card direct-chat direct-chat-warning">
-                                            <div class="card-header">
-                                                <h3 class="card-title">Thống kê</h3>
-
-                                                <div class="card-tools">
-                                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                                    <i class="fas fa-minus"></i>
-                                                </button>
-                                                    <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                                    <i class="fas fa-times"></i>
-                                                </button>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="direct-chat-messages" style="min-height: 520px;">
-                                                    <% if(orders_waiting.length > 0) { %>
-                                                        <% for (var i = 0; i < orders_waiting.length; i++) { %>
-                                                            <div class="direct-chat-msg">
-                                                                <div class="direct-chat-infos clearfix">
-                                                                    <span class="direct-chat-name float-left"><%=orders_waiting[i].name_user%></span>
-                                                                    <span class="direct-chat-timestamp float-right text-primary"><%=orders_waiting[i].time_buy%></span>
-                                                                </div>
-                                                                <img class="direct-chat-img" src="/images/myimg.png" alt="message user image">
-                                                                <% if (orders_waiting[i].chon != 'x' && orders_waiting[i].chon != 'd' && orders_waiting[i].chon != 't') { %>
-                                                                    <div class="direct-chat-text" style="background-color: #007acc">
-                                                                        Tham gia số
-                                                                        <%=orders_waiting[i].chon%> (
-                                                                            <%=String(orders_waiting[i].so_tien_cuoc).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%>)
-                                                                    </div>
-                                                                    <% } %>
-                                                                        <% if (orders_waiting[i].chon == 'x') { %>
-                                                                            <div class="direct-chat-text" style="background-color: #1eb93d;">
-                                                                                Tham gia xanh (
-                                                                                <%=String(orders_waiting[i].so_tien_cuoc).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%>)
-                                                                            </div>
-                                                                            <% } %>
-                                                                                <% if (orders_waiting[i].chon == 'd') { %>
-                                                                                    <div class="direct-chat-text" style="background-color: #f52828;">
-                                                                                        Tham gia đỏ (
-                                                                                        <%=String(orders_waiting[i].so_tien_cuoc).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%>)
-                                                                                    </div>
-                                                                                    <% } %>
-                                                                                        <% if (orders_waiting[i].chon == 't') { %>
-                                                                                            <div class="direct-chat-text" style="background-color: #ea3af0;">
-                                                                                                Tham gia tím (
-                                                                                                <%=String(orders_waiting[i].so_tien_cuoc).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%>)
-                                                                                            </div>
-                                                                                            <% } %>
-                                                            </div>
-                                                            <% } %>
-                                                                <% } %>
-                                                </div>
-                                            </div>
-                                            <div class="card-footer"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="card card-primary">
-                                            <div class="card-header" style="text-align: center;">
-                                                <div data-v-04e3b381="" class="reservation-chunk-sub-num">
-                                                    <% if (giai_doan.length > 0) { %>
-                                                        <%=giai_doan[0].giai_doan%>
-                                                            <% } %>
-                                                </div>
-                                                <div data-v-7d40872f="" class="time" style="font-size: 23px;border-radius: none;">
-                                                    <span data-v-7d40872f="" class="time-sub" style="border-radius: 0;">0</span>
-                                                    <span data-v-7d40872f="" class="time-sub" style="border-radius: 0;">0</span>
-                                                    <span data-v-7d40872f="" class="">:</span>
-                                                    <span data-v-7d40872f="" class="time-sub" style="border-radius: 0;">4</span>
-                                                    <span data-v-7d40872f="" class="time-sub" style="border-radius: 0;">7</span>
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="form-group">
-                                                    <div data-v-3978cf5e="" class="header van-row van-row--flex" style="font-size: 13px;margin: 0 30px;">
-                                                        <div data-v-3978cf5e="" class="header__noe van-col van-col--9"> Giai đoạn</div>
-                                                        <div data-v-3978cf5e="" class="van-col van-col--5">Giá</div>
-                                                        <div data-v-3978cf5e="" class="van-col van-col--5">điểm số</div>
-                                                        <div data-v-3978cf5e="" class="header__child van-col van-col--5">Kết quả</div>
-                                                    </div>
-                                                    <div>
-                                                        <%- include('temp/orders'); -%>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="card card-primary">
-                                            <div class="card-header">
-                                                <h3 class="card-title">Điều chỉnh kết quả</h3>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="form-group">
-                                                    <label for="exampleInputEmail1">VD: 205924</label>
-                                                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Enter the number">
-                                                </div>
-                                            </div>
-                                            <div class="card-footer" style="text-align: center;">
-                                                <button type="submit" class="btn btn-primary start-order">Triển khai</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header border-transparent">
-                                        <h3 class="card-title">TOP Nạp Tiền</h3>
-                                        <div class="card-tools">
-                                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                            <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                        </div>
-                                    </div>
-                                    <!-- /.card-header -->
-                                    <div class="card-body p-0" style="overflow-y: auto;overflow-x: auto;height: 300px;">
-                                        <div class="table-responsive">
-                                            <table class="table m-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Số điện thoại</th>
-                                                        <th>Tên</th>
-                                                        <th>Top</th>
-                                                        <th>Số tiền nạp</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                <% if(topNap.length > 0) { %>
-                                                    <% for (var i = 0; i < topNap.length; i++) { %>
-                                                    <tr>
-                                                        <td><a style="color: #007bff;"><%=topNap[i].phone_login%></a></td>
-                                                        <td style="min-width: 150px;"><%=topNap[i].name_member%></td>
-                                                        <td><span class="badge badge-success">TOP <%= i + 1%></span></td>
-                                                        <td style="min-width: 200px;">
-                                                            <div class="sparkbar" data-color="#00a65a" data-height="20"><%=String(topNap[i].total_money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%> đ</div>
-                                                        </td>
-                                                    </tr>
-                                                    <% } %>
-                                                <% } %>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div class="card-footer clearfix"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+  <div class="wrapper">
+    <%- include('nav') %>
+    <div class="content-wrapper">
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0">Dashboard V2</h1>
             </div>
-            <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button" aria-label="Scroll to top">
-                <i class="fas fa-chevron-up"></i>
-            </a>
+          </div>
+        </div>
+      </div>
+      <section class="content">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="info-box mb-3">
+                <span class="info-box-icon bg-danger elevation-1">
+                  <i class="fas fa-shopping-cart"></i>
+                </span>
+
+                <div class="info-box-content">
+                  <span class="info-box-text">Tham gia đỏ</span>
+                  <span totalMoney='<%=totalRed%>' class="info-box-number orderRed"><%=String(totalRed).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix hidden-md-up"></div>
+
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="info-box mb-3">
+                <span class="info-box-icon elevation-1" style="background-color: #8e44ad;"><i class="fas fa-shopping-cart"></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text">Tham gia tím</span>
+                  <span totalMoney="<%=totalViolet%>" class="info-box-number orderViolet"><%=String(totalViolet).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="info-box mb-3">
+                <span class="info-box-icon bg-success elevation-1">
+                  <i class="fas fa-shopping-cart"></i>
+                </span>
+
+                <div class="info-box-content">
+                  <span class="info-box-text">Tham gia xanh</span>
+                  <span totalMoney="<%=totalGreen%>" class="info-box-number orderGreen"><%=String(totalGreen).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="info-box">
+                <span class="info-box-icon bg-info elevation-1">
+                  <i class="fas fa-shopping-cart"></i>
+                </span>
+
+                <div class="info-box-content">
+                  <span class="info-box-text">Tham gia số</span>
+                  <span totalMoney="<%=totalNumber%>" class="info-box-number orderNumbers"><%=String(totalNumber).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="info-box mb-3">
+                <span class="info-box-icon elevation-1 bg-primary">0</span>
+
+                <div class="info-box-content">
+                  <span class="info-box-text">Tham gia 0</span>
+                  <span totalMoney="<%=totalNumber0%>" class="info-box-number orderNumber"><%=String(totalNumber0).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix hidden-md-up"></div>
+
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="info-box mb-3">
+                <span class="info-box-icon elevation-1 bg-primary">1</span>
+
+                <div class="info-box-content">
+                  <span class="info-box-text">Tham gia 1</span>
+                  <span totalMoney="<%=totalNumber1%>" class="info-box-number orderNumber"><%=String(totalNumber1).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="info-box mb-3">
+                <span class="info-box-icon elevation-1 bg-primary">2</span>
+
+                <div class="info-box-content">
+                  <span class="info-box-text">Tham gia 2</span>
+                  <span totalMoney="<%=totalNumber2%>" class="info-box-number orderNumber"><%=String(totalNumber2).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="info-box">
+                <span class="info-box-icon elevation-1 bg-primary">3</span>
+
+                <div class="info-box-content">
+                  <span class="info-box-text">Tham gia 3</span>
+                  <span totalMoney="<%=totalNumber3%>" class="info-box-number orderNumber"><%=String(totalNumber3).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="info-box mb-3">
+                <span class="info-box-icon elevation-1 bg-primary">4</span>
+
+                <div class="info-box-content">
+                  <span class="info-box-text">Tham gia 4</span>
+                  <span totalMoney="<%=totalNumber4%>" class="info-box-number orderNumber"><%=String(totalNumber4).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix hidden-md-up"></div>
+
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="info-box mb-3">
+                <span class="info-box-icon elevation-1 bg-primary">5</span>
+
+                <div class="info-box-content">
+                  <span class="info-box-text">Tham gia 5</span>
+                  <span totalMoney="<%=totalNumber5%>" class="info-box-number orderNumber"><%=String(totalNumber5).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="info-box mb-3">
+                <span class="info-box-icon bg-primary elevation-1">6</span>
+
+                <div class="info-box-content">
+                  <span class="info-box-text">Tham gia 6</span>
+                  <span totalMoney="<%=totalNumber6%>" class="info-box-number orderNumber"><%=String(totalNumber6).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="info-box">
+                <span class="info-box-icon bg-primary elevation-1">7</span>
+
+                <div class="info-box-content">
+                  <span class="info-box-text">Tham gia 7</span>
+                  <span totalMoney="<%=totalNumber7%>" class="info-box-number orderNumber"><%=String(totalNumber7).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="info-box mb-3">
+                <span class="info-box-icon bg-primary elevation-1">8</span>
+
+                <div class="info-box-content">
+                  <span class="info-box-text">Tham gia 8</span>
+                  <span totalMoney="<%=totalNumber8%>" class="info-box-number orderNumber"><%=String(totalNumber8).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
+                </div>
+              </div>
+            </div>
+            <div class="clearfix hidden-md-up"></div>
+
+            <div class="col-12 col-sm-6 col-md-3">
+              <div class="info-box mb-3">
+                <span class="info-box-icon elevation-1 bg-primary">9</span>
+
+                <div class="info-box-content">
+                  <span class="info-box-text">Tham gia 9</span>
+                  <span totalMoney="<%=totalNumber9%>" class="info-box-number orderNumber"><%=String(totalNumber9).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Main row -->
+          <div class="row">
+            <!-- Left col -->
+            <div class="col-md-12">
+              <!-- MAP & BOX PANE -->
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="card direct-chat direct-chat-warning">
+                    <div class="card-header">
+                      <h3 class="card-title">Thống kê</h3>
+
+                      <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                          <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                          <i class="fas fa-times"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <div class="direct-chat-messages" style="min-height: 520px;">
+                        <% if(orders_waiting.length > 0) { %>
+                        <% for (var i = 0; i < orders_waiting.length; i++) { %>
+                        <div class="direct-chat-msg">
+                          <div class="direct-chat-infos clearfix">
+                            <span class="direct-chat-name float-left"><%=orders_waiting[i].name_user%></span>
+                            <span class="direct-chat-timestamp float-right text-primary"><%=orders_waiting[i].time_buy%></span>
+                          </div>
+                          <img class="direct-chat-img" src="/images/myimg.png" alt="message user image">
+                          <% if (orders_waiting[i].chon != 'x' && orders_waiting[i].chon != 'd' && orders_waiting[i].chon != 't') { %>
+                          <div class="direct-chat-text" style="background-color: #007acc">
+                            Tham gia số
+                            <%=orders_waiting[i].chon%> (
+                            <%=String(orders_waiting[i].so_tien_cuoc).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%>)
+                          </div>
+                          <% } %>
+                          <% if (orders_waiting[i].chon == 'x') { %>
+                          <div class="direct-chat-text" style="background-color: #1eb93d;">
+                            Tham gia xanh (
+                            <%=String(orders_waiting[i].so_tien_cuoc).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%>)
+                          </div>
+                          <% } %>
+                          <% if (orders_waiting[i].chon == 'd') { %>
+                          <div class="direct-chat-text" style="background-color: #f52828;">
+                            Tham gia đỏ (
+                            <%=String(orders_waiting[i].so_tien_cuoc).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%>)
+                          </div>
+                          <% } %>
+                          <% if (orders_waiting[i].chon == 't') { %>
+                          <div class="direct-chat-text" style="background-color: #ea3af0;">
+                            Tham gia tím (
+                            <%=String(orders_waiting[i].so_tien_cuoc).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.');%>)
+                          </div>
+                          <% } %>
+                        </div>
+                        <% } %>
+                        <% } %>
+                      </div>
+                    </div>
+                    <div class="card-footer"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="card card-primary">
+                    <div class="card-header" style="text-align: center;">
+                      <div data-v-04e3b381="" class="reservation-chunk-sub-num">
+                        <% if (giai_doan.length > 0) { %>
+                        <%=giai_doan[0].giai_doan%>
+                        <% } %>
+                      </div>
+                      <div data-v-7d40872f="" class="time" style="font-size: 23px;border-radius: none;">
+                        <span data-v-7d40872f="" class="time-sub" style="border-radius: 0;">0</span>
+                        <span data-v-7d40872f="" class="time-sub" style="border-radius: 0;">0</span>
+                        <span data-v-7d40872f="" class="">:</span>
+                        <span data-v-7d40872f="" class="time-sub" style="border-radius: 0;">4</span>
+                        <span data-v-7d40872f="" class="time-sub" style="border-radius: 0;">7</span>
+                      </div>
+                    </div>
+                    <div class="card-body" style="padding: 0;">
+                      <div class="form-group">
+                        <div data-v-3978cf5e="" class="header van-row van-row--flex" style="font-size: 13px;margin: 0 30px;">
+                          <div data-v-3978cf5e="" class="header__noe van-col van-col--9"> Giai đoạn</div>
+                          <div data-v-3978cf5e="" class="van-col van-col--5">Giá</div>
+                          <div data-v-3978cf5e="" class="van-col van-col--5">điểm số</div>
+                          <div data-v-3978cf5e="" class="header__child van-col van-col--5">Kết quả</div>
+                        </div>
+                        <div>
+                          <%- include('temp/orders'); -%>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="card card-primary">
+                    <div class="card-header">
+                      <h3 class="card-title">Điều chỉnh kết quả</h3>
+                    </div>
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label for="editResult" id="ketQua">Kết quả: <%=temp[0].ket_qua%></label>
+                        <input type="number" class="form-control" id="editResult" value="205" placeholder="Enter the number">
+                      </div>
+                    </div>
+                    <div class="card-footer" style="text-align: center;">
+                      <button type="submit" class="btn btn-primary start-order">Triển khai</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card">
+                <div class="card-header border-transparent">
+                  <h3 class="card-title">TOP Nạp Tiền</h3>
+                  <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                      <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body p-0" style="overflow-y: auto;overflow-x: auto;height: 300px;">
+                  <div class="table-responsive">
+                    <table class="table m-0">
+                      <thead>
+                        <tr>
+                          <th>Số điện thoại</th>
+                          <th>Tên</th>
+                          <th>Top</th>
+                          <th>Số tiền nạp</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% if(topNap.length > 0) { %>
+                        <% for (var i = 0; i < topNap.length; i++) { %>
+                        <tr>
+                          <td>
+                            <a style="color: #007bff;">
+                              <%=topNap[i].phone_login%>
+                            </a>
+                          </td>
+                          <td style="min-width: 150px;">
+                            <%=topNap[i].name_member%>
+                          </td>
+                          <td><span class="badge badge-success">TOP <%= i + 1%></span></td>
+                          <td style="min-width: 200px;">
+                            <div class="sparkbar" data-color="#00a65a" data-height="20">
+                              <%=String(topNap[i].total_money).replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')%> đ</div>
+                          </td>
+                        </tr>
+                        <% } %>
+                        <% } %>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="card-footer clearfix"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
-    <script src="/plugins/jquery/jquery.min.js"></script>
-    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
-    <script src="/dist/js/adminlte.js"></script>
-    <script src="/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
-    <script src="/plugins/raphael/raphael.min.js"></script>
-    <script src="/js/admin.js"></script>
-    <script src="/js/socketAdmin.js"></script>
-    <script>
-    </script>
+    <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button" aria-label="Scroll to top">
+      <i class="fas fa-chevron-up"></i>
+    </a>
+  </div>
+  <script src="/plugins/jquery/jquery.min.js"></script>
+  <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+  <script src="/dist/js/adminlte.js"></script>
+  <script src="/plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
+  <script src="/plugins/raphael/raphael.min.js"></script>
+  <script src="/js/admin.js"></script>
+  <script src="/js/socketAdmin.js"></script>
+  <script>
+  </script>
 </body>
 
 </html>

@@ -1,5 +1,4 @@
 const vancenter = document.querySelectorAll('.van-grid-item__content--center');
-$('.ql').click(function() { window.location = '/Admin' });
 $('.van-member-item1').click(function() { window.location = '/index' });
 $('.van-member-item2').click(function() { window.location = '/parity/tran' });
 $('.van-member-item3').click(function() {});
@@ -13,6 +12,7 @@ $('.banking').click(function() { window.location = 'MyBank' });
 $('.detailBank').click(function() { window.location = '/financial/index' });
 $('.about').click(function() { window.location = '/about/index' });
 $('.ContactUs').click(function() { window.location = 'ContactUs' });
+$('.ql').click(function() { location.href = '/manage/admin/index'; });
 $('.complaint').click(function() { window.location = '/complaint/index' });
 for (const vancenters of vancenter) { vancenters.addEventListener('click', function() { window.location = '/trade/index' }) }
 $('.cache').click(function() {

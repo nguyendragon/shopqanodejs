@@ -10,6 +10,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/dist/css/adminlte.min.css">
     <link rel="stylesheet" href="/css/admin.css">
+    <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <style>
+        .form-group {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px #2ecc71;
+        }
+        
+        .form-group button {
+            margin-top: 30px;
+        }
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -30,25 +43,50 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12">
-                            <div style="padding: 10px 20px;">
+                            <div style="padding: 10px 20px;margin-bottom: 200px;">
                                 <div class="form-group">
-                                    <label for="quantity">Số lượng</label>
-                                    <input type="text" class="form-control" id="quantity" placeholder="Enter the quantity">
-                                </div>
-                                <div class="form-group">
-                                    <label for="exampleInputPassword1">Loại</label>
-                                    <select class="form-control">
-                                        <option>--- Chọn loại ---</option>
-                                        <option>Thưởng tuyển thành viên</option>
-                                        <option>Tạo Lixi Random</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="moeny">Số tiền</label>
-                                    <input type="text" class="form-control" id="moeny" placeholder="Enter the money">
+                                    <div class="text-center">
+                                        <label for="quantity">Buff tiền cho tài khoản</label>
+                                    </div>
+                                    <input type="text" class="form-control" id="buff-phone" placeholder="Nhập số điện thoại"><br>
+                                    <input type="text" class="form-control" id="buff-money" placeholder="Nhập số tiền">
+                                    <button type="submit" class="btn btn-primary buff-money" style="width: 100%;">Submit</button>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary" style="width: 100%;">Submit</button>
+                                <div class="form-group">
+                                    <div class="text-center">
+                                        <label for="quantity">Khuyễn mãi</label>
+                                    </div>
+                                    <input type="text" class="form-control" id="sale-money" placeholder="Nhập số điện thoại" value="<%=sale[0].khuyen_mai%>"><br>
+                                    <button type="submit" class="btn btn-primary sale-money" style="width: 100%;">Submit</button>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="text-center">
+                                        <label for="quantity">Đổi tên khách hàng</label>
+                                    </div>
+                                    <input type="text" class="form-control" id="edit-phone" placeholder="Nhập số điện thoại"><br>
+                                    <input type="text" class="form-control" id="edit-user" placeholder="Nhập Tên Khách">
+                                    <button type="submit" class="btn btn-primary edit-name" style="width: 100%;">Submit</button>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="text-center">
+                                        <label for="quantity">Đổi thông tin nạp tiền</label>
+                                    </div>
+                                    <label for="quantity" style="color: #3498db;">BANKING</label>
+                                    <input type="text" class="form-control" placeholder="Nhập Tên Ngân Hàng" id="edit-banking-name_bank" value="<%=info_acccount[0].name_bank%>"><br>
+                                    <input type="text" class="form-control" placeholder="Nhập Tên Chủ thẻ" id="edit-banking-name" value="<%=info_acccount[0].name%>"><br>
+                                    <input type="text" class="form-control" placeholder="Nhập Số Tài Khoản" id="edit-banking-info" value="<%=info_acccount[0].info%>"><br>
+                                    <button type="submit" class="btn btn-primary edit-banking" style="width: 100%;margin-bottom: 20px;">Submit</button>
+                                    <!---------------------------------------------------------------->
+                                    <label for="quantity" style="color: #a50064;">MOMO</label>
+                                    <input type="text" class="form-control" placeholder="Nhập Tên ví" id="edit-momo-name_bank" value="<%=info_acccount[1].name_bank%>"><br>
+                                    <input type="text" class="form-control" placeholder="Nhập Tên chủ Ví" id="edit-momo-name" value="<%=info_acccount[1].name%>"><br>
+                                    <input type="text" class="form-control" placeholder="Nhập Số Điện Thoại" id="edit-momo-info" value="<%=info_acccount[1].info%>"><br>
+                                    <button type="submit" class="btn btn-primary edit-momo" style="width: 100%;">Submit</button>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -59,6 +97,145 @@
     <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="/dist/js/adminlte.min.js"></script>
     <script src="/js/admin.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+
+    <script>
+        function sendRequest(params1, params2, typer) {
+            $.ajax({
+                type: "POST",
+                url: "/manage/admin/settings",
+                data: {
+                    params1: params1,
+                    params2: params2,
+                    typer: typer,
+                },
+                dataType: "json",
+                success: function(response) {
+                    if (response.message == 1) {
+                        Swal.fire(
+                            'Good job!',
+                            'You clicked the button!',
+                            'success'
+                        )
+                    } else if (response.message == 2) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Số điện thoại không tồn tại',
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi không xác định !',
+                        })
+                    }
+                }
+            });
+        }
+
+        function sendRequestBank(name_bank, name, info, typer) {
+            $.ajax({
+                type: "POST",
+                url: "/manage/admin/settings/bank",
+                data: {
+                    name_bank: name_bank,
+                    name: name,
+                    info: info,
+                    typer: typer
+                },
+                dataType: "json",
+                success: function(response) {
+                    if (response.message == 1) {
+                        Swal.fire(
+                            'Good job!',
+                            'You clicked the button!',
+                            'success'
+                        )
+                    } else if (response.message == 2) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Không tồn tại hình thức nạp tiền này',
+                        })
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi không xác định !',
+                        })
+                    }
+                }
+            });
+        }
+        $('.buff-money').click(function(e) {
+            e.preventDefault();
+            const phone = $('#buff-phone').val();
+            const money = $('#buff-money').val();
+            const checkPhone = $.isNumeric(phone);
+            const checkMoney = $.isNumeric(money);
+            if (checkPhone && checkMoney) {
+                sendRequest(phone, money, "buff");
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Đang rỗng hoặc không đúng định dạng',
+                })
+            }
+        });
+        $('.edit-name').click(function(e) {
+            e.preventDefault();
+            const phone = $('#edit-phone').val();
+            const user = $('#edit-user').val();
+            const checkPhone = $.isNumeric(phone);
+            if (checkPhone) {
+                sendRequest(phone, user, "edit");
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Đang rỗng hoặc không đúng định dạng',
+                })
+            }
+        });
+        $('.edit-momo').click(function(e) {
+            e.preventDefault();
+            const name_bank = $('#edit-momo-name_bank').val();
+            const name = $('#edit-momo-name').val();
+            const info = $('#edit-momo-info').val();
+            sendRequestBank(name_bank, name, info, "momo");
+        });
+        $('.edit-banking').click(function(e) {
+            e.preventDefault();
+            const name_bank = $('#edit-banking-name_bank').val();
+            const name = $('#edit-banking-name').val();
+            const info = $('#edit-banking-info').val();
+            sendRequestBank(name_bank, name, info, "bank");
+        });
+        $('.sale-money').click(function(e) {
+            e.preventDefault();
+            const valueSale = $('#sale-money').val();
+            if (valueSale != "") {
+                $.ajax({
+                    type: "POST",
+                    url: "/manage/admin/sale",
+                    data: {
+                        valueSale: valueSale,
+                    },
+                    dataType: "json",
+                    success: function(response) {
+                        if (response.message == 1) {
+                            Swal.fire(
+                                'Good job!',
+                                'You clicked the button!',
+                                'success'
+                            )
+                        }
+                    }
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                })
+            }
+        });
+    </script>
 </body>
 
 </html>
